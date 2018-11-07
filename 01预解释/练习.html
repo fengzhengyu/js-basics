@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>预解释综合练习</title>
+</head>
+<body>
+  
+
+  <script>
+    // i++和++i
+    // i++: 先拿i的值进行计算，运算完成 本身加一
+    // ++i：先自身加一，再去运算
+    // 例如：
+      var a =5;
+      console.log(2+(a++)+(++a)+(++a)+(i++))
+      // 2+5= 7 a = 6
+      // 7+7 = 14 a = 7
+      // 14+8 = 22 a = 8
+      // 22+8 = 30 a = 9
+    function fn(){
+      var i =10;
+      return function(n){
+        console.log(n + (++i))
+      }
+    }
+    var f = fn();
+    f(10) //10+ 11
+    f(20) // 20 +12
+    fn()(10) //21
+
+    fn()(20) // 31
+  </script>
+</body>
+</html>
