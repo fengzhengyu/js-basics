@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>构造函数模式扩展</title>
+</head>
+<body>
+  <script>
+    // 1
+    // function Fn(){
+    //   this.x = 100;
+    //   this.getX = function(){
+    //     console.log(this.x)
+    //   }
+    // } 
+    // var f1 = new Fn; //在构造函数中不需要传参，括号可省却
+    // f1.getX() //this是f1  ->100
+    // 2
+    // var aa = f1.getX
+    // aa() //this是window -> undefined
+      
+    // 3
+    // function Fn(){
+    //   var num = 10; //定义的变量与实例没有任何关系，只是当前形成私有作用域中的私有变量
+    //   this.x = 100;
+    //   this.getX = function () {
+    //     console.log(this.x)
+    //   }
+    // }
+    // var f1 = new Fn;
+    // console.log(f1.num) //undefined  f1实例中没有num这个属性
+    // 4
+    function Fn(){
+      this.x = 100;
+      this.getX = function(){
+        console.log(this.x)
+      }
+      return  100 // 如果我们自己手动写return ,如果是基础数据类型如：数字 字符串 布尔值，函数返回的还是实例；如果return是引用类型，返回的就不是实例，而是该对象
+    } 
+    var f1 =  new Fn;
+    console.log(f1) //是实例
+      
+    // 5 检测某一个实例是否属于类 instanceof
+    console.log(f1 instanceof Fn) //true
+    console.log(f1 instanceof Array) //false
+    console.log(f1 instanceof Object) //true  每个对象数据类型都是Object这个内置类的实例
+
+    // 5 检测某一个属是否属于这个对象 attr in object(不管私有属性还是公有属性都可以))
+
+    // 6 检测某一个属性是否属于这个对象私有属性 hasOwnProperty()
+    console.log(f1.hasOwnProperty('getX'))
+    // 检测某一个属性是这个对象的公有属性 hasPubProperty()
+    function  hasPubProperty(obj,attr){
+      // 保证是他的属性并且不是私有属性，那么就是公有属性
+      return  (attr in obj) && !obj.hasOwnProperty(attr)
+      
+    }
+    console.log(hasPubProperty(f1,'getX'))
+    // 7 isPrototypeof
+  </script>
+</body>
+</html>

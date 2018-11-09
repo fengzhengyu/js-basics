@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>原型模式扩展</title>
+</head>
+<body>
+
+  <script>
+    /* 
+    在原型模式中 this常用的有两种情况：
+      1.在类中 this.xxx=xxx this->当前的实例
+      2.某个方法中的this-> 看执行的时候“.”前面是谁，this就是谁
+        1)第一步先确定this的指向
+        2）把this替换成对应的代码
+        3）按照原型链查找机制，一步步查找结果
+     */
+   function Fn(){
+      this.x=100;
+      this.y = 200;
+      this.getY =function(){
+        console.log(this.y)
+      }
+    }  
+    Fn.prototype = {
+      constructor: Fn,
+      y:300,
+      getX: function(){
+        console.log(this.x)
+      },
+      getY:function(){
+        console.log(this.y)
+      }
+    }
+    var f = new Fn;
+    f.getX() // this->f f.x  先从私有找，有->100
+    f.__proto__.getX() // this->f.__proto__ ,f.__proto__.x 忽略私有直接找公有 公有中没有x  undefined
+    
+    Fn.prototype.getX() //->undefined
+    f.getY() //200
+    f.__proto__.getY() //300
+    
+    // 在内置类的原型上扩展我们的方法： 数组去重
+    Array.prototype.myUnique = function () {
+      //this.
+      var obj= {};
+      for(var i=0;i<this.length;i++){
+        var  cur = this[i]; //当前项
+        if(obj[cur] == cur){ //如果对象中有当前，说明重复啦
+          this[i] = this[this.length-1]; //让重复的当前项 等于最后一项
+          this.length-- ; //删除最后一项
+          i--;  // i也随之减少
+          continue;
+        }
+        obj[cur] = cur
+      }
+      obj = null; //清空引用类型
+        
+      return this; //实现链式操作
+
+    }
+    var arry = [2,3,3,4,5,3,5,6,4,5,3]
+    arry.myUnique().sort(function(a,b){return a-b;}) //this->array 去重后原数组改变
+    console.log(arry)
+    Array.prototype.myUnique() // this->  Array.prototype
+
+  </script>
+  
+</body>
+</html>

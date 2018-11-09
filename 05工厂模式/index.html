@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>工厂模式</title>
+</head>
+<body>
+  <script>
+  
+    /* 
+      单例模式不能量产 -> 工厂模式
+      把实现同一件相同事情的代码放到一个函数中，
+      函数的封装=》"低耦合高内聚"：减少页面中的冗余代码，提高代码的重复利用率，命名空间分组
+     */
+    function createJsPerson(name,age){
+      var obj = {};
+      obj.name = name;
+      obj.age = age;
+      obj.writeCode = function () {
+        console.log('my name is '+name+'i can write code la')
+      }
+      return obj;
+    }
+    var p1= new createJsPerson('小红',18);
+    var p2= new createJsPerson('小明',19);
+    
+    p1.writeCode()
+    p2.writeCode()
+    /* 
+      所有编程语言都是面向对象开发的 ->类的继承、封装、多态
+      继承： 子类继承父类的属性方法
+      多态： 当前方法的多种形态->后台语言中： 多态包含重载和重写
+            js中不存在重载，方法名一样，后面会把前面的覆盖，最后只保留一个
+            js中有一个操作，类似重载，但不是重载，我们可以根据参数不同，实现不同的功能，这是js的多态
+            重写： 子类重写父类的方法， js中有重写
+    */
+    // for example:
+    function sum(num){
+      if(typeof num == 'undefined'){
+        return 0
+      }
+      return num
+    }
+    console.log(sum(100))
+    console.log(sum())
+    // 根据参数不同实现js函数多态
+ 
+
+  </script>
+</body>
+</html>

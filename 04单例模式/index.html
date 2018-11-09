@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>单例模式</title>
+</head>
+<body>
+  
+  <script>
+    /* 
+      把描述同一个事物（同一个对象）的属性和方法放在一个内存空间下，起到分组的作用，这样不同事物间的属性与方法即使同名，也不会产生冲突
+      我们就把这种分组写代码的模式叫做单例模式 也叫命名空间
+      
+      *单例模式解决了分组的作用，但不能实现批量生产 ，属于手工作业模式    
+     */
+
+     var person1 = {
+       name: '小红',
+       age: 18
+     }
+     var person2 = {
+       name: '小明',
+       age: 19
+     }
+     console.log(person1.name);
+     console.log(person2.name);
+    //  模块化开发：
+    //  假如有2个模块 tab / share 
+     var  tabRender ={
+        init: function(){
+          this.show() //调用自己的方法
+        // Utils.look()//调用公共方法
+        },
+        show:function(){
+          console.log('你看到了我')
+        }
+     }
+     tabRender.init()
+     var shareRender ={
+        init: function(){
+          this.show() //调用自己的方法
+        // Utils.look()//调用公共方法
+        },
+        show:function(){
+          console.log('你分享了哦')
+        }
+     }
+     shareRender.init()
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>原型模式扩展-常用6种继承</title>
+</head>
+<body>
+
+  <script>
+    
+    // var obj= {name: 'fenzgheng',age:20}
+    // for(var key in obj){
+    //   // in 私有公有属性都可以输出
+    //   if(obj.propertyIsEnumerable(key)){ //只输出私有属性
+    //     console.log(key)
+    //   }
+    // }
+    // 
+    /* 
+      Object.create()方法创建一个拥有指定原型和若干个指定属性的对象
+        创建一个新的对象，把参数一作为这个对象的原型（ie6~8不支持）
+    
+     */
+    
+    // var obj = {
+    //   getX:function(){
+        
+    //   }
+    // } //obj->xxxff000
+    // function Fn(){
+
+    // }
+
+    // Fn.prototype = obj; //Fn.prototype = xxxff000
+    // Fn.prototype.num = function(){
+
+    // }
+    // var f= new Fn;
+     //f.sum() //true
+
+
+    //  var obj ={getX:function(){}}
+
+    //  var obj2 = Object.create(obj)
+    //   /* 
+    //     obj2:
+    //       __proto__:
+    //         getX:function...
+    //         __proto__:
+    //           Object.prototype
+    //    */
+    //  obj2.getX()//true
+    //  obj.getY= function() {
+    //    console.log(2)
+    //  }
+    //  obj2.getY() //2  接受原型改变
+
+    // 自己写方法实现Object.create功能
+    function object(o) {
+      function Fn(){
+
+      }
+      Fn.prototype= o
+      return new Fn
+    }
+    var obj =  {
+      getX:function(){
+
+      }
+    }
+    // var newObj = object(obj)
+
+    // console.dir(newObj)
+  function Sum(){
+
+  }
+  Sum.prototype = object(obj)
+  Sum.prototype.constructor= Sum
+  console.dir(new Sum)
+
+  </script>
+  
+</body>
+</html>

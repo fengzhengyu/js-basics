@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>原型模式扩展-设置公有属性</title>
+</head>
+<body>
+
+  <script>
+    /* 
+      批量设置公有属性的方法：
+        1.起别名  var pro = Fn.prototype;
+        function Fn() {
+          this.x =100;
+        }
+        var pro = Fn.prototype; //Fn.prototype是对象，把原型指向的地址赋值给pro,现在操作的是通一个内存空间
+
+        pro.getX = function(){
+
+        }
+        pro.getY = function(){
+
+        }
+        pro.getZ = function(){
+
+        }
+        2.重构原型对象方法：
+          自己新开辟一个堆内存，储存我们的公有属性与方法，原来游览器默认开辟的堆内存，在空闲被销毁；
+
+          function Fn() {
+              this.x =100;
+            }
+          Fn.prototype = { //自己开辟一个堆内存 之前浏览器天生的空闲时自动销毁，没引用。
+            constructor: Fn, //手动增加constructor属性
+            a:function(){
+
+            },
+            b:function(){
+
+            },
+          }
+          var f = new Fn;
+          console.log(f.constructor) // 不手动增加constructor属性。自己开辟的堆内存没有constructor属性，往上找。Object
+          1.  只有浏览器默认开辟的堆内存才有constructor属性，而 我们自己开辟的堆内存没有，这样constructor指向不是Fn,而是Object
+              为了和原来保持一致，手动增加constructor属性
+          2. 用这种方法给内置类增加公有属性：
+             给内置类Array增加数组去重的方法
+
+
+     */
+        Array.prototype = {
+          constructor: Array,
+          unique: function(){
+
+          }
+        }
+        console.dir(Array.prototype)
+        // 这种方法会把之前已经存在原型的属性方法给替换掉，我们用这种方法修改内置类的原型，浏览器会自动屏蔽，没有我们的方法
+        // 但我们可一个个修改内置方法，如果方法名与内置方法名重复，会把内置类的方法修改掉->所以我们要在内置类的原型上增加方法，命名需要加特殊的前缀
+        Array.prototype.sort =function(){
+          console.log('ok')
+        }
+        var ary= [1,2,2,1,3,1,5,6,76,6]
+        ary.sort()
+        console.log(ary)
+   
+  </script>
+  
+</body>
+</html>
