@@ -5,10 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>this的用法</title>
+  <style>
+  
+    #p1 {background-color: #ff0000;}   /* red */
+  </style>
 </head>
 <body>
   <div id="div1">快来点我啊 </div>
-  <div id="div2">快来点我啊2 </div>
+    <div id="div2">快来点我啊2 </div>
+    
   <script>
     // 在js中，主要研究的都是函数中的this
     // js中的this 代表的是当前行为执行的主体 me.eat() this->me
@@ -20,6 +25,7 @@
     // 3. 给元素的某一个事件绑定方法，该方法触发的时候，this就是元素
     // console.log(this) //window
     //for example：
+    
     function  fn() {  
       console.log(this)
     }
