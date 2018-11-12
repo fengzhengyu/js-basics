@@ -77,7 +77,10 @@
 
   }
   Sum.prototype = object(obj)
-  Sum.prototype.constructor= Sum
+  Sum.prototype.constructor= Sum; //手动指定constructor
+  Sum.prototype.add =function(){
+    
+  }
   console.dir(new Sum)
 
   </script>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>call继承</title>
+</head>
+<body>
+    <div id="div1">div1</div>
+
+    <script>
+       /* 
+      冒充对象继承： 把父类私有和公有的属性和方法克隆一份一模一样的，作为子类的私有属性和方法
+       
+        */
+        function A(){
+          this.x = 100;
+        }
+        A.prototype.getX = function() {
+          console.log(this.x)
+        }
+        function B() {
+          var temp = new A();
+          for(var key in temp){
+            this[key] = temp[key]; //克隆父类属性，添加给子类
+          }
+          temp = null; //临时使用，用完销毁
+        }
+        var n = new B;
+        n.getX() // 报错  只能克隆父类私有属性和方法，与A没关系
+      console.dir(n)
+    </script>
+</body>
+</html>

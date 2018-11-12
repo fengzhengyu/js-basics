@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>混合模式继承</title>
+</head>
+<body>
+  
+  <script>
+  /* 
+    混合模式继承 = 原型继承+ call继承
+  
+   */
+
+   function A(){
+      this.x = 100;
+
+    }
+    A.prototype.getX = function() {
+      console.log(this.x)
+    }
+    function B(){
+      A.call(this) // n.x=100
+     
+    }
+    B.prototype = new A(); //B.prototype: x 100 ;getX...
+    B.prototype.constructor= B;
+    var n = new B;
+    /* 
+    
+       A.call(this)：->call 继承A的私有属性，变为n的私有属性
+       B.prototype = new A(): ->原型继承： 继承A的私有+公有，变为n的公有属性
+       ->私有中有x  公有中也有x ，重复了，但也不影响
+     */
+  </script>
+</body>
+</html>

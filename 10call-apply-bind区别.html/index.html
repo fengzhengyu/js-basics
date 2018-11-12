@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>10call-apply-bind区别</title>
+</head>
+<body>
+
+  <script>
+    // "use strict"
+    var obj = {x:0}
+    function fn(num1,num2){
+      console.log(num1+num2)
+      console.log(this)
+    }
+    
+    fn(100,100) /// 200 window
+    fn.call(200,300) //NaN 200
+    fn.call(obj,200,300) //500 pbj
+    fn.call() // NaN window
+    fn.call(null) //NaN window
+    fn.call(undefined) //NaN window
+    // 以上是非严格模式 不传 null undefined this都是window
+    // 以下是严格模式下 传谁是谁就是谁  不写就是undefined
+    // fn.call() // NaN undefined
+    // fn.call(null) //NaN null
+    // fn.call(undefined) //NaN undefined
+
+    // apply 和call 方法作用是一某一样的 ，都是用来改变方法this的关键字，并且执行该方法。
+
+    //fn.apply(obj,[10,20,30]) //30 obj  call传参数是一个个的传，apply是把传递的参数放入一个数组，进行操作，也相当于一个个给形参赋值
+    
+    // bind :这个方法在ie 6 7 8不兼容。和call apply 类似，都是改变this的关键字了
+    fn.bind(obj,1,2)  //只是改变fn函数中this的指向，并且给fn传递两参数，但是此时并没有执行这个函数
+    // -> 预处理思想： 改了this 参数也准备好。 以后用到直接调用
+    var f = fn.bind(obj,1,2) 
+    f()
+  </script>
+
+</body>
+</html>

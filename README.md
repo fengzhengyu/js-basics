@@ -85,7 +85,9 @@ js 基础知识总结
     1. 函数执行，首先看函数名前是否有 . ,有的话， .前面是谁，this就是谁，没有，this就是window
     2. 自执行函数里面的this 永远是window
     3. 给元素的某一个事件绑定方法，该方法触发的时候，this就是元素
-  
+    4. 在构造函数体的中this,就是当前类的实例
+    5. 可以用 call 、apply 、bind 改变this的指向，前四种遇见第五种全部让路
+    严格模式下 this 是undefined 而不是window
 # 单例模式  
   //把描述同一个事物（同一个对象）的属性和方法放在一个内存空间下，起到了分组的作用，这样不同事物间的属性即使属性名相同，互相也不会发生冲突
   //我们把这种分组编写代码的模式叫做单例模式
@@ -212,7 +214,17 @@ js 基础知识总结
 
     //f1.hasOwnProperty()->f1.__porto__.__porto__.hasOwnProperty()
     //在IE浏览器，原型模式也是同理，但IE怕你通过__proto__把公有属性修改，禁止我们使用__proto__
-    f1.sum=function(){
+    f1.sum=function(){ var div1= document.getElementById('div1')
+      console.dir(div1)
+     /* 
+        div1的原型链继承
+        #div1.__proto__ ->HTMLDivElement.portotype 
+                        ->HTMLElement.prototype 
+                        ->Element.prototype
+                        ->Node.prototype
+                        ->EventTarget.prototype
+                        ->Object.prototype
+     */
       //修改私有属性
     }
     f1.__proto__.sum =function(){
@@ -229,3 +241,36 @@ js 基础知识总结
       1)第一步先确定this的指向
       2）把this替换成对应的代码
       3）按照原型链查找机制，一步步查找结果
+#继承1：->原型继承：
+      var div1= document.getElementById('div1')
+      console.dir(div1)
+     /* 
+        div1的原型链继承
+        #div1.__proto__ ->HTMLDivElement.portotype 
+                        ->HTMLElement.prototype 
+                        ->Element.prototype
+                        ->Node.prototype
+                        ->EventTarget.prototype
+                        ->Object.prototype
+     */      
+
+      function A(){
+        this.x = 100;
+
+      }
+      A.prototype.getX = function() {
+        console.log(this.x)
+      }
+      function B(){
+        this.y =200;
+      
+      }
+      B.prototype = new A();
+
+      var b = new B;
+      console.dir(b)
+      b.getX()
+      // 原型继承是js最常用的继承方式
+      // ->子类B想要继承父类A中的所有方法（私有+公有），只需要让B.prototype = new A()即可;
+      // ->原型继承的特点： 把父类中私有的属性+共有的都继承到子类的原型上（成为子类公有的）
+      // ->核心： 原型继承并不是把父类的属性和方法克隆一份一模一样的的给子类，而是让B和A之间增加了原型链的连接，以后子类想要使用父类的方法，需要一级一级的向上查找

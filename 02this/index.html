@@ -23,6 +23,8 @@
     // 1. 函数执行，首先看函数名前是否有 . ,有的话， .前面是谁，this就是谁，没有，this就是window
     // 2. 自执行函数里面的this 永远是window
     // 3. 给元素的某一个事件绑定方法，该方法触发的时候，this就是元素
+    // 4. 在构造函数体的中this,就是当前类的实例
+    // 5. 可以用 call 、apply 、bind 改变this的指向，前四种遇见第五种全部让路
     // console.log(this) //window
     //for example：
     

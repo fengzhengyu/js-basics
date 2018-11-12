@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>call继承</title>
+</head>
+<body>
+    <div id="div1">div1</div>
+
+    <script>
+       /* 
+       call继承： 把父类私有属性和方法克隆一份一模一样的，作为子类的私有
+       
+        */
+        function A(){
+          this.x = 100;
+        }
+        A.prototype.getX = function() {
+          console.log(this.x)
+        }
+        function B() {
+          A.call(this); //call 执行A函数让A中的this变成 实例n 
+        }
+        var n = new B;
+        n.getX() // 报错  只能克隆父类私有属性和方法，与A没关系
+      // console.log()
+    </script>
+</body>
+</html>

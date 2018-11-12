@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>寄生混合继承</title>
+</head>
+<body>
+  
+  <script>
+  /* 
+   子类的私有继承父类的私有
+   子类的公有继承父类的公有
+   */
+
+   function A(){
+      this.x = 100;
+
+    }
+    A.prototype.getX = function() {
+      console.log(this.x)
+    }
+    function B(){
+      A.call(this) 
+     
+    }
+    // B.prototype = Object.create(A.prototype);  //ie 678不兼容
+    B.prototype =  objectCreate(A.prototype); 
+    B.prototype.constructor = B;
+    var n = new B;
+    console.log(n)
+    /* 
+      在B的原型 上在加一层 A的原型 相当于多套了一层，
+      A的原型修改 B也能跟着修改，
+      n.__proto__修改后，A的实例也受影响
+    
+     */
+
+    function objectCreate(obj){
+      function Fn(){}
+      Fn.prototype= obj;
+      return new Fn;
+    }
+    /* 
+    
+      
+     */
+  </script>
+</body>
+</html>

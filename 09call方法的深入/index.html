@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>call  方法 </title>
+</head>
+<body>
+
+  <script>
+    //var array = [12,34,66]
+    // array.slice ->array这个实例通过原型链的查找机制找到Array.prototype上的slice方法
+    //array.slice()->让找到的slice方法执行，在执行的过程中，才把array数组截取
+
+
+    var obj ={x:1}
+    function fn(){
+      console.log(this)
+    }
+    // fn.call(obj) 
+    // call  方法的作用：
+    //  ->首先让原型上的call方法执行，在执行call方法的时候，我们让fn方法中的this编程obj，然后把fn这个方法执行
+    // 模拟call方法 深入探讨call方法
+    Function.prototype.myCall = function(context){
+      // myCall 方法中的this就是当前我要操作的和改变其this关键字的那个函数名
+
+      // 1. 让fn函数中的this关键字变为context的值->obj
+      // ->让this这个函数中"this关键字"变为context
+      //  eval( this.toString().replace('this',context))
+
+      // 2. 让fn执行
+      this()
+    }
+    fn.myCall(obj) //myCall方法中的this 是 fn
+  //  sum.myCall(obj)//myCall方法中的this 是 sum
+
+  function fn1(){
+    console.log(1)
+  }
+  function fn2(){
+    console.log(2)
+
+  }
+  fn1.call(fn2)  //1
+    /* 
+      首先fn1通过原型链查找机制找到Function.prototype.call方法，并且让call方法执行:（call方法中的this就是fn1）
+        在call 方法代码执行中，首先让fn1中的this 变为fn2,然后让fn1方法执行
+    
+     */
+
+
+     fn1.call.call(fn2)//2
+
+     /* 
+        首先fn1通过原型链查找机制找到Function.prototype.call方法，然后让call方法通关原型链的call执行:（因为call本身也是函数，可以继续找原型链call方法，
+        在第二次找到call方法的时候执行，方法中的this是fn1.call ,先让这个方法中的this变为fn2然后让fn1.call执行，也就是fn2执行 ->2） 
+     
+      */
+      fn1.call.call.call.call(fn2)//2
+    Function.prototype.call(fn2) //什么都不输出  Function.prototype是个空函数 
+    Function.prototype.call.call(fn2) //2   Function.prototype.call 中有个this()
+  </script>
+  
+</body>
+</html>
