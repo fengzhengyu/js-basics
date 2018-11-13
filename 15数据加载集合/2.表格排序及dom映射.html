@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    li{
+      width: 300px;
+      border-bottom: 1px dashed #ccc;
+      list-style: none;
+      
+    }
+  
+  </style>
+</head>
+<body>
+  <ul id="ul">
+    <li>98</li>
+    <li>96</li>
+    <li>99</li>
+    <li>93</li>
+    <li>97</li>
+    <li>99</li>
+  </ul>
+  <script src="../js/utils.js"></script>
+  <script>
+    var oUl = document.getElementById('ul')
+  
+    var oLis = oUl.getElementsByTagName('li');
+    // 1 先把类数组转化为数据
+    var oLisAry = utils.listToArray(oLis)
+    // 2 数组排序 
+    oLisAry.sort(function(a,b){
+      return parseFloat(a.innerHTML) - parseFloat(b.innerHTML)
+    })
+    //3 创建文本碎片   
+    var  frg =document.createDocumentFragment();
+    for(var i=0;i<oLisAry.length;i++){
+      frg.appendChild(oLisAry[i])
+    }
+    // 4 添加都页面 ()
+    oUl.appendChild(frg);
+    frg = null;
+ 
+    // 按理说 添加页面是10个li  -> DOM映射机制,页面中标签和js中获取到元素对象或者元素集合，紧紧绑定在一起，页面中的html改变了，js不需要重新获取，集合里的内容也会跟着改变
+  </script>
+</body>
+</html>

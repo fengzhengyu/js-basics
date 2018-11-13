@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: "微软雅黑";
+      font-size: 14px;
+      -webkit-user-select: none;
+
+    }
+    .box{
+      margin: 50px auto;
+      width: 400px;
+      padding: 20px;
+      border: 1px solid green;
+      border-radius: 10px;
+      box-shadow: 3px 3px 10px 0 #ccc;
+    }
+    #table{
+      width: 100%;
+      
+      
+    }
+    #table th{
+      background: green;
+      height: 36px;
+      color: #fff;
+    }
+    #table th.cursor{
+      cursor: pointer;
+    }
+    #table td{
+      text-align: center;
+      height: 36px;
+    }
+    #table tbody tr.bg{
+      background: lightgreen;
+    }
+  
+  </style>
+</head>
+<body>
+    <div class="box">
+      <table id="table" cellspacing="0" cellpadding="0">
+        <thead>
+          <tr>
+            <th>姓名</th>
+            <th class="cursor">年龄</th>
+            <th class="cursor">武力值</th>
+            <th>性别</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        </tbody>
+      </table>
+    </div>
+  <script src="../js/utils.js"></script>
+  <script>
+    var  oTab = document.getElementById('table');
+    var tHead = oTab.tHead;
+    var oThs = tHead.rows[0].cells;
+    var tBody = oTab.tBodies[0];
+    var oRows = tBody.rows;
+    var data = null;
+    var xhr = new XMLHttpRequest;
+    xhr.open('get','./data.txt',false);
+    xhr.onreadystatechange = function(){
+      if(xhr.readyState == 4 && /^2\d{2}$/.test(xhr.status)) {
+        var res = xhr.responseText;
+       
+        data = utils.jsonParse(res)
+        
+      }
+    }
+    xhr.send(null);
+    
+    function bind(){
+      var  frg =document.createDocumentFragment();
+      for(var i=0;i<data.length;i++){
+        var cur = data[i];
+        var tr =document.createElement('tr');
+        for(var key in cur){
+          var td = document.createElement('td')
+          td.innerHTML= cur[key];
+          tr.appendChild(td)
+        }
+        // tr.innerHTML = '<td>'+data[i].name+'</td><td>'+data[i].age+'</td><td>'+data[i].score+'</td><td>'+data[i].sex+'</td>'
+        frg.appendChild(tr)
+      }
+      tBody.appendChild(frg)
+      frg = null;
+    }
+    bind();
+    // 隔行变色
+    function changeBg () {
+      for(var i=0;i<oRows.length;i++){
+
+        oRows[i].className = i%2 === 1 ? 'bg': '';
+      }
+    }
+    changeBg () 
+    
+    // 表格排序的方法
+    function sort(){
+      // 1 先把类数组转换数组
+      var ary = utils.listToArray(oRows)
+      oThs[1].flag *= -1; //第一次-1*-1 =1升序； 第二次 1*-1 = -1 降序；第三次 -1*-1 =1 （升序）、、、进行切换
+      ary.sort(function(a,b){
+        return (parseFloat(a.cells[1].innerHTML) -  parseFloat(b.cells[1].innerHTML))*oThs[1].flag
+      })
+
+       var  frg =document.createDocumentFragment();
+       for(var i=0;i<ary.length;i++){
+         frg.appendChild(ary[i])
+       }
+       tBody.appendChild(frg);
+       frg = null;
+       changeBg () 
+    }
+
+    oThs[1].flag = -1;// 给当前点击增加自定义属性-1
+    oThs[1].onclick = function(){
+      sort()
+    }
+   
+    
+
+
+  </script>
+</body>
+</html>

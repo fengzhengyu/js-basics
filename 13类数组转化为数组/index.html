@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>13类数组转化为数组</title>
+</head>
+<body>
+    <div id="box"></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <span id="span"></span>
+    <p id="p"></p>
+  <script>
+    // var arr= [1,2,3,4] //->Array的一个实例
+    //  console.dir(arr)
+    // 什么是类数组： 我们把有索引，有length的集合叫做类数组
+    var  aDiv = document.getElementsByTagName('div');
+    console.dir(aDiv) //->HTMLCollecton (元素集合)的一个实例 ->他也是一个类数组集合
+    
+    // var aLi = document.getElementsByName('fengzheng')
+    // console.dir(aLi) //->NodeList(节点集合)一个的实例 ->他也是一个类数组集合
+
+    // var className = document.getElementsByClassName('active')
+    // console.dir(className) //->HTMLCollecton (元素集合)   <p id="span"></p>
+
+    // var box = document.getElementById('box')
+    // console.dir(box) //->HTMLDivElement (元素div)
+    // var span = document.getElementById('span')
+    // console.dir(span) //->HTMLSpanElement (元素div)  
+    // var p = document.getElementById('p')
+    //console.dir(p) //->HTMLParagraphElement (元素段落)
+    var  ary = [].slice.call(aDiv)
+    console.dir(ary)  // 在ie 678 报错 Array.prototype.slice: 'this' 不是javascript对象
+
+
+    function listToArray(list) {
+      try {
+        return Array.prototype.slice.call(list)
+      } catch (error) { //参数不能胜
+        var  ary = [];
+        for(var i = 0;i < list.length; i++){
+          ary[ary.length] = list[i];
+        }
+        return ary;
+      }
+    }
+
+
+  </script>
+</body>
+</html>

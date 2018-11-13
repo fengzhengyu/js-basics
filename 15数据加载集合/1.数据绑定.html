@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>数据绑定</title>
+</head>
+<body>
+  <ul id="ul">
+    <li><span>1</span>111111111111111111111</li>
+    <li><span>2</span>2222222222222222222222</li>
+    <li><span>3</span>333333333333333333333333</li>
+  </ul>
+  <script>
+    var arr = [
+      {title: '444444444444444444444444'},
+      {title: '555555555555555555555555'},
+      {title: '666666666666666666666666'},
+      {title: '777777777777777777777777'}
+    ]
+    var oUl = document.getElementById('ul');
+    //DOM 回流 （重排 reflow）： 当页面中的结构发生改变，（增加、删除、位置发生改变），浏览器会重新计算一遍DOM结构，重新对当前页面进行渲染
+    //DOM 重绘 ： 某一个元素的部分样式发生改变 ，浏览器只需重新渲染当前元素即可
+    // for(var i=0;i<arr.length;i++){
+    //   var oLi =document.createElement('li');
+    //   oLi.innerHTML = '<span>'+(i+1)+'</span>' + arr[i].title;
+    //   oUl.appendChild(oLi);
+    //   // 循环一次回流一次
+    // }
+      
+    // var str = ''
+    // for(var i=0;i<arr.length;i++){
+    //  var cur =  arr[i];
+    //  str += '<li>';
+    //  str += '<span>'+(i+1)+'</span>';
+    //  str += cur.title;
+    //  str += '</li>'
+      
+    //  oUl.innerHTML(str)
+    //   // 只回流一次  减少性能损耗
+    // }
+
+    // 最好的方法: 文档碎片
+    var frg = document.createDocumentFragment();  //创建一个文档碎片，相当零时创建一个容器
+
+    for(var i=0;i<arr.length;i++){
+      var cur =  arr[i];
+      var oLi =document.createElement('li');
+      oLi.innerHTML = '<span>'+(i+4)+'</span>' + cur.title;
+      frg.appendChild(oLi)
+    }
+    oUl.appendChild(frg)
+    frg = null; //用完手动释放内存
+    </script>
+</body>
+</html>

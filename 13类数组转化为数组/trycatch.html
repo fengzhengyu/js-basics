@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+
+
+  <script>
+    
+    // try {
+    //   console.log(num)
+    // } catch (err) {
+    //   console.log(err.message) //收集报错信息
+      
+    // }
+    // finally{
+    //    // 无论 try / catch  结果如何都会执行的代码块
+    // }
+
+
+
+     // 既想捕获异常信息，还不想下面代码执行 ： ->手动抛出异常信息  
+
+     
+     try {
+      console.log(num)
+    } catch (err) {
+      console.log(err.message) //收集报错信息
+      throw new Error('你的人品已欠费！请稍后再试')
+      // new ReferenceError ->引用错误
+      // new TypeError -> 类型错误
+      // new RangeError -> 范围错误
+    }
+    console.log('ok')
+ 
+  </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title> sort 深入研究</title>
+</head>
+
+<body>
+
+
+  <script>
+    // var ary = [12, 3, 454, 25, 36, 7, 18];
+    // // ary.sort() //只能排序10以内的 
+   
+    // ary.sort(function (a, b) {
+    //   // console.log(a,b)
+    //   // a ->每次执行匿名函数时的 当前项
+    //   // b ->当前项的后一项
+    //   // return a - b; //->升序  
+    //   // return b - a; //->降序 
+    //   // return 一个 >0 |≤0  的数
+    //   return -1 //不管ab谁大  最后结果就是原有数组倒过来 相当于 reverse
+    // })
+    // console.log(ary)
+    
+    
+    // 二维数组排序： 
+    var arr = [
+      {
+        name: '王昭君',
+        age:18
+
+      },
+      {
+        name: '西施',
+        age: 33
+
+      },
+      {
+        name: '貂蝉',
+        age: 42
+
+      },
+      {
+        name: '杨贵妃',
+        age: 25
+
+      }
+    ]
+    // 按年龄
+    // arr.sort(function(a,b){
+    //   return parseFloat(a.age) - parseFloat(b.age)
+    // })
+    // 按名字: localeCompare转换成拼音排序
+    arr.sort(function(a,b){
+      return a.name.localeCompare(b.name)
+    })
+    console.log(arr)
+
+  </script>
+</body>
+
+</html>
