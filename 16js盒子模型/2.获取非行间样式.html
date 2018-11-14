@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+      *{
+        margin: 0;
+        padding: 0;
+      }
+      #box{
+        margin: 100px;
+        width: 200px;
+        height: 200px;
+        border: 20px solid green; /*rgb(0,128,0)*/
+        padding: 10px;
+     
+      }
+    
+    </style>
+</head>
+<body>
+  
+    <div id="box" class="test" name="风筝" index="0">
+        js 盒子模型： 通过js提供的一系列的属性和方法， 获取页面元素的信息
+        js 盒子模型： 通过js提供的一系列的属性和方法， 获取页面元素的信息 
+        js 盒子模型： 通过js提供的一系列的属性和方法， 获取页面元素的信息
+       
+        <p></p>
+    </div>
+
+    <script>
+      var  box = document.getElementById('box');
+      // 获取行内样式： oDiv.style[attr] 
+      // 获取非行间样式： window.getComputedStyle 这个方法获取浏览器计算过的样式
+      // console.log(window.getComputedStyle) //function  所以是方法 ；有两个参数，参数一是当前元素，参数二是当前元素的伪类一般不用写null
+      // console.log(window.getComputedStyle(box,null))  //这是一个对象 是 CSSStyleDeclaration的实例 
+      // console.log(window.getComputedStyle(box,null).height)  //window.getComputedStyle方法虽然好用在ie678不兼容 得到undefined undefined() 会报错
+      // currentStyle (仅ie下好使)
+
+      function getCss(curEle,attr){
+        var val = null;
+        if(window.getComputedStyle){ 
+          val = window.getComputedStyle(curEle,null)[attr];
+        }else{
+          val = curEle.currentStyle[attr];
+        }
+        return val;
+      }
+      
+      console.log(window.navigator.userAgent)
+      // 谷歌： Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.
+      // 检测是不是ie678  /MSIE(6|7|8)/.test(navigator.userAgent)
+    </script>
+</body>
+</html>

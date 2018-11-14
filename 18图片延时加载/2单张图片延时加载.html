@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+      * {
+          margin: 0;
+          padding: 0;
+      }
+
+      .banner {
+          margin: 1000px auto;
+          width: 350px;
+          height: 200px;
+          border: 1px solid green;
+          background: url('img/default.gif') no-repeat center center #e1e1e1;
+      }
+
+      .banner img {
+          display: none;
+          /* 在开始的时候img src属性没有地址，这样在IE浏览器会显示一张碎图，不美观，当真实图片加载在显示*/
+          width: 100%;
+          height: 100%;
+
+      }
+  </style>
+</head>
+<body>
+    <div class="banner" id="banner">
+        <img src="" alt="" trueImg="img/timg.jpg">
+    </div>
+
+    <script>
+       var banner = document.getElementById('banner'),
+            imgFir = banner.getElementsByTagName('img')[0];
+          console.log(banner.offsetHeight +offset(banner).top )
+          console.log( win('clientHeight')+ win('scrollTop'))
+          window.onscroll = function (){
+            if(banner.flag){
+              return;
+            }
+            var A = banner.offsetHeight + offset(banner).top; //图本身高度+ 图片到顶部的距离
+            var B = win('clientHeight')+ win('scrollTop'); //刘浏览器一屏高+卷去的高
+            if(A<B){//说明a加载完了
+              
+              var oImg = new Image;
+              oImg.src = imgFir.getAttribute('trueImg');
+              oImg.onload = function () {
+                imgFir.src = this.src;
+                imgFir.style.display = 'block';
+                oImg = null;
+                console.log('ok') //只输出一次
+              }
+              banner.flag =true; //加载完自定义一个状态让ok只输出一次
+            }
+          }
+
+          
+        function offset(curEle) {
+            var left = null,
+                top = null,
+                parent = curEle.offsetParent;
+
+            left += curEle.offsetLeft;
+            top += curEle.offsetTop
+
+            while (parent) {
+                //累加父级参照物的边框
+                left += parent.clientLeft;
+                top += parent.clientTop;
+                //累加父级参照物本身的偏移量   
+                left += parent.offsetLeft;
+                top += parent.offsetTop;
+
+                parent = parent.offsetParent;
+            }
+
+            return {
+                left: left,
+                top: top
+            }
+
+        }
+
+        function win(attr, value) {
+            if (typeof value == 'undefined') { //说明value没传参。就获取属性
+                return document.documentElement[attr] || document.body[attr];
+            }
+            //设置属性
+            document.documentElement[attr] = value;
+            document.body[attr] = value;
+        }
+    </script>
+
+</body>
+</html>

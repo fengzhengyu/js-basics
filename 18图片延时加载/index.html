@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: "微软雅黑";
+      font-size: 14px;
+    }
+    .banner{
+      border: 1px dashed lightgreen;
+      width: 350px;
+      height: 200px;
+      margin: 20px auto;
+      background: url('./img/default.gif') no-repeat center center #ccc;
+    }
+    img{
+      width: 100%;
+      height: 100%;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="banner" id="banner">
+    <img src="" trueImg="img/1.jpg">
+  </div>
+  <script>
+    
+    // 数据延时加载  = 图片延时加载
+    // 作用：（网站优化，为了让当前页面第一次加载速度快）
+    // 原理： 
+    //     1）对于首屏幕的内容中的图片： 首先给对应图片区域默认图片占着位置（默认图片非常小，最好是5kb以内），当内容加载完后也可以给个延时时间
+    //     2）对于其他屏幕中的图片：也是给一张默认图占位，当滚动条滚动到对应区域时，加载真实图片
+    // 扩展：数据异步加载  开始先把前两屏的数据加载出来，后面不进行处理，当页面滚动到对应区域时候，在请求对应数据，进行绑定
+
+    var banner =document.getElementById('banner'),imgFir = banner.getElementsByTagName('img')[0];
+    setTimeout(function(){
+      // imgFir.src = imgFir.getAttribute('trueImg');
+      // imgFir.style.display = 'block';
+      // 以上方法处理不完整，如果真实图片地址是错误的，赋值给img src属性，不仅控制台会报错，而且页面会出现碎图
+
+      var oImg =new Image();
+      oImg.src= imgFir.getAttribute('trueImg');
+      oImg.onload =function(){ //当图片可以正常加载
+        imgFir.src = this.src;
+        imgFir.style.display = 'block';
+        oImg =null; //00用完销毁
+        console.log('图片加载完成')
+        var nowTime = new Date;
+        console.log('图片加载需要'+(nowTime -  time)+'sm')
+
+      }
+      console.log('图片加载中')
+      // 这里可以放个loading图 
+
+      var time = new Date();
+
+
+    },1000)
+    
+  </script>
+</body>
+</html>

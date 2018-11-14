@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    *{
+      margin:0;
+      padding:0;
+    }
+    #box{
+        margin: 20px auto;
+        width: 300px;
+        border: 1px dashed green; /*rgb(0,128,0)*/
+        padding: 20px;
+        line-height: 30px;
+        height: 300px;
+        overflow: auto;
+     
+      }
+  </style>
+</head>
+<body>
+
+  <div class="outer" id="box">
+      旺达-杜兰特是否想过有一天自己儿子和詹姆斯联手呢？，“我儿子在NBA已经打了11年时间，所以他完全能够做出对自己最好的决定，我相信他。”
+      谈及湖人队篮球事务总裁魔术师约翰逊时候，旺达说，“我太爱魔术师和他的太太，他们都是非常好的人。”
+      旺达-杜兰特是否想过有一天自己儿子和詹姆斯联手呢？，“我儿子在NBA已经打了11年时间，所以他完全能够做出对自己最好的决定，我相信他。”
+      谈及湖人队篮球事务总裁魔术师约翰逊时候，旺达说，“我太爱魔术师和他的太太，他们都是非常好的人。”
+      旺达-杜兰特是否想过有一天自己儿子和詹姆斯联手呢？，“我儿子在NBA已经打了11年时间，所以他完全能够做出对自己最好的决定，我相信他。”
+      谈及湖人队篮球事务总裁魔术师约翰逊时候，旺达说，“我太爱魔术师和他的太太，他们都是非常好的人。”
+      旺达-杜兰特是否想过有一天自己儿子和詹姆斯联手呢？，“我儿子在NBA已经打了11年时间，所以他完全能够做出对自己最好的决定，我相信他。”
+      谈及湖人队篮球事务总裁魔术师约翰逊时候，旺达说，“我太爱魔术师和他的太太，他们都是非常好的人。”
+      旺达-杜兰特是否想过有一天自己儿子和詹姆斯联手呢？，“我儿子在NBA已经打了11年时间，所以他完全能够做出对自己最好的决定，我相信他。”
+      谈及湖人队篮球事务总裁魔术师约翰逊时候，旺达说，“我太爱魔术师和他的太太，他们都是非常好的人。”
+  </div>
+
+  <script>
+     var  box = document.getElementById('box');
+
+    // client系列 offset系列 scrollwidth scrollheight 都是只读属性，不能自定时设置值
+
+    // 可读写的属性： scrollTop /scrollLeft 滚动条卷去的高度、宽度（这两个属性是唯一的“可读写”的属性）
+
+    // box.scrollTop = 0; //->直接回到顶部
+    //  box.scrollTop最小值是0；
+    //  box.scrollTop最大值是 = 真实高度 - 当前容器一屏的高度 （scrollTop = scrollHeight - clientHeight）
+
+    var  maxTop = box.scrollHeight - box.clientHeight;
+    console.log(maxTop);
+ 
+    window.onscroll = function() {
+      console.log(maxTop == box.scrollTop);
+      if(maxTop == box.scrollTop){
+        alert('到底了')
+      }
+    }
+   
+  </script>
+  
+</body>
+</html>

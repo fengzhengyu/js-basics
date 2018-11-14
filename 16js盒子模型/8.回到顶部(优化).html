@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      font-size: 14px;
+    }
+    html,body{
+      width: 100%;
+      height: 500%;
+      background: #11c900;
+      background: -webkit-linear-gradient(top,#11c900,lightblue,lightcoral,lightcyan,lightyellow,lightgreen,lightpink);
+    }
+    #box{
+        margin: 20px auto;
+        width: 300px;
+        border: 1px dashed green; /*rgb(0,128,0)*/
+        padding: 20px;
+        line-height: 30px;
+        height: 300px;
+        overflow: auto;
+     
+      }
+      a{
+        position: fixed;
+        right: 50px;
+        bottom: 50px;
+        width: 100px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        background: #333;
+        color: #fff;
+        text-decoration: none;
+        display: none;
+        
+      }
+  </style>
+</head>
+<body>
+
+  
+  <a href="javascript:;" id="goBack">回到顶部</a>
+  
+
+  <script>
+     var  back= document.getElementById('goBack');
+    
+       back.onclick = function () {
+
+        //  点击 直接让back消失还不行，往回走的时候执行触发 onscroll事件，让back又显示了 -》在点击的时候，把onscroll事件取消
+        this.style.display = 'none';
+        window.onscroll = null;
+        //  点击时候，先求每一步走的步长
+        var duration = 500, interval = 10, target = document.documentElement.scrollTop ||document.body.scrollTop;
+        var step = (target / duration) *interval;
+        // 计算完步长后，让当前页面每个interval这么时间走一步： 在上一次scrollTop的基础 - 步长
+        var timer = setInterval(function(){
+          // 当前的scrolltop
+          var curTop = document.documentElement.scrollTop ||document.body.scrollTop;
+
+          if(curTop == 0){
+            clearInterval(timer);
+            window.onscroll = computedDisplay; //回调顶部 在开启onscroll事件
+          }
+          curTop -= step;
+
+
+          document.documentElement.scrollTop = curTop;
+          document.body.scrollTop = curTop;
+
+        },interval)
+       }
+       window.onscroll = computedDisplay;
+       
+       function computedDisplay() {
+         var curTop = document.documentElement.scrollTop ||document.body.scrollTop;
+         var curHeight =  document.documentElement.clientHeight ||document.body.clientHeight ;
+         back.style.display = curTop>curHeight? 'block': 'none';
+       }
+      
+       /* 
+        楼层导航：
+          -> 仿京东左侧导航
+          -> 刚开始没有导航，只有当一楼出现视野的时候，出现导航
+          -> 随着页面滚动，每个楼层达到某个区域时，我们让楼层对应跟着选中
+          -> 当点击楼层导航中的某一项，可以实现一个简单的动画 定位到具体楼层
+       
+       
+        */
+  </script>
+  
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      font-size: 14px;
+    }
+    html,body{
+      width: 100%;
+      height: 500%;
+      background: #11c900;
+      background: -webkit-linear-gradient(top,#11c900,lightblue,lightcoral,lightcyan,lightyellow,lightgreen,lightpink);
+    }
+    #box{
+        margin: 20px auto;
+        width: 300px;
+        border: 1px dashed green; /*rgb(0,128,0)*/
+        padding: 20px;
+        line-height: 30px;
+        height: 300px;
+        overflow: auto;
+     
+      }
+      a{
+        position: fixed;
+        right: 50px;
+        bottom: 50px;
+        width: 100px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        background: #333;
+        color: #fff;
+        text-decoration: none;
+        
+      }
+  </style>
+</head>
+<body>
+
+  
+      <a href="javascript:;" id="goBack">回到顶部</a>
+  
+
+  <script>
+     var  back= document.getElementById('goBack');
+    
+    // 该方法直接回去
+    // back.onclick = function () {
+    //   document.documentElement.scrollTop =0;
+    //   document.body.scrollTop = 0;
+    // }
+   
+    // 有个缓冲过程  setInterval 实现一个多次运动动画
+
+      // var n = 0;
+      // var timer = setInterval(function(){
+      //   n++;
+      //   console.log(n)
+      //   if(n ==5){
+      //     clearInterval(timer)
+      //   }
+      //},1000)
+
+      // setTimeout
+      // var n =0;
+      // var timer = null;
+      // function move(){
+      //   // 在每一次执行方法前，把之前设置的没用的定时器清除
+      //   clearTimeout(timer);
+      //   n++;
+      //   console.log(n);
+      //   if(n ===5){
+      //     return;
+      //   }
+      //   // 第一次执行完设置一个延时器，过1000面
+      //   // 递归：自己执行的时候重新调用自己
+      //   timer = setTimeout(move, 1000);
+      // }
+      // move()
+
+
+      
+      /* 
+         回到顶部：
+         总时间（duration）： 500ms
+         频率（interval）： 多长时间走一步 10ms
+         总距离（target):当前的位置（scrollTop - 目标的位置）
+         步长（step）： 每一次走的距离 target / duration * interval  
+      
+       */
+       back.onclick = function () {
+        //  点击时候，先求每一步走的步长
+        var duration = 500, interval = 10, target = document.documentElement.scrollTop ||document.body.scrollTop;
+        var step = (target / duration) *interval;
+        // 计算完步长后，让当前页面每个interval这么时间走一步： 在上一次scrollTop的基础 - 步长
+        var timer = setInterval(function(){
+          // 当前的scrolltop
+          var curTop = document.documentElement.scrollTop ||document.body.scrollTop;
+
+          if(curTop == 0){
+            clearInterval(timer)
+          }
+          curTop -= step;
+
+
+          document.documentElement.scrollTop = curTop;
+          document.body.scrollTop = curTop;
+
+        },interval)
+       }
+      
+
+  </script>
+  
+</body>
+</html>

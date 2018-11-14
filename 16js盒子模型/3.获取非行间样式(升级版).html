@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+      *{
+        margin: 0;
+        padding: 0;
+      }
+      #box{
+        margin: 100px;
+        width: 200px;
+        height: 200px;
+        border: 20px solid green; /*rgb(0,128,0)*/
+        padding: 10px 10px 10px 10px;
+        opacity: 0.6;
+        filter: alpha(opacity=60);
+     
+      }
+    
+    </style>
+</head>
+<body>
+  
+    <div id="box" class="test" name="风筝" index="0">
+        js 盒子模型： 通过js提供的一系列的属性和方法， 获取页面元素的信息
+        js 盒子模型： 通过js提供的一系列的属性和方法， 获取页面元素的信息 
+        js 盒子模型： 通过js提供的一系列的属性和方法， 获取页面元素的信息
+       
+        <p></p>
+    </div>
+
+    <script>
+      var  box = document.getElementById('box');
+      
+      // // 获取到样式的单位去掉
+      // function getCss(curEle,attr){
+      //   var val = null;
+      //   if(window.getComputedStyle){ 
+      //     val = window.getComputedStyle(curEle,null)[attr];
+      //   }else{
+      //     val = curEle.currentStyle[attr];
+      //   }
+      //   // return parseFloat( val); //获取float postion margin padding border等等复合值 得到不是数字  结果是NaN ;不能这么直接写
+      // }
+
+      //第一次升级：  只有符合数字加单位或者纯数字的才能使parseFloat
+      // function getCss(curEle,attr){
+      //   var val = null,reg=null;
+      //   if(window.getComputedStyle){ 
+      //     val = window.getComputedStyle(curEle,null)[attr];
+      //   }else{
+      //     val = curEle.currentStyle[attr];
+      //   }
+      //   reg = /^-?\d+(\.\d+)?(px|pt|em|rem)?$/i; //负数可能出现， 数字一个或多个,小数部分可能出现也能不出现,单位可能出现也不可能出现 i忽略大写
+       
+      //   return reg.test(val) ? parseFloat( val) :  val;
+      
+      // }
+
+       //第二次升级：  有些样式在不同浏览器不兼容 例如 opacity
+       function getCss(curEle,attr){
+          var val = null,reg=null;
+          if(window.getComputedStyle){ 
+            val = window.getComputedStyle(curEle,null)[attr];
+          }else{
+            // 如果传递进来是opacity 但在ie678不支持，
+            if(attr ==='opacity'){
+              val = curEle.currentStyle['filter'];
+              // ->alpha(opacity =60) 获取到里面的数字 /100,才能与别的浏览器保持一致
+              var reg1 = /^alpha\(opacity=(\d+(?:\.\d+)?)\)$/i; // 第一个分组(\d+(\.\d+)?)，第二个分组(?:\.\d+)?小数可能有 该分组不需要捕获 ?:
+              val = reg1.test(val) ?reg1.exec(val)[1]/100 : 1;
+            }else{
+              val = curEle.currentStyle[attr];
+            }
+          
+          }
+          reg = /^-?\d+(\.\d+)?(px|pt|em|rem)?$/i; 
+        
+          return reg.test(val) ? parseFloat( val) :  val;
+        
+        }
+      console.log(getCss(box,'opacity'))
+      console.log(getCss(box,'padding'))
+    </script>
+</body>
+</html>

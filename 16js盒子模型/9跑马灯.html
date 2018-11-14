@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      font-size: 14px;
+      font-family: "微软雅黑";
+    }
+   
+    #box{
+        margin: 50px auto;
+        width: 800px;
+        border: 1px dashed green; /*rgb(0,128,0)*/
+        padding: 0 10px;
+        line-height: 35px;
+        height: 35px;
+  
+        background: lightgreen;
+     
+      }
+      #wrap{
+        height: 35px;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      #wrap div{
+
+        display: inline-block;
+      }
+      #wrap span{
+        color: red;
+      }
+      
+  </style>
+</head>
+<body>
+
+  
+  <div id="box">
+    <div id="wrap">
+        <div>
+            <span>通知</span> 旺达-杜兰特是否想过有一天自己儿子和詹姆斯联手呢？，“我儿子在NBA已经打了11年时间，所以他完全能够做出对自己最好的决定，我相信他。”
+          </div>
+          <div>
+              <span>通知</span> 旺达-杜兰特是否想过有一天自己儿子和詹姆斯联手呢？，“我儿子在NBA已经打了11年时间，所以他完全能够做出对自己最好的决定，我相信他。”
+            </div>
+          
+    </div>
+    
+  </div>
+  
+
+  <script>
+    ~function(){
+      var  box = document.getElementById('box');
+      var  wrap = document.getElementById('wrap');
+      var conBegin = document.getElementById('conBegin');
+      var item = wrap.children[0];
+      var widht = item.offsetWidth; //内容的一半
+  
+     
+      function move(){
+        wrap.scrollLeft++;
+        if( wrap.scrollLeft >= widht){
+          wrap.scrollLeft = 0
+        }
+      }
+      var timer = setInterval(move,10)
+      box.onmousemove = function(){
+        clearInterval(timer)
+      }
+      box.onmouseout = function(){
+        timer = setInterval(move,10)
+      }
+    }()
+    // var  box = document.getElementById('box');
+    // var  wrap = document.getElementById('wrap');
+    // var conBegin = document.getElementById('conBegin');
+    // var item = wrap.children[0];
+    // var widht = item.offsetWidth; //内容的一半
+ 
+    // // var timer = setInterval(function(){
+    // //   var curLeft =  wrap.scrollLeft;
+    // //   wrap.scrollLeft =curLeft +1;
+    // //   // scrollLeft 存在最大值，在累加一之前获取一个值，在累加之后在获取一个值，如果两值相等，说明累加没作用，也就是到头了
+    // //   var  newLeft =  wrap.scrollLeft;
+    // //   if(curLeft == newLeft){
+
+    // //     // 重头开始了，有个闪的过程
+    // //     wrap.scrollLeft = 0
+       
+    // //   }
+     
+    // //   console.log('ok')
+    // // },10)
+    // function move(){
+    //   wrap.scrollLeft++;
+    //   if( wrap.scrollLeft >= widht){
+    //     wrap.scrollLeft = 0
+    //   }
+    // }
+    // var timer = setInterval(move,10)
+    // box.onmousemove = function(){
+    //   clearInterval(timer)
+    // }
+    // box.onmouseout = function(){
+    //   timer = setInterval(move,10)
+    // }
+      
+  </script>
+  
+</body>
+</html>

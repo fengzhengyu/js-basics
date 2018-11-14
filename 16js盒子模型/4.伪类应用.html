@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+      *{
+        margin: 0;
+        padding: 0;
+      }
+      #box{
+        margin: 20px auto;
+        width: 300px;
+       
+        border: 1px dashed green; /*rgb(0,128,0)*/
+        padding: 20px;
+        
+     
+      }
+      #box p{
+        line-height: 30px;
+      }
+      /* 
+        :before 在一个元素变迁的前面或后面创建一个虚拟的标签增加样式，也可以增加内容
+        :after
+      
+       */
+       #box p:before{
+         display: block;
+         height: 30px;
+         line-height: 30px;
+         text-align: center;
+         content: "fengzheng";
+         background: lightblue;
+       }
+       #box p:after{
+         display: block;
+         height: 30px;
+         line-height: 30px;
+         text-align: center;
+         content: "fengzheng";
+         background: lightgreen;
+        }
+
+        .clear{
+          zoom: 1;
+        } 
+        .clear:after{
+          display: block;
+          width: 0;
+          height: 0;
+          content:"w";
+          overflow: hidden;
+          clear: both;
+
+        }
+        ul,li{
+          list-style:none;
+        }
+        ul{
+          width: 300px;
+          margin: 20px auto;
+          border: 1px solid #000;
+          padding: 30px;
+        }
+        li{
+        
+          float: left;
+          width: 100px;
+          height: 100px;
+          background: lightgray;
+        }
+        li:nth-child(odd){
+          background:lightblue
+        }
+        li:nth-child(even){
+          background:lightgreen;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="box" class="test" name="风筝" index="0">
+       <p id="boxP">
+          旺达-杜兰特是否想过有一天自己儿子和詹姆斯联手呢？，“我儿子在NBA已经打了11年时间，所以他完全能够做出对自己最好的决定，我相信他。”
+          谈及湖人队篮球事务总裁魔术师约翰逊时候，旺达说，“我太爱魔术师和他的太太，他们都是非常好的人。”
+       </p>
+      
+    </div>
+    <ul class="clear">
+      <li>
+      1
+      </li>
+      <li>
+      2
+      </li>
+      <li>
+      3
+      </li>
+      <li>
+      4
+      </li>
+      <li>
+      5
+      </li>
+      <li  >
+      6
+      </li>
+                  
+    </ul>
+    <script>
+      var  boxP = document.getElementById('boxP');
+      // 获取伪类样式
+      console.log(window.getComputedStyle(boxP,'before').content);
+      console.log(window.getComputedStyle(boxP,'after').height);
+     
+    </script>
+</body>
+</html>

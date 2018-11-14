@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    *{
+      margin:0;
+      padding:0;
+    }
+    .outer{
+      width: 300px;
+      height: 300px;
+      border: 5px solid #000;
+      background: red;
+      margin: 50px;
+      position: relative;
+    }
+    .inner{
+      width: 200px;
+      height: 200px;
+      border: 5px solid #000;
+      background: green;
+      margin: 50px;
+      /* position: relative; */
+
+    }
+    .content{
+      width: 100px;
+      height: 100px;
+      border: 5px solid #000;
+      background: yellow;
+      margin: 50px;
+
+    }
+  
+  </style>
+</head>
+<body>
+
+  <div class="outer" id="outer">
+
+    <div class="inner" id="inner">
+      <div class="content" id="content">
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var outer = document.getElementById('outer'),inner=  document.getElementById('inner'),content = document.getElementById('content');
+    // outer ->parentNode body
+    // inner ->parentNode outer
+    // content  ->parentNode inner
+    
+    // outer ->scrollParent body
+    // inner ->parentNode outer
+    // content  ->parentNode inner
+    // console.log( outer.offsetParent, inner.offsetParent,content.offsetParent )
+
+    // outer.offsetParent ->body
+    // inner.offsetParent ->body
+    // content.offsetParent ->body
+    // document.body.offsetParent ->null
+    // console.log(document.body.offsetParent)
+    // 在同一平面，最外层的元素是最里面元素的父级参照物（与html结构没有关系）
+    // 改变父级参照物： 用position定位来改变
+
+
+    // offset 等同于jquery 中的offset()方法
+    function offset(curEle){
+      var left =null,top = null,parent = curEle.offsetParent;
+
+      left += curEle.offsetLeft;
+      top += curEle.offsetTop;
+    
+      // 只要没找到body ，我们把父级参照物的边框与偏移也累加
+      while(parent){
+        // 累加父级参照物边框
+        // ie8下 已经计算上边框了
+        if(navigator.userAgent.indexOf('MSIE 8.0') ===-1 ){//不是ie8我们才累加
+          left += parent.clientLeft;
+          top += parent.clientTop;
+
+        }
+        
+
+        // 累加父级本身的偏移量
+        left += parent.offsetLeft;
+        top += parent.offsetTop;
+        
+        // 继续找父级参照物 知道body 为null 停止循环
+        parent = parent.offsetParent;
+   
+      }
+      return {left:left,top:top}
+
+    }
+    console.log(offset(content).left   )
+    console.log( offset(inner).left  )
+    // console.log(offset(inner))
+  </script>
+  
+</body>
+</html>
