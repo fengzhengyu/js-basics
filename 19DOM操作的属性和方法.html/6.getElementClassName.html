@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+
+    }
+
+    .box {
+      width: 200px;
+      height: 200px;
+    }
+
+    .bg {
+      background: #ff3333;
+    }
+
+    .border {
+      border: 5px solid green;
+
+    }
+
+    .position {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin: -100px 0 0 -100px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="w1 w2 w3"></div>
+  <div class="w2 w3"></div>
+  <div class="w1 w3"></div>
+  <div class="w2 w3"></div>
+  <div class="w3"></div>
+  <script src="../js/utils.js"></script>
+  <script>
+    var box = document.getElementById('box');
+    // hasClass() :验证当前元素中是否包含className这个样式，包含是true
+    
+    var w  = document.getElementsByClassName('w3')
+    // console.log(w)
+    // console.log(document.getElementsByClassName('w3   w1   ')) //必须同时含有 w3 w1 ,但与样式的顺序，之间有多少空格没有关系
+    // console.log(document.getElementsByClassName('w4')) //没有 空集合
+
+    function getElementsByClassName(clasName,context){
+      // className 可能是一个或多个
+      // context: 可以在对应的上下文中获取，不传默认document
+      context =  context || document;
+      // 拆className
+      var ary = clasName.replace(/^ +| +$/g,'').split(/ +/g); //去掉首尾空格再拆分
+      // 获取指定上下文中的所有元素标签，循环这些标签，获取每一个标签的className样式名的字符串
+      console.log(ary)
+      var nodeList = context.getElementsByTagName('*');
+      console.log(nodeList.length)
+      for(var i=0;i<nodeList.length;i++){
+        var curNode = nodeList[i];
+        // 判断curNode.className是否包含 ary 的className
+
+        for(var k=0;k<ary.length;k++){
+          var curName = ary[i];
+          // 第一次循环得到w1
+          var reg = new RegExp("(^| +)"+ary[i]+"( +|$)");
+          if()
+        }
+        console.log(curNode.className)
+      }
+
+    }
+
+console.log(getElementsByClassName('w1 w3 '))
+
+  </script>
+</body>
+
+</html>

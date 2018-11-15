@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div id="div1">
+    <div></div>
+    <div></div>
+    <!-- sdd -->
+    <div id="div">
+      <p></p>
+      <p class="p2"></p>
+    </div>
+    <p></p>
+    <p></p>
+    <p id="div2"></p>
+  </div>
+  <script src="../js/utils.js"></script>
+  <script>
+    // 获取上一个哥哥元素节点
+    var div = document.getElementById('div1')
+    var cur = document.getElementById('div')
+    console.log(cur.previousSibling)
+
+    console.log(prev(cur))
+    console.log(next(cur))
+
+    function prev(ele) {
+      if (/MSIE (6|7|8)/i.test(navigator.userAgent)) {
+        console.log('ie')
+        // 首先获取当前元素的上一个哥哥节点，是否是元素节点，不是的话基于当前的继续找上面的哥哥元素节点...一直到找到哥哥元素节点位置，如果找到头没有，返回null
+        var pre = ele.previousSibling;
+
+        while (pre && pre.nodeType !== 1) { //pre存在不是元素节点 继续找
+          pre = pre.previousSibling;
+
+        }
+        return pre;
+      } else {
+        return ele.previousElementSibling;
+      }
+    }
+    // 获取下一个弟弟元素节点
+    function next(ele) {
+      if (/MSIE (6|7|8)/i.test(navigator.userAgent)) {
+
+        var next = ele.nextSibling;
+
+        while (next && next.nodeType !== 1) {
+          next = next.nextElementSibling;
+
+        }
+        return next;
+      } else {
+        return ele.nextElementSibling;
+      }
+    }
+
+    // 获取所有哥哥元素节点
+    function prevAll(curEle) {
+      var ary = [];
+      var pre = prev(curEle); //首先获取当前元素哥哥节点
+      while (pre) {
+        ary.unshift(pre); //添加数组第一个
+
+        pre = prev(pre); //根据找到的继续往上找 找不到就是null;
+      }
+      return ary;
+    }
+
+    // 获取所有弟弟元素节点
+
+    function nextAll(curEle) {
+      var ary = [];
+      var nex = next(curEle);
+      while (nex) {
+        ary.push(nex);
+        nex = next(nex);
+      }
+      return ary;
+    }
+  
+
+    //获取相邻的两个元素节点 
+    function sibling(curEle) {
+      var pre = prev(curEle),
+        nex = next(curEle);
+      var ary = [];
+      pre ? ary.push(pre) : null; //如果存在存进去，不存在不存
+      nex ? ary.push(nex) : null;
+
+      return ary;
+
+    }
+    // 获取所有的兄弟节点
+    function siblings(curEle){
+      return prevAll(curEle).concat(nextAll(curEle));
+    }
+    // 获取当前元素索引
+    function index(curEle){
+      // 索引就有几个哥哥
+      return prevAll(curEle).length;
+    }
+    console.log(index(cur))
+    // 获取第一个子节点
+    function firstChild(curEle){
+      var list = utils.children(curEle);
+      return list.length > 1 ? list[0] : null;
+    }
+    // 获取最后一个节点
+    function lastChild (curEle) {
+      var list = utils.children(curEle);
+      return list.length > 1 ? list[list.length-1] : null
+    }
+    console.log(lastChild(cur))
+  </script>
+</body>
+
+</html>

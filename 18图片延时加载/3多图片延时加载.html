@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+  
+  * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 14px;
+            list-style: none;
+        }
+
+        img {
+            display: block;
+            border: none;
+        }
+
+        /* 移动端最外面容器不设置宽高 */
+
+        .news {
+            padding: 10px;
+        }
+
+        .news li {
+            padding: 10px 0;
+            height: 60px;
+            border-bottom: 1px dashed #ccc;
+            position: relative;
+        }
+
+        .news li>div:nth-child(1) {
+            position: absolute;
+            top: 10px;
+            width: 75px;
+            height: 60px;
+            background: url('img/default.gif') no-repeat center center #e1e1e1;
+            background-size: 100% 100%;
+
+        }
+
+        .news li>div:nth-child(1) img {
+            display: none;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+        }
+
+        .news li>div:nth-child(2) {
+            top: 10px;
+            margin-left: 75px;
+            height: 60px;
+        }
+
+        .news li>div:nth-child(2) h2 {
+            height: 20px;
+            line-height: 20px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .news li>div:nth-child(2) p {
+            line-height: 20px;
+            font-size: 12px;
+            color: #616161;
+
+        }
+  </style>
+</head>
+<body>
+    <ul id="news" class="news">
+        <li>
+            <div>
+                <img src="" alt="" data-img="img/timg.jpg">
+            </div>
+            <div>
+                <h2>吴昂罗占萨拉烦死了东方嘉盛龙卷风律师费</h2>
+                <p>banner.flag = true; //放这，如果地址报错，还是一直加载</p>
+            </div>
+        </li>
+    </ul>
+
+  
+    <script src="../js/utils.js"> </script>
+  <script>
+      var news = document.getElementById('news');
+      var imgList = news.getElementsByTagName('img');
+      var jsonData = null;
+    //   请求数据
+      ~function(){
+          var xhr = new XMLHttpRequest();
+          xhr.open('get','./data.txt?_'+ Math.random(),false);
+          xhr.onreadystatechange = function () {
+              if(xhr.readyState == 4 && /^2\d{2}$/.test(xhr.status)){
+                var res = xhr.responseText;
+                jsonData = utils.jsonParse(res)
+
+              }
+          }
+          xhr.send(null);
+
+
+      }();
+    //  绑定数据
+    ~function(){
+        var str = '';
+        if(jsonData){
+            for(var i=0;i<jsonData.length;i++){
+                var curdata= jsonData[i];
+                str += '<li>';
+                str += '<div><img src=""  data-img="'+curdata.img+'"></div>';
+                str += '<div><h2>'+curdata.title+'</h2><p>'+curdata.desc+'</p></div>';
+                str += '</li>';
+                
+            }
+        }
+        news.innerHTML = str;
+    }();
+    // 封装函数 实现一张延时架子啊
+    function lazyImg(curImg){
+        var oImg = new Image;
+        oImg.src = curImg.getAttribute('data-img');
+
+        oImg.onload = function() {
+            curImg.src = this.src;
+            curImg.style.display = 'block';
+            fadeIn(curImg)  ; //实现 淡入
+            oImg = null;
+        }
+        curImg.isLoad = true;
+
+    }
+    // 淡入效果
+    function  fadeIn(curImg){
+        var duration = 500 ,interval= 10, target = 1;  //duration 周期
+        var step = (target / duration) * interval;
+        var timer = setInterval(function(){
+            var curOpacity = getCss(curImg,'opacity');
+            if(curOpacity >=1){
+                curImg.style.opacity = 1;
+                    clearInterval(timer)
+                    return;
+            }
+
+           curOpacity +=step;
+           curImg.style.opacity = curOpacity;
+
+        },interval)
+    }
+    // 循环处理每张图片
+    function handleAllImg () {
+        for(var i=0;i<imgList.length;i++){
+            var curImg = imgList[i];
+            if(curImg.isLoad){
+                continue;
+            }
+            // 图片没有高度 取父节点高度
+            var curParnet = curImg.parentNode;
+            // 当前的高+到body的高度 《 视口的高度+ 卷去的高度
+            var A = offset(curParnet).top + curParnet.offsetHeight;
+            var B = win('clientHeight') + win('scrollTop')
+          
+            // console.log(B)
+            if(A<B){
+                lazyImg(curImg)
+            }
+
+        }
+    }
+    // 500m后加载第一屏
+    setTimeout(function(){
+        handleAllImg ()
+    },500)
+    // 滚动时加载其他
+    window.onscroll = function () {
+        handleAllImg()
+
+    }
+
+
+    function offset(curEle) {
+        var left = null,
+            top = null,
+            parent = curEle.offsetParent;
+
+        left += curEle.offsetLeft;
+        top += curEle.offsetTop
+
+        while (parent) {
+            //累加父级参照物的边框
+            left += parent.clientLeft;
+            top += parent.clientTop;
+            //累加父级参照物本身的偏移量   
+            left += parent.offsetLeft;
+            top += parent.offsetTop;
+
+            parent = parent.offsetParent;
+        }
+
+        return {
+            left: left,
+            top: top
+        }
+
+    }
+
+    function win(attr, value) {
+        if (typeof value == 'undefined') { //说明value没传参。就获取属性
+            return document.documentElement[attr] || document.body[attr];
+        }
+        //设置属性
+        document.documentElement[attr] = value;
+        document.body[attr] = value;
+    }
+    function getCss(curEle,attr){
+          var val = null,reg=null;
+          if(window.getComputedStyle){ 
+            val = window.getComputedStyle(curEle,null)[attr];
+          }else{
+            // 如果传递进来是opacity 但在ie678不支持，
+            if(attr ==='opacity'){
+              val = curEle.currentStyle['filter'];
+              var reg1 = /^alpha\(opacity=(\d+(?:\.\d+)?)\)$/i; // 第一个分组(\d+(\.\d+)?)，第二个分组(?:\.\d+)?小数可能有 该分组不需要捕获 ?:
+              val = reg1.test(val) ?reg1.exec(val)[1]/100 : 1;
+            }else{
+              val = curEle.currentStyle[attr];
+            }
+          
+          }
+          reg = /^-?\d+(\.\d+)?(px|pt|em|rem)?$/i; 
+        
+          return reg.test(val) ? parseFloat( val) :  val;
+        
+        }
+  </script>
+</body>
+</html>

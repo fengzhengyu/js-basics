@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div id="div1">
+    <div></div>
+    <div></div>
+    <!-- sdd -->
+    <div id="div">
+      <p></p>
+      <p class="p2"></p>
+    </div>
+    <p></p>
+    <p></p>
+    <p id="div2"></p>
+  </div>
+  <script src="../js/utils.js"></script>
+  <script>
+    // 获取上一个哥哥元素节点
+    var div = document.getElementById('div1')
+    var cur = document.getElementById('div')
+    
+    // append() ：向指定容器末尾添加元素
+    
+    function append(newEle,container) {
+       container.appendChild(newEle)
+    }
+
+
+    // prepend() ：向指定容器开头添加元素 (将新元素添加到第一子元素之前)
+    function prepend(newEle,container){
+      var fir = firstChild(container);
+      if(fir){
+        container.insertBefore(newEle,fir);
+      }else{//如果一个元素节点也没有,
+        container.appendChild(newEle);
+      }
+    }
+ 
+
+    // insetBefore() ：向容器中指定元素(oldEle)的前面追加
+
+    function insetBefore(newEle,oldEle) {
+      oldEle.parentNode.insertBefore(newEle,oldEle);
+    }
+    var span = document.createElement('span')
+   
+    
+
+    // insetAfter() ：向容器中指定元素的后面追加  (添加到它弟弟的前面,如果弟弟不存，已是最后一个，让他的父节点把新元素方法哦末尾)
+    
+    function insetAfter(newEle,oldEle) {
+       var nex =  next(oldEle);
+       if(nex){
+         oldEle.parentNode.insertBefore(newEle,nex);
+         return
+       }
+       oldEle.parentNode.appendChild(newEle);
+    }
+
+  insetAfter(span, cur)
+
+      function firstChild(curEle){
+      var list = utils.children(curEle);
+      return list.length > 1 ? list[0] : null;
+    }
+    function next(ele) {
+      if (/MSIE (6|7|8)/i.test(navigator.userAgent)) {
+
+        var next = ele.nextSibling;
+
+        while (next && next.nodeType !== 1) {
+          next = next.nextElementSibling;
+
+        }
+        return next;
+      } else {
+        return ele.nextElementSibling;
+      }
+    }
+   
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+
+
+  <script>
+    // 获取页面元素的方法
+
+    document.getElementById()
+    document.getElementsByTagName()
+    document.getElementsByClassName() //ie678不兼容
+    document.getElementsByName() //在ie中 只对表单的元素起作用
+    document.body  //body
+    document.documentElement //html
+    document.querySelector() / document.querySelectorAll() //ie678不兼容 通过他两获取的节点集合不存在DOM映射
+
+    // 获取节点之间的关系
+    // childNodes //在标准浏览器会把空格换行当做文本节点
+    // children //ie678与标准浏览器获取的结果不一致
+    // parentNode//
+    // previousSibling//获取上个哥哥节点（元素文本都可能）
+    // reviousElementSibling //获取上个兄弟元素节点
+    // nextSibling //获取下一个兄弟节点（元素文本都可能）
+    // xtElementSibling //获取下一个兄弟元素节点
+    // lastChild/lastElementChild //获取最后一个子节点
+    // fristChild / fristElementChild()//获取第一个子节点
+
+    // dom 增改删
+    // createElement
+    document.createDocumentFragment()  //创建文档碎片
+    // appendChild()
+    // insertBefore()
+    // cloneNode(true/false) //克隆一个元素 true 子元素也克隆false 值克隆当前元素
+    // replaceChild()
+    // removeChild()
+    // get /set/ remove Attribute
+
+    // 与jquery中的作用方法一模一样
+    // function children() {}//获取某一个容器中的子节点，（可以筛选出指定标签名）
+    // function getElementClassName(){} //通过元素的样式名获取一组元素（兼容所有浏览器），jquery的一部分选择器也是基于它来做的
+    // 获取上个哥哥节点 prev()
+    // 获取下个弟弟节点 next()
+    // 获取所有哥哥元素节点 prevAll()
+    // 获取所有弟弟元素节点 nextAll()
+    // 获取相邻的两个元素节点 sibling()
+    // 获取所有兄弟节点 sibings()
+    // 获取第一个元素子节点 firstChild()
+    // 获取最后一个元素节点 lastChild()  //这两方法jquery也没有
+    // 获取当前元素索引 index()
+
+    // prepend() -> 与appendChild对应 增加到某一个容器开头
+    // insertAfter() -> 与insertBefore对应，增加容器中某一个元素后面
+
+    // addClass()
+    // removeClass()
+    // hasClass()
+    
+    // ->写一下三个就是jquery css()方法
+    // getCss()
+    // setCss()
+    // setGroupClass()
+
+  </script>
+</body>
+</html>

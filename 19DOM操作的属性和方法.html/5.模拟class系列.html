@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+
+    }
+
+    .box {
+      width: 200px;
+      height: 200px;
+    }
+
+    .bg {
+      background: #ff3333;
+    }
+
+    .border {
+      border: 5px solid green;
+
+    }
+
+    .position {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin: -100px 0 0 -100px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="box" class="box bg">
+
+  </div>
+  <script src="../js/utils.js"></script>
+  <script>
+    var box = document.getElementById('box');
+    // hasClass() :验证当前元素中是否包含className这个样式，包含是true
+    function hasClass(curEle, className) {
+      // if(curEle.className.indexOf(className) > -1){  //box22 box 都返回true
+      //   return true
+      // }
+      // 正则 字面量//之间必须是元字符  字符串拼接变量只能用实例
+      var reg = new RegExp("(^| +)" + className + "( +|$)"); //相当于 字面量 /(^| +)bg( +|$)/
+      return reg.test(curEle.className)
+    }
+    console.log(hasClass(box, 'box bg'))
+    console.log(hasClass(box, 'border'))
+    //  addClass()
+    // function addClass(curEle, className) {
+    //   // 
+    //   // 先判断有没有这个class
+    //   if(!hasClass(curEle, className)){
+    //     curEle.className += " "+className
+    //   }
+
+    // }
+    // addClass(box,'border bg') //传多个名字 重复去不了
+
+    function addClass(curEle, className) {
+      // 防止传多个className 先转换成数组 一个一个处理
+      var ary= className.replace(/^ +| +$/g,'').split(/ +/g); //首尾去空格一一个或多个空格分割,
+      for(var i=0;i<ary.length;i++){
+        var curName = ary[i];
+        if(!hasClass(curEle, curName)){
+          curEle.className += " "+curName;
+        }
+      }
+
+    }
+    addClass(box,'border bg position') 
+
+    // removeClass() :
+    function removeClass(curEle,className){
+      // 有就移除
+      var ary= className.split(/ +/g); 
+      for(var i=0;i<ary.length;i++){
+        var curName = ary[i];
+        if(hasClass(curEle, curName)){
+          var reg = new RegExp("(^| +)"+curName+"( +|$)","g");
+          curEle.className =  curEle.className.replace(reg," ");
+        }
+      }
+
+    }
+     
+  </script>
+</body>
+
+</html>

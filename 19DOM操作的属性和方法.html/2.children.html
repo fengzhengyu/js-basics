@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div id="div1">
+    <div></div>
+    <div></div>
+    <!-- sdd -->
+    <div>
+      <p></p>
+      <p></p>
+    </div>
+    <p></p>
+    <p></p>
+    <p></p>
+  </div>
+  <script src="../js/utils.js"></script>
+  <script>
+  
+    // 获取某一个容器中的子节点，（可以筛选出指定标签名）
+    var oDiv = document.getElementById('div1');
+    console.log(utils.children(oDiv,'p').length)
+    // console.log(oDiv.children.length) //在ie 注释也包括
+  // console.log(navigator.userAgent) //ie Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; Trident/4.0; SLCC2; .
+  //   console.log(children(oDiv,'p').length)
+    // 首先获取容器中的所有的子节点(childNodes)
+    // 
+    function children(ele,tagName) {
+      // /nodeType === 1  确定子元素
+      var ary = [];
+      // ie 678
+      if(/MSIE (6|7|8)/i.test(navigator.userAgent)){
+        var nodeList = ele.childNodes;
+        for (var i = 0, len = nodeList.length; i < len; i++) {
+          var curNode = nodeList[i];
+          if (curNode.nodeType === 1) { //nodeType 1 说明是元素
+
+            ary[ary.length] = curNode
+          }
+        }
+      }else{ //在标准浏览器使用children集合，但取得是类数组，为了保持一致，借用数组原型的slice 
+        ary = Array.prototype.slice.call(ele.children); //类数组转化为数组
+      }
+      
+
+      // 二次筛选
+      if(typeof tagName === 'string') {
+        for(var k = 0; k < ary.length; k++){ // k < ary.length 循环的时候length会跟着变
+          var curEleNode = ary[k];
+          if(curEleNode.nodeName.toLowerCase() !== tagName.toLocaleLowerCase()){ //不是我想要的标签
+            // 删除不是我的 
+            ary.splice(k,1);
+            k--;
+          }
+        }
+      }
+      return ary;
+    }
+  </script>
+</body>
+
+</html>
