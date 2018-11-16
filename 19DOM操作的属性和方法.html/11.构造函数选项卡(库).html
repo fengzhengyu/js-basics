@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>选项卡</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      font-size: 14px;
+    }
+    ul,li{
+      list-style: none;
+    }
+    .box {
+      width:500px;
+      margin: 10px auto;
+      
+      
+    }
+    .box ul {
+      overflow: hidden;
+      position: relative;
+      top: 1px;
+    }
+    .box ul li{
+      float: left;
+      margin-right: 15px;
+      width: 100px;
+      height: 30px;
+      border: 1px solid green;
+      cursor: pointer;
+      text-align: center;
+      line-height: 30px;
+    }
+    .box ul li.select{
+      background: lightblue;
+      border-bottom: 1px solid  lightblue;
+    }
+    .box div{
+      height: 150px;
+      line-height: 150px;
+      background: lightblue;
+      border: 1px solid green;
+      display: none;
+      text-align: center;
+    }
+    .box div.select{
+      display: block;
+    }
+
+    
+  </style>
+</head>
+
+<body>
+  <div id="tabFir" class="box">
+    <ul>
+      <li>页卡一</li>
+      <li>页卡二</li>
+      <li>页卡三</li>
+    </ul>
+    <div  >
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+      <div>4</div>
+    </div>
+    <div>内容2</div>
+    <div>内容3</div>
+  </div>
+
+  <div id="tabFir1" class="box">
+      <ul>
+        <li>页卡一</li>
+        <li>页卡二</li>
+        <li>页卡三</li>
+        <li>页卡三</li>
+      </ul>
+      <div  >
+       内容1
+      </div>
+      <div>内容2</div>
+      <div>内容3</div>
+      <div>内容4</div>
+    </div>
+  <script src="../js/utils.js"></script>
+  <script>
+    var tabFir = document.getElementById('tabFir');
+    var box= document.getElementById('tabFir1');
+  
+    
+    ~function(){
+      function TabChange(container,defaultIndex){
+        // return  this.init(container,defaultIndex)
+         this.init(container,defaultIndex)
+      }
+      TabChange.prototype = {
+        constructor: TabChange,
+        // 当前插件的唯一入口
+        init: function(container,defaultIndex) {
+          this.container = container || null;
+          this.defaultIndex = defaultIndex || 0;
+       
+          this.tabFirst = utils.firstChild(this.container);      
+          this.oLis  = utils.children( this.tabFirst );
+          this.oDivs = utils.children(this.container,'div');
+        
+          this.defaultIndexEven();
+          this.liveClick()
+          //  return this;
+        },
+        // 默认让当前元素按照索引来设置选中的页卡
+        defaultIndexEven: function(){
+          addClass(this.oLis[this.defaultIndex],'select');
+          addClass(this.oDivs[this.defaultIndex],'select');
+        },
+        // 事件委托实现事件绑定
+        liveClick: function() {
+          var _this =this;
+      
+          this.tabFirst.onclick = function(e){
+            e = e || window.event;
+            e.target = e.target || e.srcElement;
+            if(e.target.tagName.toLowerCase() === 'li'){
+              // this.detailFn.call(e.target,_this.oLis,_this.oDivs)
+              _this.detailFn(e.target);
+            }
+
+
+          }
+        },
+        detailFn: function(curEle)  {
+          var index = indexFn(curEle);
+          addClass(curEle,'select');
+          for(var i=0;i<this.oDivs.length;i++){
+            i ===index ? addClass(this.oDivs[i],'select') :(removeClass(this.oDivs[i],'select') ,removeClass(this.oLis[i],'select'))
+          }
+
+        }
+
+      }
+
+    window.Fengzheng = TabChange;
+      
+    }()
+   
+
+    var a =  new Fengzheng(tabFir,2);
+    var b =  new Fengzheng(box,0);
+   
+      b.a = 100
+    console.dir(a)
+    console.dir(b)
+    console.log(a.hasOwnProperty("init"))
+    console.log('init' in a)
+    console.log(b.hasOwnProperty("oDivs"))
+
+
+
+
+
+
+    
+     function hasClass(curEle, className) {
+      
+      var reg = new RegExp("(^| +)" + className + "( +|$)"); 
+      return reg.test(curEle.className)
+    }
+    
+    function addClass(curEle, className) {
+    
+      var ary= className.replace(/^ +| +$/g,'').split(/ +/g); 
+      for(var i=0;i<ary.length;i++){
+        var curName = ary[i];
+        if(!hasClass(curEle, curName)){
+          curEle.className += " "+curName;
+        }
+      }
+
+    }
+    function removeClass(curEle,className){
+      // 有就移除
+      var ary= className.split(/ +/g); 
+      for(var i=0;i<ary.length;i++){
+        var curName = ary[i];
+        if(hasClass(curEle, curName)){
+          var reg = new RegExp("(^| +)"+curName+"( +|$)","g");
+          curEle.className =  curEle.className.replace(reg," ");
+        }
+      }
+
+    }
+
+     // 获取当前元素索引
+     function indexFn(curEle){
+      // 索引就有几个哥哥
+      return prevAll(curEle).length;
+    }
+    // 获取所有哥哥元素节点
+    function prevAll(curEle) {
+      var ary = [];
+      var pre = prev(curEle); //首先获取当前元素哥哥节点
+      while (pre) {
+        ary.unshift(pre); //添加数组第一个
+
+        pre = prev(pre); //根据找到的继续往上找 找不到就是null;
+      }
+      return ary;
+    }
+    function prev(ele) {
+      if (/MSIE (6|7|8)/i.test(navigator.userAgent)) {
+       
+        // 首先获取当前元素的上一个哥哥节点，是否是元素节点，不是的话基于当前的继续找上面的哥哥元素节点...一直到找到哥哥元素节点位置，如果找到头没有，返回null
+        var pre = ele.previousSibling;
+
+        while (pre && pre.nodeType !== 1) { //pre存在不是元素节点 继续找
+          pre = pre.previousSibling;
+
+        }
+        return pre;
+      } else {
+        return ele.previousElementSibling;
+      }
+    }
+  </script>
+</body>
+
+</html>

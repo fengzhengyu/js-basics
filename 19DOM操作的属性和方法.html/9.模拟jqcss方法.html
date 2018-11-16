@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+
+    }
+
+    #box {
+      width: 200px;
+      height: 200px;
+      background: lime;
+      /* position: absolute;
+      top: 0;
+      left: 0; */
+      
+    }
+
+    
+  </style>
+</head>
+
+<body>
+  <div id="box">
+
+  </div>
+
+
+  <script src="../js/utils.js"></script>
+  <script>
+    var box = document.getElementById('box');
+
+    function setCss(curEle,attr,value){
+      // 在js设置float值 也得处理兼容
+      if(attr === 'float'){
+        curEle["style"]['cssFloat'] = value;
+        curEle["style"]['styleFloat'] = value;
+        return;
+      }
+      // 兼容处理  opacity
+      if(attr === 'opacity'){
+        curEle["style"]['opacity'] = value;
+        curEle["style"]['filter'] = "alpha(opacity="+value*100+")";
+        return;
+      }
+    
+      var reg = /^(width|height|top|bottom|left|right|((margin|padding)(Top|Bottom|Lfet|Right)?))$/;
+      if(reg.test(attr)){
+        if(!isNaN(value)){ 
+           value +='px'
+
+        }
+      }
+
+
+      curEle["style"][attr] = value
+
+    }
+    
+   
+    function setGroupCss (curEle,options) {
+      options = options || 0; //undefined null 没有toString
+      if(options.toString() !== "[object Object]") { 
+        return;
+      }
+    
+      for( var key in options){
+        if(options.hasOwnProperty(key)){ //必须是私有属性才行
+          setCss(curEle,key,options[key])
+        }
+      }
+    }
+    
+  
+   
+    // jquery中 提供了css()方法： 即可实现获取属性，还能设置属性，也可以批量设置
+
+    // 自己封装css()
+
+    function css(curEle){
+      var argTwo = arguments[1];
+      if(typeof argTwo === 'string'){ //对二哥参数是一个字符串，很有可能是在获取样式？ 判断是否有第三个如果有第三个就不是获取，而是设置属性值
+        var argThree = arguments[2];
+        if(!argThree){ //第三个参数不存在  是 获取
+          
+            //   return utils.getCss(curEle,argTwo)
+            return utils.getCss.apply(this,arguments)
+
+        }
+        // setCss(curEle,argTwo,argThree) //太Low
+        setCss.apply(this,arguments); //apply()执行这个函数并把一个个传参
+       
+      }
+      argTwo = argTwo || 0;
+
+      if(argTwo.toString() === "[object Object]"){
+        setGroupCss.apply(this,arguments)
+      }
+  
+    }
+  css(box,{
+    left: 20 ,
+    opacity: 0.2,
+    padding: 10,
+    float: 'right'
+
+  })
+  </script>
+</body>
+
+</html>

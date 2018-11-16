@@ -88,6 +88,10 @@ var utils = {
       }
     }
     return ary;
-  }
+  },
   // 
+  firstChild: function(curEle) {
+    var list = this.children(curEle);
+    return list.length > 1 ? list[0] : null;
+  }
 }

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>选项卡</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      font-size: 14px;
+    }
+    ul,li{
+      list-style: none;
+    }
+    .box {
+      width:500px;
+      margin: 10px auto;
+      
+      
+    }
+    .box ul {
+      overflow: hidden;
+      position: relative;
+      top: 1px;
+    }
+    .box ul li{
+      float: left;
+      margin-right: 15px;
+      width: 100px;
+      height: 30px;
+      border: 1px solid green;
+      cursor: pointer;
+      text-align: center;
+      line-height: 30px;
+    }
+    .box ul li.select{
+      background: lightblue;
+      border-bottom: 1px solid  lightblue;
+    }
+    .box div{
+      height: 150px;
+      line-height: 150px;
+      background: lightblue;
+      border: 1px solid green;
+      display: none;
+      text-align: center;
+    }
+    .box div.select{
+      display: block;
+    }
+
+    
+  </style>
+</head>
+
+<body>
+  <div id="tabFir" class="box">
+    <ul>
+      <li class="select">页卡一</li>
+      <li>页卡二</li>
+      <li>页卡三</li>
+    </ul>
+    <div  class="select">
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+      <div>4</div>
+    </div>
+    <div>内容2</div>
+    <div>内容3</div>
+  </div>
+
+
+  <script src="../js/utils.js"></script>
+  <script>
+    var tabFir = document.getElementById('tabFir'),
+    oLis = tabFir.getElementsByTagName('li'),
+    oDivs = tabFir.getElementsByTagName('div');
+
+    function changeTab(n){
+      for(var i=0;i<oLis.length;i++){
+        oLis[i].className= null;
+        oDivs[i].className = null;
+
+      }
+      oLis[n].className= 'select';
+      oDivs[n].className= 'select';
+    }
+    
+    for(var i=0;i<oLis.length;i++){
+      // oLis[i].onclick = function () {
+      //   changeTab(i)
+      // }
+      // 时间绑定属于异步编程
+      // 我们在给元素绑定事件的时候，绑定的这个方法还是只定义部分， 储存的是一串字符串“ function () { changeTab(i)} ”，我们看到的i只是一个字符
+      // 当点击的时候，执行对应的绑定的方法，形成一个私有作用A，A会使用变量i ，i不是私有变量会从上级作用域找i，此时的i已成为oLis.length;
+
+      // 解决方式一： 使用自定义属性：
+       //  当我们操作（获取、修改）当前元素的值，但还不想受执行顺序和环境的影响，最简单的方式，就是把其让在自己的自定属性上即可
+      // oLis[i].index = i; 
+     
+      // oLis[i].onclick = function () {
+      //   changeTab(this.index)
+      // }
+      
+      // 解决方式二： 使用闭包：
+      //  每一次循环形成一个私有空间 ，把i传进去，每次都是不同的i在当前作用域（弊端：形成多个私有作用域，占用空间）
+      // ~function(i){
+      //   oLis[i].onclick = function () {
+      //     changeTab(i)
+      //   }
+      // }(i)
+
+      // // 闭包的第二种写法
+      // oLis[i].onclick =(function(i){
+      //   return function(){
+      //     changeTab(i)
+      //   }
+      // })(i)
+      
+      oLis[i].index = i; 
+      oLis[i].onclick = function () {
+        changeTab(this.index)
+      }
+      
+    }
+  </script>
+</body>
+
+</html>

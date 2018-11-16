@@ -44,41 +44,55 @@
   <div class="w3"></div>
   <script src="../js/utils.js"></script>
   <script>
-    var box = document.getElementById('box');
-    // hasClass() :验证当前元素中是否包含className这个样式，包含是true
-    
-    var w  = document.getElementsByClassName('w3')
+    // var box = document.getElementById('box');
+    // // hasClass() :验证当前元素中是否包含className这个样式，包含是true
+
+    // var w = document.getElementsByClassName('w3')
     // console.log(w)
     // console.log(document.getElementsByClassName('w3   w1   ')) //必须同时含有 w3 w1 ,但与样式的顺序，之间有多少空格没有关系
     // console.log(document.getElementsByClassName('w4')) //没有 空集合
 
-    function getElementsByClassName(clasName,context){
+    function getElementsByClassName(clasName, context) {
       // className 可能是一个或多个
       // context: 可以在对应的上下文中获取，不传默认document
-      context =  context || document;
+      context = context || document;
       // 拆className
-      var ary = clasName.replace(/^ +| +$/g,'').split(/ +/g); //去掉首尾空格再拆分
+      var ary = clasName.replace(/(^ +| +$)/g, '').split(/ +/g); //去掉首尾空格再拆分
       // 获取指定上下文中的所有元素标签，循环这些标签，获取每一个标签的className样式名的字符串
-      console.log(ary)
+
       var nodeList = context.getElementsByTagName('*');
-      console.log(nodeList.length)
-      for(var i=0;i<nodeList.length;i++){
+
+      var newAry = [];
+      for (var i = 0; i < nodeList.length; i++) {
         var curNode = nodeList[i];
         // 判断curNode.className是否包含 ary 的className
 
-        for(var k=0;k<ary.length;k++){
-          var curName = ary[i];
+        var isOK = true; //假设curNode 包含所有样式
+        for (var k = 0; k < ary.length; k++) {
+    
+          var curName = ary[k];
           // 第一次循环得到w1
-          var reg = new RegExp("(^| +)"+ary[i]+"( +|$)");
-          if()
+          var reg = new RegExp("(^| +)" + ary[k] + "( +|$)");
+          // 第一次循环得到 /(^| +)w1( +|$)/
+          // 第二次循环得到 /(^| +)w3( +|$)/
+          if (!reg.test(curNode.className)) { //不存在//停止循环
+            isOK = false;
+            break; 
+
+          }
+
         }
-        console.log(curNode.className)
+        // 拿拆解的每一样式名分别与所有的样式名比较循后，还是true的话，说明当前元素标签包含了我们想要的 
+        if (isOK) { //
+          newAry.push(curNode)
+        }
+
       }
+      return newAry;
 
     }
 
-console.log(getElementsByClassName('w1 w3 '))
-
+    console.log(getElementsByClassName('    w3 ').length)
   </script>
 </body>
 
