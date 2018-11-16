@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>匀速运动的两种思想</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .box {
+      width: 100px;
+      height: 100px;
+      background: lightcoral;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .btn{
+      width: 400px;
+      margin: 400px auto;
+    }
+    .btn button{
+      width: 100px;
+      height: 30px;
+      margin-left: 30px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box" id="box"></div>
+  <div class="btn">
+      <button>向左</button>
+      <button>向右</button>
+  </div>
+  
+
+  <script src="../js/utils.js"></script>
+  <script>
+    var box = document.getElementById('box')
+
+    var maxWidth = utils.win('clientWidth') - box.offsetWidth;
+    var btnLeft = document.getElementsByTagName('button')[0];
+    var btnRight = document.getElementsByTagName('button')[1];
+    var minWidth = 0;
+    var step = 6;
+    var timer = null;
+   
+    function move(target){
+      console.log(target)
+      clearTimeout(timer);
+      var curLeft =  box.offsetLeft;
+    
+      if(curLeft+step < target){ //向右
+        if( curLeft >= target){
+          box.style.left = target  +'px';
+          return
+        }
+        curLeft+=  step;
+        box.style.left = curLeft   +'px';
+      }else if(curLeft > target){
+        if( curLeft -step <= target){
+          box.style.left = target  +'px';
+          return
+        }
+        curLeft-=  step;
+        box.style.left = curLeft   +'px';
+      }else{
+        //不走
+       return;
+      }
+    
+
+     // 这么写 浪费内存：因为move 每执行，先执行setTimeoutn匿名函数形成私有作用域 move里的target先找本次没有，在找匿名函数，在找上面的。匿名函数的作用域始终不销毁。
+    //  想要不浪费 不要给move传参
+
+      timer = setTimeout(function(){
+         move(target)
+      },10)
+    }
+  
+    btnLeft.onclick = function (){
+      move(minWidth)
+    }
+    btnRight.onclick = function (){
+      move(maxWidth)
+    }
+
+  </script>
+
+</body>
+
+</html>

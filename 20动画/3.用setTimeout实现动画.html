@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>匀速运动的两种思想</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .box {
+      width: 100px;
+      height: 100px;
+      background: lightcoral;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box" id="box"></div>
+
+  <script src="../js/utils.js"></script>
+  <script>
+    var box = document.getElementById('box')
+
+    var maxWidth = utils.win('clientWidth') - box.offsetWidth;
+    var step = 6;
+    var timer = null;
+   
+    function move(){
+      clearTimeout(timer); //不清楚 每次执行都会有一个定时器
+      var curLeft =  box.offsetLeft;
+    
+      if( curLeft +step >= maxWidth){//加一步
+        box.style.left = maxWidth   +'px'; 
+        clearTimeout(timer);
+        return;
+      }
+      curLeft+=  step;
+      console.log(curLeft)
+      box.style.left = curLeft   +'px';
+
+      timer = setTimeout(move,10)
+    }
+    move()
+    
+
+  </script>
+
+</body>
+
+</html>

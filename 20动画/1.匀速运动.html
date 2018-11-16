@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>匀速运动的两种思想</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .box {
+      width: 100px;
+      height: 100px;
+      background: lightcoral;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box" id="box"></div>
+
+  <script src="../js/utils.js"></script>
+  <script>
+    var box = document.getElementById('box')
+
+    var maxWidth = utils.win('clientWidth') - box.offsetWidth;
+    var duration = 2000;
+    var interval = 10;
+    var step = (maxWidth/duration)* interval;
+
+    // 计算步长方法
+    var timer = setInterval(function(){
+      var curLeft =  box.offsetLeft;
+      if( curLeft >= maxWidth){
+        clearInterval(timer);
+        return;
+      }
+      curLeft+=  step;
+
+      box.style.left = curLeft   +'px';
+    },interval)
+
+    //  根据所有距离所用时间占比： time/duration* maxWidht
+    // var target = utils.win('clientWidth') - box.offsetWidth; //终点
+    // var begin = box.offsetLeft; //起点
+    // var change = target - begin; //总距离
+    // var duration = 2000; //周期
+    // var time = null; //事件
+
+
+    //   //自己写公式： 当前走的时间/总时间 * 总距离+ 起点
+    // function Linear(t, b, c, d) {
+    //   return c * (t / d) + b;
+    // }
+    // var timer = setInterval(function(){
+    //     time +=10;
+    //     if(time >= duration ){
+    //       clearInterval(timer);
+    //       return;
+    //     }
+    //     var curPos = Linear(time,begin,change,duration)
+
+    //   console.log(curPos )
+        
+    //     box.style.left =  curPos  +'px';
+    // },10)
+
+  </script>
+
+</body>
+
+</html>
