@@ -37,7 +37,7 @@
   <script>
     var box = document.getElementById('box');
     var curLeft = utils.getCss(box,'left');
-    console.log(curLeft)
+ 
     // 给元素设置样式，只能通过 curEle.style[attr] = value;这种方式给当前元素设置样式
     box.style.left = 100+'px';
 
@@ -60,9 +60,13 @@
 
       // 队友某些样式，如果传递进来没有单位，我们需要把单位默认补上
       // 
-      var reg = /^(width|height|top|bottom|left|right|((margin|padding)(Top|Bottom|Lfet|Right)?))$/;
+      var reg = /^(width|height|top|bottom|left|right|((margin|padding)(Top|Bottom|Left|Right)?))$/;
+      console.log(attr)
+   
       if(reg.test(attr)){
+    
         if(!isNaN(value)){ //如果为true 不是有效数字需要加单位,取封说明是有效数字
+          console.log('2ok')
            value +='px'
 
         }
@@ -72,9 +76,17 @@
       curEle["style"][attr] = value
 
     }
-    setCss(box,'left','30%')
-    setCss(box,'opacity','0.2')
-    setCss(box,'float','right')
+ 
+   
+    // utils.setCss(box,'left','30%')
+    // utils.setCss(box,'opacity','0.2')
+    // utils.setCss(box,'float','right')
+    utils.setCss(box,'paddingTop','10px')
+
+ 
+ var reg = /^(width|height|top|bottom|left|right|((margin|padding)(Top|Bottom|Left|Right)?))$/;
+   console.log(reg.test('padding'))
+   console.log(isNaN('100'))
   </script>
 </body>
 

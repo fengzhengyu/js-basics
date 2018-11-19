@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>匀速运动的两种思想</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .box {
+      width: 100px;
+      height: 100px;
+      background: lightcoral;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .btn{
+      width: 400px;
+      margin: 400px auto;
+    }
+    .btn button{
+      width: 100px;
+      height: 30px;
+      margin-left: 30px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box" id="box"></div>
+  <div class="btn">
+      <button>向左</button>
+      <button>向右</button>
+  </div>
+  
+
+  <script src="../js/utils.js"></script>
+  <script>
+    var box = document.getElementById('box')
+
+    var maxWidth = utils.win('clientWidth') - box.offsetWidth;
+    var btnLeft = document.getElementsByTagName('button')[0];
+    var btnRight = document.getElementsByTagName('button')[1];
+    var minWidth = 0;
+    var step = 6;
+   
+   
+
+    function move(target){
+      // move 只执行一次，然后执行 _move()，小move中有延时执行始终是小move
+      // var timer = null;
+      // timer为局部变量，点击向左走形成私有作用域A,点击向右走，形成私有作用域B,二每次清除的都是当前的timer  ,而全局timer 用的是同一个timer。
+      // 为了让当前元素同时间只运行一个动画（下一个动画开始的时候，清除上一个动画的定时器），保证当前所有动画的接受定时器返回值的变量共享
+      // 放到当前元素的自定义属性上 。
+      _move();
+      function _move(){
+        clearTimeout(box.timer);
+        var curLeft =  box.offsetLeft;
+    
+        if(curLeft < target){ //向右 
+          if( curLeft+step >= target){ //如果当前 + 一步 >=目标值，就直接等于目标值
+            box.style.left = target  +'px';
+            return
+          }
+          curLeft+=  step;
+          box.style.left = curLeft   +'px';
+        }else if(curLeft > target){
+          if( curLeft -step <= target){//如果当前 - 一步 <=目标值，就直接等于目标值
+            box.style.left = target  +'px';
+            return
+          }
+          curLeft-=  step;
+          box.style.left = curLeft   +'px';
+        }else{
+          //不走
+        return;
+        }
+
+        box.timer = setTimeout(_move,10)
+      }
+      
+    }
+
+  
+    btnLeft.onclick = function (){
+      move(minWidth)
+    }
+    btnRight.onclick = function (){
+      move(maxWidth)
+    }
+
+    // 动画优化：
+    // 一： 边界判断需要加步长
+    // 二： 清除没用的定时器
+    // 三： 如果move需要传参，在当前函数写个小move函数，防止作用域堆积
+    // 四： 保证前元素同时间只运行一个动画，把定时器的返回值放在当前元素的自定义属性上
+
+  </script>
+
+</body>
+
+</html>

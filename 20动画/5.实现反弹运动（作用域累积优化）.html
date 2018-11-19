@@ -51,38 +51,38 @@
     var step = 6;
     var timer = null;
    
+
     function move(target){
-      console.log(target)
-      clearTimeout(timer);
-      var curLeft =  box.offsetLeft;
+      // move 只执行一次，然后执行 _move()，小move中有延时， 
+      _move()
+      function _move(){
+        clearTimeout(timer);
+        var curLeft =  box.offsetLeft;
     
-      if(curLeft < target){ //向右
-        if( curLeft+step >= target){ //如果当前 + 一步 >=目标值，就直接等于目标值
-          box.style.left = target  +'px';
-          return
+        if(curLeft < target){ //向右 
+          if( curLeft+step >= target){ //如果当前 + 一步 >=目标值，就直接等于目标值
+            box.style.left = target  +'px';
+            return
+          }
+          curLeft+=  step;
+          box.style.left = curLeft   +'px';
+        }else if(curLeft > target){
+          if( curLeft -step <= target){//如果当前 - 一步 <=目标值，就直接等于目标值
+            box.style.left = target  +'px';
+            return
+          }
+          curLeft-=  step;
+          box.style.left = curLeft   +'px';
+        }else{
+          //不走
+        return;
         }
-        curLeft+=  step;
-        box.style.left = curLeft   +'px';
-      }else if(curLeft > target){
-        if( curLeft -step <= target){ //如果当前 - 一步 <=目标值，就直接等于目标值
-          box.style.left = target  +'px';
-          return
-        }
-        curLeft-=  step;
-        box.style.left = curLeft   +'px';
-      }else{
-        //不走
-       return;
+
+        timer = setTimeout(_move,10)
       }
-    
-
-     // 这么写 浪费内存：因为move 每执行，先执行setTimeoutn匿名函数形成私有作用域 move里的target先找本次没有，在找匿名函数，在找上面的。匿名函数的作用域始终不销毁。
-    //  想要不浪费 不要给move传参
-
-      timer = setTimeout(function(){
-         move(target)
-      },10)
+      
     }
+
   
     btnLeft.onclick = function (){
       move(minWidth)
