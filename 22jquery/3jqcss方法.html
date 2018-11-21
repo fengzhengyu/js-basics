@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>jquery</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    #box{
+      width: 200px;
+      height: 200px;
+      background: lightcoral;
+      overflow: hidden;
+      position: relative;
+      padding: 20px;
+      margin: 30px;
+      border: 10px solid #000;
+    }
+    .div2{
+      margin: 10px;
+      width: 200px;
+      height: 200px;
+      background: lightblue;
+    }
+  
+  </style>
+</head>
+<body>
+
+  <div id="box"  >
+    <div></div>
+    <div class="div2"></div>
+    <div></div>
+    <p>ee</p>
+  </div>
+
+
+  <script src="js/jquery.js"></script>
+  <script>
+  
+  
+  $(function(){
+    $box = $('#box');
+    // 1.css() :设置、获取、批量设置
+    console.log($box.css('width')) //1920 px
+    
+
+    // 2. offset() 不管父级参照物，获取当前元素与body的偏移量 ； position() : 获取当前元素距离父级参照物的的偏移量
+    console.log($box.offset())
+    console.log($('.div2').offset()) //据body 
+    console.log($('.div2').position()) //据 box
+    // 3. scrollTop() scrollLeft() 获取或设置浏览器卷去的值
+    // 4. innerWidth innerHeight  获取或设置元素可视区域值（获取时相当云 clientWidth/clientHeight不含边框,设置时，保留padding值，把width/height 值设置）
+    // 5. outerWidth outerHeight 获取或设置元素可视区域值（包括边框，设置如上面)，但是如果传 true 获取margin 的值
+    // 6. width() height() 
+  
+    console.log($box.innerWidth("300")) 
+    console.log($box.outerWidth(true))
+
+    // append()  添加原生对象和jq对象都行
+    var div = document.createElement('div')
+    div.id = 'div5'
+      $box.append(div)
+    // appendTo()  元素.appendTo(容器)
+    var div6 = document.createElement('div')
+    div6.id = 'div6'
+    // div6.appendTo($box) //js对象不能
+    $(div6).appendTo($box) //jq对象元素才可以
+
+    // after（）before() 在当前元素前 后添加新元素(同级)
+     $box.after($('p'))
+    // insertBefore() insetAfter() 把选择器获取的元素追到到容器的前后面 (同级)
+    // $('p').insertBefore($box)
+    
+    // replaceAll() 指定的 HTML 内容或元素替换被选元素。
+    // $("p").replaceAll("<b>Hello world!</b>"); 把所有的p 替换成 B Hello world B
+
+    // empty()删除匹配的元素集合中所有的子节点。
+    // clone()创建匹配元素集合的副本，副本中不包含事件处理器；参数为true，也克隆时间
+
+    // 筛选： eq(index) / first() last()  filter()匹配的元素会被返回。 not(className 带点) 方法返回不匹配标准的所有元素。
+    // children（） find()获得当前匹配元素集合中每个元素的后代，由选择器进行筛选。
+
+  })
+  </script>
+  
+</body>
+</html>

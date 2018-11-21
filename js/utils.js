@@ -252,6 +252,7 @@ var utils = {
     var val = null,
       reg = null;
     if (window.getComputedStyle) {
+    
       val = window.getComputedStyle(curEle, null)[attr];
     } else {
       // 如果传递进来是opacity 但在ie678不支持，
@@ -265,7 +266,7 @@ var utils = {
 
     }
     reg = /^-?\d+(\.\d+)?(px|pt|em|rem)?$/i;
-
+    
     return reg.test(val) ? parseFloat(val) : val;
 
   },
@@ -284,7 +285,7 @@ var utils = {
       return
     }
      //某些样式，如果传递进来没有单位，我们需要把单位默认补上
-     var reg =/^(width|height|top|right|bottom|left|((margin|padding)(Top|Right|Bottom|Left)?))$/
+     var reg =/^(width|height|top|right|bottom|left|((margin|padding)(Top|Right|Bottom|Left)?))$/;
      if(reg.test(attr)){
        if(!isNaN(value)){ //符合正则，且是有效数字
         value +='px';
@@ -310,10 +311,10 @@ var utils = {
   },
   // 模拟 jquert css() 即可实现获取属性，还能设置属性，也可以批量设置
   css: function(curEle){
-  
+
     if(typeof arguments[1] === 'string'){
      
-      if(!arguments[2]){ //第三个参数不存在
+      if(typeof arguments[2] === 'undefined'){ //第三个参数不存在
       
         return this.getCss.apply(this,arguments); 
 

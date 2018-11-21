@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>轮播图</title>
+  <style>
+  
+      *{
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        font-size: 14px;
+      }
+      img{
+        display: block;
+        border: none;
+      }
+      a:link,a:hover,a:active,a:visited{
+        color: #000;
+        text-decoration: none;
+      }
+      .banner{
+        position: relative;
+        margin: 20px auto;
+        width: 1000px;
+        overflow: hidden;
+        height: 300px;
+      }
+      .banner .inner{
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 300px;
+        width: 1000px;
+        background: lightpink;
+      
+      
+      }
+      .banner .inner div{
+        position: absolute;
+        top: 0;
+        left: 0;
+       
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        filter: alpha(opacity=0)
+      }
+      .banner .inner div img{
+        display: none;
+        width: 100%;
+        height: 100%;
+        /* opacity: 0;
+        filter: alpha(opacity=0) */
+      }
+      .banner .inner span{
+        width: 1000px;
+        height: 300px;
+        font-size: 50px;
+        color: #f00;
+        float: left;
+        text-align: center;
+        line-height: 300px;
+      }
+      .banner .inner span:nth-child(1){
+        background: lightblue;
+      }
+      .banner .inner span:nth-child(2){
+        background: lightgoldenrodyellow;
+      }
+      .banner .inner span:nth-child(3){
+        background: lightgreen;
+      }
+      .banner .inner span:nth-child(4){
+        background: lightcoral;
+      }
+      .banner .paginate{
+        z-index: 10;
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+      }
+      .banner .paginate li{
+        margin-left: 10px;
+        height: 18px;
+        width: 18px;
+        border-radius: 50%;
+        background: lightseagreen;
+        cursor: pointer;
+        float: left;
+      }
+      .banner .paginate li.bg{
+        background: #f00;
+      }
+      .banner a{
+        position: absolute;
+        width: 30px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        top: 50%;
+        margin-top: -20px;
+        font-size: 20px;
+        background: rgb(0,0,0);
+        color: #fff;
+        opacity: 0.2;
+        filter: alpha(opacity=50);
+        display: none;
+        z-index: 10;
+
+
+      }
+      .banner a:hover{
+        opacity:1 ;
+        filter: alpha(opacity=100);
+      }
+      .banner a.btn-left{
+        left: 5px;
+      }
+      .banner a.btn-right{
+       right: 5px;
+      }
+
+
+  </style>
+</head>
+<body>
+
+
+  <div class="banner" id="banner">
+    <div class="inner" >
+    </div>
+    <ul class="paginate">
+    </ul>
+    <a href="javascript:;" class="btn-left">&lt;</a>
+    <a href="javascript:;" class="btn-right">&gt;</a>
+  </div>
+  <div class="banner" id="banner1">
+      <div class="inner" >
+      </div>
+      <ul class="paginate">
+      </ul>
+      <a href="javascript:;" class="btn-left">&lt;</a>
+      <a href="javascript:;" class="btn-right">&gt;</a>
+    </div>
+
+    <script src="../js/utils.js"></script>
+    <script src="../js/tween1.js"></script>
+    <script src="js/AutoBanner.js"></script>
+    <script>
+      
+      var banner1 = new AutoBanner('banner','js/data1.txt',1000)
+      var banner2 = new AutoBanner('banner1','js/data2.txt')
+     
+    </script>
+    
+</body>
+</html>

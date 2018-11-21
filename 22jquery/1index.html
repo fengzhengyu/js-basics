@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>jquery</title>
+</head>
+<body>
+
+  <div id="div1"></div>
+
+
+  <script src="js/jquery.js"></script>
+  <script>
+  // jq获取的结果是一个jq对象，不能使用浏览器天生自带的属性与方法
+  var $div = $('#div1');
+  
+  console.dir( $div ) //init(1)[0: div#div1,context: document]
+  // js 获取的结果是元素、集合、浏览器天生自带的属性等
+  var oDiv = document.getElementById('div1');
+  console.dir(oDiv) //context: document
+
+  // 原js对象与jq对象不能互相使用彼此的方法，各有各的方法
+  // 关于js对象与jq对象之间的转换：
+  //  ->js转jq: $(原生js对象)
+    console.log($(oDiv))
+   
+  //  ->jq转js: 直接通过索引获取对应的元素的对象即可
+  console.log($div[0])  // $div[0] === $div.get(0)都是通过索引获取指定位置元素对象
+
+
+
+   // $('#div li') 在子子孙孙中查找
+   // $('#div>li') 在子集中查找
+   // $('#div+') 获取他的下个弟弟
+   // $('#div+ul')获取他的下个弟弟且标签名为ul的元素，没后返回[]
+   // $('#div~') 获取她所有弟弟元素
+  // $('#div~ul') 获取她所有弟弟元素中标签名为 ul的所有元素
+  // $('#div>div:first') 获取子元素的第一个元素  $('#div:first')这么写没意义 
+  // $('#div>div:last')
+  // $('#div>div:not(#div)') //除了谁（括号里可以是id clss 标签名）
+  // $('#div>div:even') 获取所有 偶数
+  // $('#div>div:odd') 获取所有 奇数
+    // $('#div>div:eq(1)') 通过索引获取集合中某一个，结果是jq对象
+    // $('#div>div:lt()') 获取所有小于索引集（不包含索引）
+    // $('#div>div:gt()') 获取所有大于索引集（不包含索引）
+    // $('#div>div:header')h1-h6
+    // $('#div>div:contains("宇哥")') 获取所有内容包含“宇哥”的集合
+    // $('#div>div:has(ul)')获取所有内容是ul的集合
+
+    // 属性选择器
+    // $('#div>div[id]') 获取div下 所有带有id 的元素
+    // $('#div>div[id="p"]')  获取div下 id为p的元素
+    // $('#div>div[id!="p"]')  获取div下 id不为p的元素
+    // $('#div>div[id$=".jpg"]') 获取div下 id为.jpg结尾的元素
+    //
+    // 表单选择器
+
+    // $(":input") //所有 <input> 元素
+    // $(":text") //所有 type="text" 的 <input> 元素
+    // $(":password") //...
+    // 表单选中选择器
+    // $(":disabled")  //所有禁用的 input 元素
+
+  </script>
+  
+</body>
+</html>

@@ -1,0 +1,7 @@
+[
+  {"img":"img/banner1.jpg","desc": "足下生暖，心中知暖"},
+  {"img":"img/banner2.jpg","desc": "相见恨晚厨中神器"},
+  {"img":"img/banner3.jpg","desc": "升级你的职业范"},
+  {"img":"img/banner4.jpg","desc": "让舒适与性感碰撞"},
+   {"img":"img/banner5.jpg","desc": "牛津衬衫"}
+]

@@ -5,7 +5,7 @@
   var Tween = {
     // 匀速
     Linear: function (t, b, c, d) {
-      return c * t/d + b;
+      return c * t / d + b;
     },
     // 指数衰减的反弹缓动
     Bounce: {
@@ -193,27 +193,61 @@
     *curEle 当前需要操作的元素，
     *target 当前动画的目标位置，存储每个方向的目标位置{left:'',top:''}
     *duration 当前动画总时间
+    *effect 运动方式
+    *callback 回调函数
   */
-  function move (curEle, target, duration,callback) {
-   
+  function move (curEle, target, duration,effect,callback) {
+    //  effect 支持以下情况：
+    //  1）如果传递进来是数字： 0->Linear 1->Circ.easeInOut 2->Elastic.easeOut 3->Back.easeOut 4-> Bounce.easeOut 5-> Expo.easeIn
+    //  2) 如果传递进来是数组：["Bounce","easeOut"] ->Tween.Bounce.easeOut
+    //  3) 如果不传，默认用 Tween.Linear
+    var tempEffect = Tween.Linear;
+    if(typeof effect === 'number'){
+       
+        switch(effect){
+            case 0:
+                tempEffect = Tween.Linear;
+                break;
+            case 1:
+                tempEffect = Tween.Circ.easeInOut;
+                break; 
+            case 2:
+                tempEffect = Tween.Elastic.easeOut;
+                break;
+            case 3:
+                tempEffect = Tween.Back.easeOut;
+                break; 
+            case 4:
+                tempEffect = Tween.Bounce.easeOut;
+                break; 
+            case 5:
+                tempEffect = Tween.Expo.easeIn;
+        }
+    }else if(effect instanceof Array){
+     
+        tempEffect = effect.length >= 2 ? Tween[effect[0]][effect[1]] :Tween[effect[0]];
+    }else if(typeof effect === 'function'){
+        // effect没传递值，应该是回调函数
+    
+        callback = effect;
+    }
+       
+    
+    
     // 进来先清除之前的定时器
     clearInterval(curEle.timer);
-   
+
 
     // 根据target 获取每一个方向的总距离与起始值
-
     var begin ={},change ={};
     for(var key in target){
-       
       // key就是放行
       if(target.hasOwnProperty(key)){ //只遍历私有属性
-       
-        begin[key] = utils.css(curEle,key); //初始化开始值
+        begin[key] = utils.css(curEle,key) //初始化开始值
         change[key] = parseInt(target[key]) - parseInt(begin[key]);//目标-起始
       
       }
     }
-    console.log( change[key] )
     // 实现多方向运动方向
     var time = 0;
 
@@ -221,8 +255,8 @@
       time += 10;
       // 到达目标值
       if(time >= duration){
-
-        utils.css(curEle,target) //批量设置目标值
+        // CSS(curEle,target) 批量设置目标值
+        utils.css(curEle,target)
         clearInterval(curEle.timer);
 
         // 运动完回调,还让函数中this 变为要操作的元素
@@ -234,7 +268,7 @@
       for(var key in target){
         // key就是放行
         if(target.hasOwnProperty(key)){ //只遍历私有属性
-          var curPos = Tween.Linear(time,begin[key],change[key],duration);
+          var curPos = tempEffect(time,begin[key],change[key],duration);
           // CSS(curEle,key,curPos)
           utils.css(curEle,key,curPos);
         }

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>jquery</title>
+</head>
+<body>
+
+  <div id="div1">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+
+
+  <script src="js/jquery.js"></script>
+  <script>
+  
+  // $(document).ready(function(){})  ===   $(function(){})相当于 原生js window.onload,但在页面中科院多次用
+  
+  // 页面结构加载完毕后执行，同时生成私有作用域（形成闭包）
+  $(function(){
+
+    // attr 获取、设置属性  removeAttr 移除
+    // $('#div1').attr('data-id',110);
+    // $('#div1').removeAttr('data-id',110);
+    // $('#div1').attr({ //批量设置
+    //   index:1,
+    //   name: 'aaa'
+    // })
+
+    // // prop 也是设置属性，与attr不同的两套方式，各是各的一套，不能混用
+    // // prop不是内置属性不能在html中体现（但是可以获取到值），内置属性可以体现出来，内置如： class /id / style ....
+    // $('#div1').prop('data-id',110); //体现不出
+    // $('#div1').prop('id',110); //体现出
+    // $('#div1').removeProp('data-id');
+    // $('#div1').prop({ //批量设置
+    //   index:1,
+    //   name: 'aaa'
+    // })
+    // attr 与 prop 的区别：
+    //  attr 用来设置和操作元素的自定义属性的
+    //  prop 用来设置和操作内置属性的，（尤其是表单元素的操作，我们都是用prop）
+
+
+
+    // addClass removeClass  toggleClass() ->有就移除，没有就添加
+    
+    
+    // jq内置遍历循环机制，与手动循环
+    var divList =  $('#div1 div');
+    // divList.addClass('ww') //通过jq选择器获取的集合，使用方法，相当于每个元素都调取了对应的方法（jq内置循环操作）
+
+    // for(var i=0;i<divList.length;i++){
+    //   console.log(divList[i]) //是js对象没有 addClass()，z转换jq对象
+    //   // divList[i].addClass('inner')
+    //   $(divList[i]).addClass('inner');
+    // }
+
+    // jq 循环方法
+    divList.each(function(i,item){  //forEach(item,i)
+      // $(item).addClass('inner'); //  ====$(this).addClass('inner');
+
+      $(this).addClass('inner');
+
+    })
+
+    // html()  text()  val()->获取和设置表单元素的value 值
+
+    
+
+  })
+  </script>
+  
+</body>
+</html>
