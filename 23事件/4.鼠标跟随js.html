@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+  <style>
+
+      *{
+        margin: 0;
+        padding: 0;
+
+      }
+     
+      #box{
+        width: 300px;
+        height: 300px;
+        background: greenyellow;
+        margin: 20px auto;
+        position: relative;
+    
+      }
+      
+      #box #mark{
+          position: absolute;
+          top: 0;
+          left: 0;
+          width:100px;
+          height: 100px;
+         background: red;
+      
+      }
+      
+
+
+  </style>
+</head>
+<body>
+    <div id="box" class="box">
+    
+     
+    </div>
+
+   
+  
+    <script>
+      /* 
+        由于鼠标移动过快，鼠标会进入mark这个盒子，触发了他的mouseover事件，由于事件的冒泡机制，导致box 的mouseover会重新触发
+         var box = document.getElementById('box');
+        box.onmouseover = function(e){
+          e = e || window.event;
+          var mark = document.createElement('div');
+          mark.id = 'mark';
+          this.appendChild(mark);
+          mark.style.left = e.clientX -this.offsetLeft +5 +'px';
+          mark.style.top = e.clientY -this.offsetTop +5 +'px';
+         
+        }
+        box.onmousemove = function(e){
+          e = e || window.event;
+          var mark = document.getElementById('mark');
+          if(mark){
+            mark.style.left = e.clientX -this.offsetLeft +5 +'px';
+           mark.style.top = e.clientY -this.offsetTop +5 +'px';
+          }
+          
+        }
+      
+        解决： 要阻止mark事件的冒泡
+      */
+   
+        // var box = document.getElementById('box');
+        // box.onmouseover = function(e){
+        //   e = e || window.event;
+        //   var mark = document.createElement('div');
+        //   mark.id = 'mark';
+        //   this.appendChild(mark);
+        //   mark.style.left = e.clientX -this.offsetLeft +5 +'px';
+        //   mark.style.top = e.clientY -this.offsetTop +5 +'px';
+        //   // 鼠标划得太快会进入mark 那么进入mark阻止事件冒泡 （光阻止还不行， 从mark 进入box 又会触发over事件，鼠标离开box就删除mark 保证每一次只创建一个）
+        //   mark.onmouseover = function(e){
+        //     e = e || window.event;
+        //     e.stopPropagation? e.stopPropagation() : e.cancelable = true;
+        //   }
+        //   mark.onmouseout = function(e){
+        //     e = e || window.event;
+        //     e.stopPropagation? e.stopPropagation() : e.cancelable = true;
+        //   }
+        // }
+        
+        // box.onmousemove = function(e){
+        //   e = e || window.event;
+        //   var mark = document.getElementById('mark');
+        //   if(mark){
+        //     mark.style.left = e.clientX -this.offsetLeft +5 +'px';
+        //    mark.style.top = e.clientY -this.offsetTop +5 +'px';
+        //   }
+          
+        // }
+
+        // // 鼠标离开就删除mark 保证每一次只创建一个
+        // box.onmouseout = function(){
+        //   var mark = document.getElementById('mark');
+        //   if(mark){
+        //     this.removeChild(mark);
+        //   }
+        // }
+        // 以上方法 还会闪  是因为 离开mark 相当于 mark的mouseout 执行， 它又会事件传播， 触发 box.onmouseout
+
+
+
+        // onmouseenter onmouseleave  默认阻止事件冒泡， 再快只执行一次, onmouseoveronmouseout ,不会阻止事件冒泡，使用需要手动阻止事件传播
+        var box = document.getElementById('box');
+        box.onmouseenter = function(e){
+          e = e || window.event;
+          var mark = document.createElement('div');
+          mark.id = 'mark';
+          this.appendChild(mark);
+          mark.style.left = e.clientX -this.offsetLeft +5 +'px';
+          mark.style.top = e.clientY -this.offsetTop +5 +'px';
+          // 鼠标划得太快会进入mark 那么进入mark阻止事件冒泡 （光阻止还不行， 从mark 进入box 又会触发over事件，鼠标离开box就删除mark 保证每一次只创建一个）
+         
+        }
+        
+        box.onmousemove = function(e){
+          e = e || window.event;
+          var mark = document.getElementById('mark');
+          if(mark){
+            mark.style.left = e.clientX -this.offsetLeft +5 +'px';
+           mark.style.top = e.clientY -this.offsetTop +5 +'px';
+          }
+          
+        }
+
+        // 鼠标离开就删除mark 保证每一次只创建一个
+        box.onmouseleave = function(){
+          var mark = document.getElementById('mark');
+          if(mark){
+            this.removeChild(mark);
+          }
+        }
+    
+    </script>
+</body>
+</html>

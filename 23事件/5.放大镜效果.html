@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+  <style>
+
+      *{
+        margin: 0;
+        padding: 0;
+
+      }
+      img{
+        display: block;
+        border: none;
+      }
+      #box{
+        width: 350px;
+        height: 350px;
+        position: absolute;
+        top:20px;
+        left: 20px;
+        margin: 20px auto;
+        box-shadow: 3px 3px 10px 0 #111111;
+    
+      }
+      #box img{
+        width: 100%;
+        height: 100%;
+      }
+      #box #mark{
+         width: 175px;
+         height: 175px;
+         position: absolute;
+         top: 0;
+         left: 0;
+         background: rgba(0,0,0,0.5);
+        cursor: move;
+        display: none;
+      
+      }
+      #boxRight{
+        position: absolute;
+        width: 350px;
+        height: 350px;
+        top: 40px;
+        left: 380px;
+        border: 1px solid #ccc;
+        overflow: hidden;
+      }
+      /* 右侧图片的大小需要严格计算： mark的width是box的width是一半，那么大图的应该是小图的2倍 */
+
+      #boxRight img{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 200%;
+        height: 200%;
+      }
+      
+
+
+  </style>
+</head>
+<body>
+    <div id="box" class="box">
+      <img src="img/xiaotu.jpg" alt="">
+      <div id="mark"></div>
+     
+    </div>
+
+   <div id="boxRight">
+     <img src="img/datu.jpg" alt="">
+   </div>
+  
+    <script>
+      
+      // 放大镜 原理： mark是box的一半，那么大图应该是小图的一倍
+        var box = document.getElementById('box');
+        var mark = document.getElementById('mark'),
+        boxRight = document.getElementById('boxRight');
+        box.onmouseenter = function(e){
+          e = e || window.event;
+          mark.style.display ='block';
+          setPosition(e)
+          // mark.style.left = e.clientX -this.offsetLeft +5 +'px';
+          // mark.style.top = e.clientY -this.offsetTop +5 +'px';
+          // 鼠标划得太快会进入mark 那么进入mark阻止事件冒泡 （光阻止还不行， 从mark 进入box 又会触发over事件，鼠标离开box就删除mark 保证每一次只创建一个）
+         
+        }
+        
+        box.onmousemove = function(e){
+          e = e || window.event;
+          setPosition(e)
+         
+          
+        }
+
+        // 鼠标离开就删除mark 保证每一次只创建一个
+        box.onmouseleave = function(){
+          mark.style.display ='none';
+        }
+
+        // 设置mark 盒子信息
+        function setPosition(e){
+          var top = e.clientY -box.offsetTop - (mark.offsetHeight/2),
+          left =  e.clientX -box.offsetLeft - (mark.offsetWidth/2);
+
+         // 边界判断
+          var  minL=0,minT= 0 ,maxL = box.offsetWidth - mark.offsetWidth,maxT = box.offsetHeight - mark.offsetHeight;
+         
+          if(left < minL){
+            left =  minL;
+          }else  if(left > maxL){
+            left = maxL;
+          }
+        
+
+          if(top < minT){
+            top = minT;
+          }else if(top > maxT){
+            top = maxT;
+          }
+          mark.style.left = left  +'px';
+          mark.style.top =top +'px';
+         
+          var oImg = boxRight.getElementsByTagName('img')[0];  
+          oImg.style.left = -left *2 +'px';
+          oImg.style.top = -top *2 +'px';
+        }
+    
+    </script>
+</body>
+</html>

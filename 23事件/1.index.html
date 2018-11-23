@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>什么是事件</title>
+  <style>
+
+      *{
+        margin: 0;
+        padding: 0;
+
+      }
+      a{
+        display: block;
+
+      }
+      ul,li{
+        list-style: none;
+      }
+      #ul1{
+        margin: 20px auto;
+        width: 300px;
+      }
+      #ul1 li{
+        height: 30px;
+        line-height: 35px;
+        border-bottom: 1px solid lightgreen;
+      }
+      #ul1 li:hover{  /* 给li:hover 在ie 6不兼容  ,只有 a在所有浏览器兼容*/
+        background: blue;
+      }
+
+  </style>
+</head>
+<body>
+    <ul id="ul1">
+      <li>
+       
+        <a href="www.ey99.com"> 1</a>
+      </li>
+      <li>
+          <a href="www.ey99.com"> 2</a>
+        </li>
+        <li>
+            <a href="www.ey99.com"> 3</a>
+          </li>
+          <li>
+              <a href="www.ey99.com"> 4</a>
+            </li>
+    </ul>
+
+    <input type="text" id="inp">
+    <div id="box" style="width:100px;height:100px;background:red;margin-top: 1000px;">
+      
+
+
+    </div>
+
+   
+
+  <script>
+    /* 
+      什么是事件：
+      事件分为：行为本身与事件绑定
+      -> 1）行为本事：浏览器天生就赋予其的行为 如： onclick/鼠标事件（onmouse over /out /leave/enter/move/down/up/wheel） 
+          、焦点事件(onblur/onfocus)、键盘事件(onkeydown/ onkeyup)、加载事件(onload onunload)、滚动条事件(onscroll)、窗口缩放事件(onresize)
+      -> 2）事件绑定： 给元素个某个行为绑定方法
+    
+    
+    */
+    
+    var oDiv = document.getElementById('box')
+    //dom 0级事件绑定
+    oDiv.onclick = function(e){ 
+      e = e || window.event; //ie 678 没有 e 需要用 window.event
+      // e.type -> click
+      // e.clientX /e.clientY -> 当前鼠标距离屏幕的左上角的x轴、y轴
+      // e.pageX / e.pageY -> 当前鼠标距离body的左上角的x轴、y轴（也就是页面第一屏最左端），但ie678 没有，我们可以用 用 clientX + 滚动条卷去的左部分
+      e.pageX = e.pageX || (e.clientX + (document.documentElement.scrollLeft ||document.body.scrollLeft)) ;
+      e.pageY = e.pageY || (e.clientY + (document.documentElement.scrollTop || document.body.scrollTop));
+      // e.target -> 事件源 当前鼠标触发的是哪元素, 在ie 678 不存在这个属性，的使用 e.srcElement来获取事件源
+      e.target = e.target  || e.srcElement;
+      // console.log(e.clientX,e.clientY)
+      //  console.log(e.target )
+       console.log(e.pageY,e.clientY)  
+
+    }
+    //dom 2级事件绑定
+    // oDiv.addEventListener('click',function(){
+
+    // },false)
+
+    // 兼容性：  阻止默认事件
+      var  ul = document.getElementById('ul1');
+      var linkList = ul.getElementsByTagName('a');
+      for(var i=0;i<linkList.length;i++){
+        linkList[i].onclick = function(e){
+          e = e || window.event;
+         
+           e.preventDefault ?e.preventDefault():e.returnValue = false; //ie 678没有这个 需要使用  e.returnValue = false;  return false也是；
+           e.stopPropagation? e.stopPropagation() : e.cancelBubble = true;    //阻止事件冒泡  // e.stopPropagtion()  //ie 678没有这个,需要使用 e.cancelBubble = true;
+        }
+      }
+     
+
+   
+
+      var  inp  = document.getElementById('inp')
+      inp.onkeyup = function(e){
+        e = e || window.event;
+         
+        console.log( e.keyCode)
+      }
+    
+  </script>
+</body>
+</html>

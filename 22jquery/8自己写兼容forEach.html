@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>回调函数深入</title>
+</head>
+
+<body>
+
+
+  <script>
+    var ary = ['a', 'b', 'c', 'd'];
+    var obj = {
+      a: 1
+    }
+    // forEach ie678不支持
+
+    Array.prototype.myForEach = function (callback, context) {
+      context = context || window;
+      if ("forEach" in Array.prototype) {
+
+        this.forEach(callback, context)
+        return
+      }
+      // ie 678 自己写回调forEach
+      // 回调函数执行的次数是 数组的length的长度 那么就用循环
+      // 这里 的this  
+
+      for (var i = 0; i < this.length; i++) {
+
+        // callback && callback(this[i],i,this); //这么写 回调函数中的this 是window
+        callback && callback.call(context, this[i], i, this);
+        // bind在ie 678不支持
+      }
+    }
+
+    //  ary.myForEach(function(item,i,input){
+    //   console.log(this)
+    //    console.log(item,i,input)
+    //  },obj)
+
+
+    Array.prototype.myMap = function (callback, context) {
+      context = context || window;
+      if ("map" in Array.prototype) {
+        return this.map(callback, context);
+      }
+      // ie  678
+      var newAry = []; //返回新数组
+     
+      for (var i = 0; i < this.length; i++) {
+      
+          if(typeof callback === 'function'){
+           var val = callback.call(context, this[i], i, this);
+           newAry[newAry.length] = val;
+          }
+      }
+
+      return newAry
+    }
+
+  var res = ary.myMap(function(item,i,input){
+    console.log(this)
+    return item +'a';
+  },obj)
+    console.log(res)
+    console.log(ary)
+  </script>
+</body>
+
+</html>

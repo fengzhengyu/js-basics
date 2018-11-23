@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>回调函数深入</title>
+</head>
+<body>
+  
+
+  <script>
+    var ary = ['a','b','c','d'];
+    // ary.forEach(function(item,index,input){
+    //   // forEach遍历每一项：
+    //   // ->数组有几项，回调函数就执行几次
+    //   // ->每一次执行匿名函数，还给其传递三个参数值：数组当前项item，当前项索引index，元是数组input
+    //   // ->理论上是没有返回值，仅是遍历，不会对原数组修改，但是我们可以通过数组的索引，修改数组
+    //   // ->forEach 中的this是 ary,回调函数中this 是window
+    //   console.log(arguments)
+    // })
+    // var res = ary.forEach(function(item,index,input){
+    //   input[index] = item + '1';
+
+    // })
+    // console.log(res) //没有返回值
+    // console.log(ary) //原数组改变
+    var obj = {name: 'fengzheng'}
+    // ary.forEach(function(item,index,input){
+    //  console.log(this)
+
+    // }.call(obj))  //给forEach赋值的时候，首先让匿名函数执行，把匿名函数的this 变为obj,然后把匿名函数的执行结果undefined 赋值给 forEach
+    ary.forEach(function(item,index,input){
+     console.log(this)
+ 
+    }.bind(obj))  //先将函数绑定this,执行的时候this 指向
+    ary.forEach(function(item,index,input){
+     console.log(this)
+ 
+    },obj) // forEach map 都支持第二个函数，意思是把回调函数中的this 进行修改
+
+
+    
+    // map() 方法
+    // -> map回调函数中支持return返回值的 ,但不影响原数组，相当于克隆一份
+    // ->
+  //  var res=  ary.map(function(item,index,input){
+   
+  //       return item +'2'
+  //   })
+    
+  //   console.log(ary) //原数组改变
+  //   console.log(res) //返回新数组
+  
+  </script>
+</body>
+</html>

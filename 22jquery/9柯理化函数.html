@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>回调函数深入</title>
+  <style>
+    body{
+      height: 100px;
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <script>
+    var ary = ['a', 'b', 'c', 'd'];
+    var obj = {
+      a: 1
+    }
+    
+
+    //  科理化函数思想： 一个函数预先处理思想
+    // -> 利用函数执行 形成一个不销毁的作用域，把预先处理的都存储在这个作用域中，并且返回一个小函数，以后执行的都是小函数
+
+   
+    // setTimeout(fn,0) //this  window
+
+    // setTimeout(fn.call(obj),0) //在设置定时器的同事，执行fn函数，把fn函数的返回结果undefined 放函数里 setTimeout(undefined),0) -》ba
+
+    //  setTimeout( fn.bind(obj),1000)  //预处理
+    
+     // console.log(fn.call(obj)) //undefined -》立刻执行返回结果是undefined
+    // console.log(fn.bind(obj)) //function  -> 不执行，返回结果是 函数
+     
+    function bind(callback,context){
+      var outerArg = Array.prototype.slice.call(arguments,2)
+      context = context || window;
+
+      return function(){
+        var  innerArg = Array.prototype.slice.call(arguments,0); //e
+
+        callback.apply(context,outerArg.concat(innerArg))
+      }
+
+    }
+    // bind(fn,obj)()  //调用
+    // console.log( bind(fn,obj))  //不执行 
+    
+    
+    //  setTimeout( bind(fn,obj,100,200),1000) //在设置定时器的同事，执行fn函数返回的结果是  function(){callback.call(context) }，1秒执行这个函数
+
+
+    //  document.body.onclick = function(){
+    //    console.log(arguments) //MouseEvent  ,浏览器会自动给当前函数添加一个默认参数 也就event （鼠标事件对象）
+    //  }
+    //  document.body.onclick = fn ;
+     function fn(num,num2,e) {
+      console.log(this,num,num2,e) //this ->document.body  num-> event num2->undefined
+
+    } 
+    // document.body.onclick = bind(fn,obj,100,200)
+
+
+    // 封装 myBind()
+
+    Function.prototype.myBind = function(context){
+      var  _this = this;
+      var  outerArg = Array.prototype.slice.call(arguments,1);
+      if("bind" in Function.prototype){
+        return this.bind.apply(this,[context].concat(outerArg)); //与原来bind一样， 执行bind  this还是this，让当前的参数连起来传给回调 匿名函数
+      }
+      
+      return function(){
+        var  innerArg = Array.prototype.slice.call(arguments,0) ;
+        innerArg.length ===0 ? innerArg[innerArg.length] = window.event :null; //ie 678 没 e  
+        var  ary = outerArg.concat(innerArg);
+        _this.apply(context,ary);
+      }
+    }
+    // document.body.onclick = fn.myBind(obj,100,200)
+    document.body.onclick = fn.myBind(obj,100,200)
+  </script>
+</body>
+
+</html>

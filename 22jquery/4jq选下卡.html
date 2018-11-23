@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>jquery</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      font-size: 14px;
+    }
+    ul,li{
+      list-style: none;
+    }
+    .box {
+      width:500px;
+      margin: 10px auto;
+      
+      
+    }
+    .box ul {
+      overflow: hidden;
+      position: relative;
+      top: 1px;
+    }
+    .box ul li{
+      float: left;
+      margin-right: 15px;
+      width: 100px;
+      height: 30px;
+      border: 1px solid green;
+      cursor: pointer;
+      text-align: center;
+      line-height: 30px;
+    }
+    .box ul li.select{
+      background: lightblue;
+      border-bottom: 1px solid  lightblue;
+    }
+    .box div{
+      height: 150px;
+      line-height: 150px;
+      background: lightblue;
+      border: 1px solid green;
+      display: none;
+      text-align: center;
+    }
+    .box div.select{
+      display: block;
+    }
+
+    
+  </style>
+</head>
+<body>
+  <div id="box" class="box">
+    <ul>
+      <li class="select">页卡一</li>
+      <li>页卡二</li>
+      <li>页卡三</li>
+    </ul>
+    <div  class="select">
+      内容1
+    </div>
+    <div>内容2</div>
+    <div>内容3</div>
+  </div>
+  <div id="box1" class="box">
+    <ul>
+      <li class="select">页卡一</li>
+      <li>页卡二</li>
+  
+    </ul>
+    <div  class="select">
+      内容1
+    </div>
+    <div>内容2</div>
+   
+  </div>
+  <div id="box2" class="box">
+    <ul>
+      <li class="select">页卡一</li>
+      <li>页卡二</li>
+      <li>页卡三</li>
+      <li>页卡四</li>
+    </ul>
+    <div  class="select">
+      内容1
+    </div>
+    <div>内容2</div>
+    <div>内容3</div>
+    <div>内容4</div>
+  </div>
+
+  <script src="js/jquery.js"></script>
+  <script>
+  function tabChange(selecter){
+    var $box = $(selecter);
+    var $boxLi =$box.find('ul li')
+    var $boxDiv = $boxLi.parent().nextAll();
+    $boxLi.click(function(){
+      $(this).addClass('select').siblings().removeClass('select');
+      $boxDiv.eq( $(this).index()).addClass('select').siblings().removeClass('select');
+    })
+  }
+ 
+  $('.box').each(function(index,item){
+    tabChange($(this))
+  })
+  </script>
+  
+</body>
+</html>

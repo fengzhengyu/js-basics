@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+  <style>
+
+      *{
+        margin: 0;
+        padding: 0;
+
+      }
+      img{
+        border: none;
+        display: block
+      }
+      .box{
+        width: 516px;
+        margin: 20px auto;
+        position: relative;
+    
+      }
+      .box>img{
+        width: 160px;
+        height: 160px;
+        float: left;
+        margin-left: 10px;
+        border: 1px solid lightgreen;
+      }
+      .box #mark{
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 600px;
+          height: 600px;
+          border: 1px solid lightblue;
+          display: none;
+         
+      }
+      .box #mark img{
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+      
+
+
+  </style>
+</head>
+<body>
+    <div id="box" class="box">
+     <img src="img/m1.jpg" trueImg="img/b1.jpg" alt="">
+     <img src="img/m2.jpg" trueImg="img/b2.jpg" alt="">
+     <img src="img/m3.jpg" trueImg="img/b3.jpg" alt="" >
+
+     <div id="mark" style=" clear: both;">
+       <img src="img/b1.jpg" alt="">
+     </div>
+    </div>
+
+   
+    <script src="./jquery.js"></script>
+    <script>
+   
+        var $box = $('#box'),
+          $mark = $('#mark'),
+          $boxOffset = $box.offset(),
+          $imgList =  $box.children('img');
+      
+      
+          $imgList.mouseover(function(e){
+              e =e || window.event;
+      
+              e.target = e.target || e.srcElement;
+              var left = e.clientX - $boxOffset.left + 10,
+              top = e.clientY -  $boxOffset.top + 10;
+            
+              $mark.stop().show(500).css({left:left,top:top }).find('img').attr('src',e.target.getAttribute('trueImg'));
+              // 
+              
+          }).mousemove(function(e){
+            e =e || window.event;
+           
+            e.target = e.target || e.srcElement;
+              var left = e.clientX - $boxOffset.left + 10,
+              top = e.clientY -  $boxOffset.top + 10;
+               $mark.show(500).css({left:left,top:top }).find('img').attr('src',e.target.getAttribute('trueImg'))
+          })
+          .mouseout(function(){
+
+            $mark.stop().hide(500)
+          })
+      
+    
+    </script>
+</body>
+</html>
