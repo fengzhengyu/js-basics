@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Dom 二级事兼容问题</title>
+  <style>
+    *{
+        margin: 0;
+        padding: 0;
+        font-family: '微软雅黑';
+        font-size: 14px;
+
+      }
+      html,body{
+        width: 100%;
+        height: 100%;
+        border-top: 1px solid transparent;
+      }
+     
+     .box{
+       width: 200px;
+       height: 200px;
+       background: lightpink;
+       margin: 20px auto;
+      
+     }
+     
+
+     
+
+
+
+  </style>
+</head>
+<body>
+  
+  <div id="box" class="box">
+      
+  </div>
+  <script src="../js/fengzhengEvent.js"></script>
+  <script>
+    var box = document.getElementById('box');
+
+    
+    function fn1(){
+     
+
+      console.log(1)
+    }
+    function fn2(){
+      console.log(2)
+    }
+    function fn3(){
+      console.log(3)
+    }
+    var n=0;
+    function fn4(){
+      n++;
+      console.log(4)
+      if(n>= 3){
+        FengEvent.off(box,'click',fn1);
+        FengEvent.off(box,'click',fn2)
+        FengEvent.off(box,'click',fn3)
+       
+      }
+     
+
+    }
+    function fn5(){
+      console.log(5)
+    }
+    function fn6(){
+      console.log(6)
+    }
+    
+    function fn7(){
+      console.log(7)
+    }
+    
+    FengEvent.on(box,'click',fn1)
+    FengEvent.on(box,'click',fn2)
+    FengEvent.on(box,'click',fn3)
+    FengEvent.on(box,'click',fn4)
+    FengEvent.on(box,'click',fn5)
+    FengEvent.on(box,'click',fn6)
+    FengEvent.on(box,'click',fn7)
+   
+
+  </script>
+</body>
+</html>

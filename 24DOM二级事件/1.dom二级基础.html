@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Dom 二级事件基础知识</title>
+  <style>
+    *{
+        margin: 0;
+        padding: 0;
+        font-family: '微软雅黑';
+        font-size: 14px;
+
+      }
+      html,body{
+        width: 100%;
+        height: 100%;
+        border-top: 1px solid transparent;
+      }
+     
+     .box{
+       width: 200px;
+       height: 200px;
+       background: lightpink;
+       margin: 20px auto;
+      
+     }
+     
+
+     
+
+
+
+  </style>
+</head>
+<body>
+  
+  <div id="box" class="box">
+      
+  </div>
+
+  <script>
+    var box = document.getElementById('box');
+    console.dir(box)
+    // 1.定义：
+      // 我们使用的dom2级事件绑定: 其实是通过原型链一直找到EventTarget这个内置类的原型上的addEventListener方法实现的
+      // dom 0级事件绑定： 只能给一个元素的耨一个行为绑定一次方法，第二次绑定，会覆盖前一次方法
+    
+
+      //  dom2中还提供了一个dom0级没有的行为类型，DOMContentLoaded: 当页面中dom结构或者html结构加载完成触发的行为
+    // 2.区别：
+      // window.onload =function(){} ->是当页面中的所有资源加载完毕（图像，HTML结构，视频音频。。。），再回执行后面的函数，一个页面中只执行一次
+      //  因为他是采用dom 0级事件绑定，私有方法
+
+      // $(document).ready(function(){})== $(function(){})  --> 只要页面中的HTML结构加载完成就会执行对应的函数，并且一个页面中可以使用多次 
+      //   它是dom二级事件绑定
+      //    它是采用dom 2级中新增的 那个 DOMContentLoaded
+
+    // 3.DOM2
+    // function fn1(){
+    //   console.log(this)
+    // }
+    //   box.addEventListener('click',fn1,false)
+    //   // 移除对应事件 用实名函数
+    //   box.removeEventListener('click',fn1,false)
+
+    // 4. 只能给某一个的同一个行为绑定多个“不同”的方法（如果方法相同了只能留一个）；当行为触发，会按照绑定的先后顺序，依次执行；执行的方法中的this,都是当前被绑定事件的元素本身
+    function fn1(){console.log(1)}
+    function fn2(){console.log(2)}
+    function fn3(){console.log(3)}
+    function fn4(){console.log(4)}
+    function fn5(){console.log(5)}
+    function fn6(){console.log(6)}
+
+    // box.addEventListener('click',fn1,false)
+    // box.addEventListener('click',fn1,true) //如果true 相当于两个 一个捕获阶段 一个冒泡阶段
+    
+    // 当行为触发，会按照绑定的先后顺序，依次执行
+    // 执行的方法中的this,都是当前被绑定事件的元素本身
+    box.addEventListener('click',fn4,false)
+    box.addEventListener('click',fn1,false)
+    box.addEventListener('click',fn2,false)
+    box.addEventListener('click',fn3,false)
+  
+    box.addEventListener('click',fn5,false)
+
+    // 事件池： 用来存储当前元素行为绑定方法的（浏览器天生就有）
+
+    // 5. ie  678 不支持 addEventListener、removeEventListener，想要实现DOM2级事件，需要用 attachEvent / detachEvent
+
+    //  它只有两个参数，不能控制在哪个阶段发生，默认是冒泡阶段
+    //  行为需要添加“on”
+    //  他也可以绑定多个方法 但是 1）顺序没有规律，2）可以给同一个元素绑定多个相同的方法 3） this不是绑定元素，而是window
+    box.attachEvent('onclick',fn)
+  </script>
+</body>
+</html>

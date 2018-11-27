@@ -12,6 +12,9 @@
         padding: 0;
 
       }
+      body{
+       /* margin-top: 300px; */
+      }
       img{
         display: block;
         border: none;
@@ -19,7 +22,7 @@
       #box{
         width: 350px;
         height: 350px;
-        position: absolute;
+        position: relative;
         top:20px;
         left: 20px;
         margin: 20px auto;
@@ -85,17 +88,14 @@
           e = e || window.event;
           mark.style.display ='block';
           setPosition(e)
-          // mark.style.left = e.clientX -this.offsetLeft +5 +'px';
-          // mark.style.top = e.clientY -this.offsetTop +5 +'px';
-          // 鼠标划得太快会进入mark 那么进入mark阻止事件冒泡 （光阻止还不行， 从mark 进入box 又会触发over事件，鼠标离开box就删除mark 保证每一次只创建一个）
+          
          
         }
         
         box.onmousemove = function(e){
           e = e || window.event;
           setPosition(e)
-         
-          
+        
         }
 
         // 鼠标离开就删除mark 保证每一次只创建一个
@@ -103,8 +103,32 @@
           mark.style.display ='none';
         }
 
+        window.onmousewheel=document.onmousewheel = function(e){
+          box.onmouseenter = function(e){
+          e = e || window.event;
+          mark.style.display ='block';
+          setPosition(e)
+          
+         
+        }
+        
+        box.onmousemove = function(e){
+          e = e || window.event;
+          setPosition(e)
+        
+        }
+
+        // 鼠标离开就删除mark 保证每一次只创建一个
+        box.onmouseleave = function(){
+          mark.style.display ='none';
+        }
+
+        
+        }
+
         // 设置mark 盒子信息
         function setPosition(e){
+         
           var top = e.clientY -box.offsetTop - (mark.offsetHeight/2),
           left =  e.clientX -box.offsetLeft - (mark.offsetWidth/2);
 

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>事件委托</title>
+  <style>
+    *{
+        margin: 0;
+        padding: 0;
+        font-family: '微软雅黑';
+        font-size: 14px;
+
+      }
+      html,body{
+        width: 100%;
+        height: 100%;
+        border-top: 1px solid transparent;
+      }
+      li{
+        list-style: none;
+      }
+     .box{
+       width: 200px;
+       height: 200px;
+       background: lightpink;
+       position: absolute;
+       cursor: move;
+      
+     }
+     
+
+     
+
+
+
+  </style>
+</head>
+<body>
+    <div id="box" class="box">
+      
+    </div>
+
+    
+    <script src="jquery.js"></script>
+    <script>
+      //  js 居中：
+      var box = document.getElementById('box');
+      box.style.left = ((document.documentElement.clientWidth || document.body.clientWidth) - box.offsetWidth)/2 + 'px';
+      box.style.top = ((document.documentElement.clientHeight || document.body.clientHeight) - box.offsetHeight)/2 + 'px';
+
+    function down(e){
+      e = e || window.event;
+      // 记录开始的位置
+      this["startX"] = e.clientX;
+      this['startY'] = e.clientY;
+      this['startL'] = this.offsetLeft;
+      this['startT'] = this.offsetTop;
+      this.setCapture();  //把当前鼠标 与this 绑定在一起  //在ie 火狐下生效
+      this.onmousemove = move;
+      this.onmouseup = up;
+    }
+    function move(e){
+      e = e || window.event;
+      var curL = e.clientX - this['startX'] + this['startL'];
+      var curT = e.clientY - this['startY'] + this['startT'];
+      // 边界判断
+      var minL =0,minT = 0, maxL = (document.documentElement.clientWidth||document.body.clientWidth)- this.offsetWidth ,
+      maxT = (document.documentElement.clientHeight||document.body.clientHeight) - this.offsetHeight;
+      curL = curL <minL?minL: (curL>maxL ?maxL :curL);
+      curT = curT< minT? minT : (curT>maxT? maxT: curT) ;
+
+
+      this.style.left = curL +'px';
+      this.style.top = curT  + 'px';
+      
+    }
+    function up(e){
+    this.releaseCapture(); //把当前鼠标与盒子解绑  //在ie 火狐下生效
+     this.onmousemove = null;
+     this.onmouseup = null;
+    }
+    box.onmousedown = down;
+    </script>
+</body>
+</html>

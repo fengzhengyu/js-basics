@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>事件委托</title>
+  <style>
+    *{
+        margin: 0;
+        padding: 0;
+        font-family: '微软雅黑';
+        font-size: 14px;
+
+      }
+      html,body{
+        width: 100%;
+        height: 100%;
+       
+      }
+      li{
+        list-style: none;
+      }
+     .box{
+       width: 100px;
+       height: 100px;
+       background: lightpink;
+       position: absolute;
+      
+      
+     }
+     
+
+     
+
+
+
+  </style>
+</head>
+<body>
+    <div id="box" class="box">
+      
+    </div>
+
+    
+    <script src="../js/fengzhengEvent.js"></script>
+    <script>
+      //  js 居中：
+      var box = document.getElementById('box');
+      // box.style.left = ((document.documentElement.clientWidth || document.body.clientWidth) - box.offsetWidth)/2 + 'px';
+      // box.style.top = ((document.documentElement.clientHeight || document.body.clientHeight) - box.offsetHeight)/2 + 'px';
+    FengEvent.on(box,'mousedown',down)
+    function down(e){
+      // 记录开始的位置
+      this["startX"] = e.pageX;
+      this['startY'] = e.pageY;
+      this['startL'] = this.offsetLeft;
+      this['startT'] = this.offsetTop;
+    
+      if(this.setCapture){
+        this.setCapture();
+        FengEvent.on(box,'mousemove',move);
+        FengEvent.on(box,'mouseup',up)
+      }else{
+        var _this =this;
+        this.MOVE = function(e){
+          move.call(_this,e)
+        }
+        this.UP = function(e) {
+          up.call(_this,e)
+        }
+        FengEvent.on(document,'mousemove',this.MOVE);
+        FengEvent.on(document,'mouseup',this.UP)
+      }
+     
+    }
+    function move(e){
+    
+      var curL = e.pageX - this['startX'] + this['startL'];
+      var curT = e.pageY - this['startY'] + this['startT'];
+      // 边界判断
+      var minL =0,minT = 0, maxL = (document.documentElement.clientWidth||document.body.clientWidth)- this.offsetWidth ,
+      maxT = (document.documentElement.clientHeight||document.body.clientHeight) - this.offsetHeight;
+      curL = curL <minL?minL: (curL>maxL ?maxL :curL);
+      curT = curT< minT? minT : (curT>maxT? maxT: curT) ;
+
+
+      this.style.left = curL +'px';
+      this.style.top = curT  + 'px';
+
+      //计算水平方向移动的速度
+      // 在浏览器最小反应时间内触发一次move，我们都记录当前盒子位置： 让当前-上一次位置 = 当前最后一次的偏移
+      if(!this.pre){
+        this.pre = this.offsetLeft;
+      }else{
+        this.speedFly = this.offsetLeft - this.pre;
+        this.pre = this.offsetLeft;
+
+      }
+
+
+    }
+    function up(e){
+      if(  this.releaseCapture){
+        this.releaseCapture(); //把当前鼠标与盒子解绑  //在ie 火狐下生效
+        FengEvent.off(box,'mousemove',move);
+        FengEvent.off(box,'mouseup',up);
+      }else{
+        FengEvent.off(document,'mousemove',this.MOVE);
+        FengEvent.off(document,'mouseup',this.UP);
+      }
+      // 当结束拖拽的时候，我们开始水平方向的的动画运动
+
+      fly.call(this);
+     
+    }
+  function fly(){
+    // this 就是当前盒子
+    // 我们运动的速度一直在减慢，一直到停止（指数衰减运动）
+    var _this = this;
+   this.flyTimer = setInterval(function(){
+    //  盒子不动，结束动画
+    // console.log(  _this.speedFly)
+    if(Math.abs(_this.speedFly)<0.5){
+    
+      clearInterval(_this.flyTimer);
+      return;
+    }
+ 
+    _this.speedFly *= 0.98; //乘以一个小于1的数
+    var curL =  _this.offsetLeft +  _this.speedFly;
+    var minL = 0,maxL =  (document.documentElement.clientWidth||document.body.clientWidth) -  _this.offsetWidth;
+ 
+    if(curL >= maxL){
+      _this.style.left = maxL + 'px';
+      _this.speedFly *= -1; 
+   
+
+    }else if(curL<= minL){
+      _this.style.left = minL + 'px';
+      _this.speedFly *= -1; 
+    }else{
+      _this.style.left = curL + 'px';
+    }
+   },10)
+  }
+   
+    </script>
+    <script>
+    /* 
+      1.在同样的移动距离下，我们鼠标移动的速度快，move方法触发的少，相反，鼠标移动的慢，move方法就触发的多->浏览器对于每一次move方法的触发都是有最小的反应时间的
+      2.通过观察发现，水平方向的盒子在结束拖拽的时候，移动的速度与移动的距离没有必然的联系，和开始拖拽的速度也没有关系，只和最后一次即将松开的那一瞬间鼠标的速度是有关系的，
+    
+    
+    
+    
+    */
+    
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Dom 二级事兼容问题</title>
+  <style>
+    *{
+        margin: 0;
+        padding: 0;
+        font-family: '微软雅黑';
+        font-size: 14px;
+
+      }
+      html,body{
+        width: 100%;
+        height: 100%;
+        border-top: 1px solid transparent;
+      }
+     
+     .box{
+       width: 200px;
+       height: 200px;
+       background: lightpink;
+       margin: 20px auto;
+      
+     }
+     
+
+     
+
+
+
+  </style>
+</head>
+<body>
+  
+  <div id="box" class="box">
+      
+  </div>
+  <script src="../js/event.js"></script>
+  <script>
+    var box = document.getElementById('box');
+
+    
+    function fn1(){
+     
+
+      console.log(1)
+    }
+    function fn2(){
+      console.log(2)
+    }
+    function fn3(){
+      console.log(3)
+    }
+    function fn4(){
+      console.log(4)
+    }
+    function fn5(){
+      console.log(5)
+    }
+    function fn6(){
+      console.log(6)
+    }
+    var n=0;
+    function fn7(){
+      n++;
+      console.log(7)
+      if(n>= 3){
+        off(box,'click',fn1);
+        off(box,'click',fn2)
+        off(box,'click',fn3)
+        off(box,'click',fn4)
+      }
+    }
+    
+    on(box,'click',fn1)
+    on(box,'click',fn2)
+    on(box,'click',fn3)
+    on(box,'click',fn4)
+    on(box,'click',fn5)
+    on(box,'click',fn6)
+    on(box,'click',fn7)
+   
+
+  </script>
+</body>
+</html>

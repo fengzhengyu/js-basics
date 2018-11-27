@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>事件委托</title>
+  <style>
+    *{
+        margin: 0;
+        padding: 0;
+        font-family: '微软雅黑';
+        font-size: 14px;
+
+      }
+      html,body{
+        width: 100%;
+        height: 100%;
+        border-top: 1px solid transparent;
+      }
+      li{
+        list-style: none;
+      }
+     .box{
+       margin: 20px;
+       padding: 10px;
+       width:300px;
+       border: 1px dashed #08bece;
+       background: #ffe470;
+       background: -webkit-linear-gradient(top left,#08bece,#ffe470,#ffe0e9);
+      
+     }
+     .box li{
+       line-height: 30px;
+       position: relative;
+     }
+     .box li em{
+       position: absolute;
+       width: 16px;
+       height: 16px;
+       background: #ccc;
+       line-height: 16px;
+       top: 7px;
+       left: 0;
+       font-style: normal;
+       text-align: center;
+       color: #fff;
+        cursor: pointer;
+
+     }
+     .box li span{
+       margin-left: 20px;
+       display: block;
+     }
+     .box .two,.box .three,.four{
+       margin-left: 20px;
+       display: none;
+     }
+
+     
+
+
+
+  </style>
+</head>
+<body>
+    <div id="box" class="box">
+      <ul>
+        <li>
+            <em>+</em><span>第一级第一个</span>
+            <ul class="two">
+              <li>
+                <span>第二级第一个</span>
+              </li>
+              <li>
+                  <em>+</em>
+                <span>第二级第二个</span>
+                <ul class="three">
+                  <li>
+                    <span>第三级第一个</span>
+                  </li>
+                  <li>
+                    <span>第三级第二个</span>
+                  </li>
+                  <li>
+                     <em>+</em>
+                    <span>第三级第三个</span>
+                    <ul class="four">
+                      <li><span>第四级第一个</span></li>
+                      <li><span>第四级第二个</span></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                  <em>+</em>
+                <span>第二级第三个</span>
+                <ul class="three">
+                    <li>
+                      <span>第三级第一个</span>
+                    </li>
+                    <li>
+                      <span>第三级第二个</span>
+                    </li>
+                    <li>
+                      <span>第三级第三个</span>
+                    </li>
+                  </ul>
+              </li>
+            </ul>
+        </li>
+        <li>
+            <em>+</em><span>第一级第二个</span>
+            <ul class="two">
+              <li>
+                <span>第二级第一个</span>
+              </li>
+              <li>
+                  <em>+</em>
+                <span>第二级第二个</span>
+                <ul class="three">
+                  <li>
+                    <span>第三级第一个</span>
+                  </li>
+                  <li>
+                    <span>第三级第二个</span>
+                  </li>
+                  <li>
+                     <em>+</em>
+                    <span>第三级第三个</span>
+                    <ul class="four">
+                      <li><span>第四级第一个</span></li>
+                      <li><span>第四级第二个</span></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                  <em>+</em>
+                <span>第二级第三个</span>
+                <ul class="three">
+                    <li>
+                      <span>第三级第一个</span>
+                    </li>
+                    <li>
+                      <span>第三级第二个</span>
+                    </li>
+                    <li>
+                      <span>第三级第三个</span>
+                    </li>
+                  </ul>
+              </li>
+            </ul>
+        </li>
+      </ul>
+    </div>
+
+    
+    <script src="jquery.js"></script>
+    <script>
+      
+      var $box = $('#box');
+      $box.find('span').each(function(){
+        var $pre =  $(this).prev();
+        if($pre[0] && $pre[0].tagName.toLowerCase() === 'em'){
+          $(this).css('cursor','pointer');
+        }
+      })
+      $box.delegate("em","click",fn); //给box绑定事件，如果事件源是em，执行fn
+      $box.delegate("span","click",fn);
+      function fn(){
+        var $parent = $(this).parent();
+        // var ul = $parent.children('ul')[0]; //得到是原生js对象
+        // var em = $parent.children('em')[0];//得到是原生js对象
+        var $ul = $($parent.children('ul')[0]); //得到是原生js对象
+        var $em = $($parent.children('em')[0]);//得到是原生js对象
+        console.log($ul)
+        if($ul.length > 0){
+         
+           var isBlock = $ul.css('display') == "block"? true:false;
+          
+          if(isBlock){
+            $em.html('+');
+             $ul.slideUp();
+            $parent.find('ul').slideUp();
+            $parent.find('em').html('+');
+          }else{
+            $em.html('-');
+           
+            $ul.slideDown();
+          }
+         
+        
+
+        }
+      }
+
+     
+   
+    </script>
+</body>
+</html>

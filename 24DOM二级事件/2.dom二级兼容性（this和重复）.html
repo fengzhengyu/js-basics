@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Dom 二级事件基础知识</title>
+  <style>
+    *{
+        margin: 0;
+        padding: 0;
+        font-family: '微软雅黑';
+        font-size: 14px;
+
+      }
+      html,body{
+        width: 100%;
+        height: 100%;
+        border-top: 1px solid transparent;
+      }
+     
+     .box{
+       width: 200px;
+       height: 200px;
+       background: lightpink;
+       margin: 20px auto;
+      
+     }
+     
+
+     
+
+
+
+  </style>
+</head>
+<body>
+  
+  <div id="box" class="box">
+      
+  </div>
+  <script src="../js/event.js"></script>
+  <script>
+    var box = document.getElementById('box');
+
+    var n=0;
+    function fn1(){
+      n++;
+      if(n >= 3){
+        unbind(box,'click',fn1);
+        return;
+      }
+
+      console.log(1)
+    }
+    function fn2(){
+      console.log(2)
+    }
+    function fn3(){
+      console.log(3)
+    }
+
+
+   
+    // box.attachEvent('onclick',fn1.call(box)); // fn1立刻执行，改变了this，把fn1的执行结果返回，相当于   box.attachEvent('onclick',undefined)
+    // box.attachEvent('onclick',function(){ //点击执行匿名函数 匿名函数执行 fn1立马执行，同时改变this 指向box
+    //   fn1.call(box); //这样写虽然改变了this，但是 匿名函数在移除的时候，我们不知道匿名函数是谁
+    // })
+
+    // var tempFn = function(){
+    //   fn1.call(box); 
+    // }
+    //  box.attachEvent('onclick',tempFn)
+    //  box.detachEvent('onclick',tempFn)
+
+    //  bind(box,'click',fn1)
+    //  bind(box,'click',fn1)
+    //  bind(box,'click',fn1)
+    //  bind(box,'click',fn2)
+    //  bind(box,'click',fn3)
+    //  unbind(box,'click',fn1)
+    //  unbind(box,'click',fn2)
+    
+     bind(box,'click',fn1)
+     bind(box,'click',fn1)
+     bind(box,'click',fn1)
+     bind(box,'click',fn1)
+     bind(box,'click',fn3)
+  </script>
+</body>
+</html>
