@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>理解设计模式</title>
+</head>
+<body>
+  
+
+  <script>
+  /* 
+    事件驱动型的 ，还是异步的，回调
+    烧水前先计划：
+      水烧开的时候，我被通知了 -- 报警器
+      然后我就可以做原来的计划了 
+  */ 
+ //  沸腾
+  function boiling(){
+    console.log('水烧开了')
+    fire();
+  } 
+  // 以上是A模块
+  // 以下是B模块
+  // 喝水
+  function drink(){
+    console.log('喝水')
+    
+  }
+  // 浇花
+  function waterFlower(){
+    console.log('浇花')
+  }
+  // 洗脸
+  function washFace(){
+    console.log('洗脸')
+  }
+
+  var oEvent= {};
+  function selfOn(type,fn){
+   var type = 'selfBoiling';
+
+    if(!oEvent[type]){
+     
+      oEvent[type] = [];
+    }
+  
+    var ary = oEvent[type] ;
+    
+    ary.push(fn)
+
+  }
+  // 给水壶按报警器
+  function fire(){
+    var ary = oEvent['selfBoiling'];
+
+    if(ary){
+      for(var i=0;i<ary.length;i++){
+        ary[i]();
+      }
+    }
+
+  }
+  selfOn('selfBoiling',drink)
+  selfOn('selfBoiling',waterFlower)
+  selfOn('selfBoiling',washFace)
+//  以上是约定： 在烧水之前，明确了水开之后干什么
+  boiling()
+
+  </script>
+</body>
+</html>

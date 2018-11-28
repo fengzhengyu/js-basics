@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>重新事件库-拖拽</title>
+  <style>
+  
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    div{
+      width: 100px;
+      height: 100px;
+      background: red;
+      position: absolute;
+      
+    }
+    #div1{
+     z-index: 1;
+    }
+    #div2{
+      background: green;
+    }
+    #div3{
+      background: blue;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="div1"><img src="xiaotu.jpg" alt="" width="100" height="100"></div>
+  <div id="div2"></div>
+  <div id="div3"></div>
+
+  <script>
+    
+    function on (ele,type,fn) {
+      
+      if(ele.addEventListener){
+        console.log(2)
+        ele.addEventListener(type,fn,false);
+      }else{
+        if(!ele['aEvent'+type]){
+          ele['aEvent'+type] = [];
+          ele.attachEvent('on'+type,function(){ run.call(ele)}); //同一个事件只执行一次
+        }
+     
+        // 防止重复绑定
+        var ary =  ele['aEvent'+type] ;
+        for(var i=0;i<ary.length;i++){
+          if(ary[i] ===fn) return;
+        }
+        // 不重复就加入事件池
+        ary.push(fn);
+
+        //  ele.attachEvent('on'+type,function(){ run.call(ele)}); //这里同一个方法会运行多次
+      }
+      
+      
+    }
+    function run(){
+      var e = window.event;
+      var type = e.type;
+      e.target = e.srcElement;
+      e.stopPropagation = function(){ e.cancelBubble = true};
+      e.preventDefault = function(){ e.returnValue = false};
+      e.pageX = e.clientX + (document.documentElement.scrollLeft || document.body.scrollLeft);
+      e.pageY = e.clientY + (document.documentElement.scrollTop || document.body.scrollTop);
+
+      var ary =  this['aEvent'+type] ;
+      // 循环事件池，依次执行
+        for(var i=0;i<ary.length;i++){
+          // 
+          if(typeof ary[i] === 'function'){
+            ary[i].call(this,e);
+          }else{
+            ary.splice(i,1);
+            i--;
+          }
+        
+        }
+    }
+    function off(ele,type,fn){
+
+     if ('removeEventListener' in document) {
+       ele.removeEventListener(type,fn,false);
+       return;
+     }
+      var  ary =  ele['aEvent'+type];
+      console.log(ary)
+      if(ary && ary.length){
+        for(var i=0;i<ary.length;i++){
+          if(ary[i] === fn) {
+            ary[i] = null;
+            return;
+          }
+        }
+
+      }
+    }
+    
+    var oDiv1 = document.getElementById('div1');
+
+
+    function processThis(obj,fn){
+      return function(e){
+        fn.call(obj,e);
+      }
+    }
+    function down(e){
+      this.x = this.offsetLeft;
+      this.y = this.offsetTop;
+      this.mx = e.pageX;
+      this.my = e.pageY;
+      this.MOVE = processThis(this,move);
+      this.UP = processThis(this,up);
+      if(this.setCapture){
+        this.setCapture();
+        on(this,'mousemove',move);
+        on(this,'mouseup',up);
+      }else{
+        
+        on(document,'mousemove',this.MOVE);
+        on(document,'mouseup',this.UP);
+      }
+      e.preventDefault(); //取消默认行为，防止干扰
+
+    }
+    function move(e){
+      this.style.left = this.x + (e.pageX - this.mx) + 'px';
+      this.style.top = this.y + (e.pageY - this.my) + 'px';
+    }
+    function up(e){
+    
+      if(this.releaseCapture){
+        this.releaseCapture();
+        off(this,'mousemove',move);
+        off(this,'mouseup',up);
+
+      }else{
+        off(document,'mousemove',this.MOVE);
+        off(document,'mouseup',this.UP);
+      }
+    }
+    on(oDiv1,'mousedown',down)
+
+    
+    
+  </script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>重新事件库</title>
+</head>
+<body>
+<div style="width: 100px;height:100px;background:red;" id="box"></div>
+
+
+  <script>
+    
+    function on (ele,type,fn) {
+      
+      if(ele.addEventListener){
+        ele.addEventListener(type,fn,false);
+      }else{
+        if(!ele['aEvent'+type]){
+          ele['aEvent'+type] = [];
+          ele.attachEvent('on'+type,function(){ run.call(ele)}); //同一个事件只执行一次
+        }
+        // 防止重复绑定
+        var ary =  ele['aEvent'+type] ;
+        for(var i=0;i<ary.length;i++){
+          if(ary[i] ===fn) return;
+        }
+        // 不重复就加入事件池
+        ary.push(fn);
+
+        //  ele.attachEvent('on'+type,function(){ run.call(ele)}); //这里同一个方法会运行多次
+      }
+      
+      
+    }
+    function run(){
+      var e = window.event;
+      var type = e.type;
+      e.target = e.srcElement;
+      e.stopPropagation = function(){ e.cancelBubble = true};
+      e.preventDefault = function(){ e.returnValue = false};
+      e.pageX = e.clientX + (document.documentElement.scrollLeft || document.body.scrollLeft);
+      e.pageY = e.clientY + (document.documentElement.scrollTop || document.body.scrollTop);
+
+      var ary =  this['aEvent'+type] ;
+      // 循环事件池，依次执行
+        for(var i=0;i<ary.length;i++){
+          // 
+          if(typeof ary[i] === 'function'){
+            ary[i].call(this,e);
+          }else{
+            ary.splice(i,1);
+            i--;
+          }
+        
+        }
+    }
+    function off(ele,type,fn){
+      if ('removeEventListener' in document) {
+       ele.removeEventListener(type,fn,false);
+       return;
+      }
+      var  ary =  ele['aEvent'+type];
+      if(ary && ary.length){
+        for(var i=0;i<ary.length;i++){
+          if(ary[i] ===fn) {
+            ary[i] = null;
+            return;
+          }
+        }
+
+      }
+    }
+    var box = document.getElementById('box');
+    var n=0;
+    function fn1(){
+      console.log(1);
+     
+    }
+    function fn2(){
+      console.log(2);
+     
+    }
+    function fn3(){
+      n++;
+      console.log (3);
+      if(n>=3){
+        off(box,'click',fn1)
+        off(box,'click',fn2)
+        off(box,'click',fn3)
+        off(box,'click',fn4)
+      }
+    
+    }
+    function fn4(){
+      console.log(4);
+     
+    }
+    function fn5(){
+      console.log(5);
+     
+    }
+    function fn6(){
+      console.log(6);
+   
+    }
+    function fn7(){
+      console.log(7);
+     
+    }
+    function fn8(){
+      console.log(8);
+     
+    }
+
+    on(box,'click',fn1)
+    on(box,'mouseover',fn1)
+    on(box,'click',fn2)
+    on(box,'click',fn3)
+    on(box,'click',fn4)
+
+    on(box,'click',fn5)
+    on(box,'click',fn6)
+
+    on(box,'click',fn7)
+    on(box,'click',fn8)
+
+
+    
+    
+  </script>
+</body>
+</html>

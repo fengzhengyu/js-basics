@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>重新事件库-拖拽</title>
+  <style>
+  
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    div{
+      width: 100px;
+      height: 100px;
+      background: red;
+      position: absolute;
+      
+    }
+    #div1{
+     z-index: 1;
+    }
+    #div2{
+      background: green;
+    }
+    #div3{
+      background: blue;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="div1"><img src="xiaotu.jpg" alt="" width="100" height="100"></div>
+  <div id="div2"></div>
+  <div id="div3"></div>
+
+  <script>
+    
+    function on (ele,type,fn) {
+      
+      if(ele.addEventListener){
+        console.log(2)
+        ele.addEventListener(type,fn,false);
+      }else{
+        if(!ele['aEvent'+type]){
+          ele['aEvent'+type] = [];
+          ele.attachEvent('on'+type,function(){ run.call(ele)}); //同一个事件只执行一次
+        }
+     
+        // 防止重复绑定
+        var ary =  ele['aEvent'+type] ;
+        for(var i=0;i<ary.length;i++){
+          if(ary[i] ===fn) return;
+        }
+        // 不重复就加入事件池
+        ary.push(fn);
+
+        //  ele.attachEvent('on'+type,function(){ run.call(ele)}); //这里同一个方法会运行多次
+      }
+      
+      
+    }
+    function run(){
+      var e = window.event;
+      var type = e.type;
+      e.target = e.srcElement;
+      e.stopPropagation = function(){ e.cancelBubble = true};
+      e.preventDefault = function(){ e.returnValue = false};
+      e.pageX = e.clientX + (document.documentElement.scrollLeft || document.body.scrollLeft);
+      e.pageY = e.clientY + (document.documentElement.scrollTop || document.body.scrollTop);
+
+      var ary =  this['aEvent'+type] ;
+      // 循环事件池，依次执行
+        for(var i=0;i<ary.length;i++){
+          // 
+          if(typeof ary[i] === 'function'){
+            ary[i].call(this,e);
+          }else{
+            ary.splice(i,1);
+            i--;
+          }
+        
+        }
+    }
+    function off(ele,type,fn){
+
+     if ('removeEventListener' in document) {
+       ele.removeEventListener(type,fn,false);
+       return;
+     }
+      var  ary =  ele['aEvent'+type];
+      console.log(ary)
+      if(ary && ary.length){
+        for(var i=0;i<ary.length;i++){
+          if(ary[i] === fn) {
+            ary[i] = null;
+            return;
+          }
+        }
+
+      }
+    }
+    
+    var oDiv1 = document.getElementById('div1');
+    var oDiv2 = document.getElementById('div2');
+    var oDiv3 = document.getElementById('div3');
+
+    var eles = document.getElementsByTagName('div');
+    for(var i=0;i<eles.length;i++){
+      on(eles[i],'mousedown',down)
+    }
+    var zIndex = 1;
+
+    function processThis(obj,fn){
+      return function(e){
+        fn.call(obj,e);
+      }
+    }
+    
+  
+    // 
+    function down(e){
+      this.x = this.offsetLeft;
+      this.y = this.offsetTop;
+      this.mx = e.pageX;
+      this.my = e.pageY;
+      this.MOVE = processThis(this,move);
+      this.UP = processThis(this,up);
+      if(this.setCapture){
+        this.setCapture();
+        on(this,'mousemove',move);
+        on(this,'mouseup',up);
+      }else{
+        
+        on(document,'mousemove',this.MOVE);
+        on(document,'mouseup',this.UP);
+      }
+      e.preventDefault(); //取消默认行为，防止干扰
+
+       this.style.zIndex = ++zIndex;
+       clearInterval(this.flyTimer);
+       clearInterval(this.dropTimer);
+    }
+    function move(e){
+
+      var curL = this.x + (e.pageX -  this.mx);
+      var curT = this.y + (e.pageY - this.my);
+
+      var minL =0,minT = 0, maxL = (document.documentElement.clientWidth||document.body.clientWidth)- this.offsetWidth ,
+      maxT = (document.documentElement.clientHeight||document.body.clientHeight) - this.offsetHeight;
+      curL = curL <minL?minL: (curL>maxL ?maxL :curL);
+      curT = curT< minT? minT : (curT>maxT? maxT: curT) ;
+
+      this.style.left = curL+ 'px';
+      this.style.top =  curT + 'px';
+
+      if(!this.pre){
+        this.pre = this.offsetLeft;
+      }else{
+        this.speedFly = this.offsetLeft - this.pre;
+        this.pre = this.offsetLeft;
+
+      }
+    }
+    function up(e){
+    
+      if(this.releaseCapture){
+        this.releaseCapture();
+        off(this,'mousemove',move);
+        off(this,'mouseup',up);
+
+      }else{
+        off(document,'mousemove',this.MOVE);
+        off(document,'mouseup',this.UP);
+      }
+      // 当结束拖拽的时候，我们开始水平方向的的动画运动
+
+      fly.call(this);
+      // 当结束拖拽的时候，我们开始垂直方向的的动画运动
+      drop.call(this);
+      
+
+    }
+    // on(oDiv1,'mousedown',down)
+    // on(oDiv2,'mousedown',down)
+    // on(oDiv3,'mousedown',down)
+    
+    // 水平弹性运动
+    function fly(){
+      // this 就是当前盒子
+      // 我们运动的速度一直在减慢，一直到停止（指数衰减运动）
+      var _this = this;
+      this.flyTimer = setInterval(function(){
+        //  盒子不动，结束动画
+        // console.log(  _this.speedFly)
+        if(Math.abs(_this.speedFly)<0.5){
+          
+          clearInterval(_this.flyTimer);
+          return;
+        }
+        
+        _this.speedFly *= 0.98; //乘以一个小于1的数
+        var curL =  _this.offsetLeft +  _this.speedFly;
+        var minL = 0,maxL =  (document.documentElement.clientWidth||document.body.clientWidth) -  _this.offsetWidth;
+    
+        if(curL >= maxL){
+          _this.style.left = maxL + 'px';
+
+           _this.speedFly *= -1; 
+      
+
+        }else if(curL<= minL){
+          _this.style.left = minL + 'px';
+          _this.speedFly *= -1; 
+        }else{
+          _this.style.left = curL + 'px';
+        }
+      },10)
+    }
+    // 垂直重力运动
+    function drop(){
+      var _this = this;
+      this.dropFlag = 0; //自定义 到底为1 反弹为0  不懂就会累加
+      this.dropTimer = setInterval(function(){
+        if(_this.dropFlag >1){
+          clearInterval(_this.dropTimer);
+          return;
+        }
+        _this.dropSpeed = !_this.dropSpeed ? 10 : _this.dropSpeed + 10;// 下落速度不存在的 设置9.8，反之当前=9.8
+       
+        _this.dropSpeed *= 0.98;
+    
+        var curT = _this.offsetTop + _this.dropSpeed; 
+        var maxT = (document.documentElement.clientHeight || document.body.clientHeight) - _this.offsetHeight;
+        
+        
+        if(curT >= maxT){ //到底了
+          _this.style.top = maxT + 'px';
+          _this.dropSpeed *= -1;
+          _this.dropFlag++;
+            
+        }else{
+          _this.style.top =curT + 'px';
+          _this.dropFlag = 0;
+        }
+      
+
+      },10)
+     
+
+    }
+    
+  </script>
+</body>
+</html>

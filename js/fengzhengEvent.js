@@ -65,7 +65,14 @@
   }
   // 因为只有一个run（） 只要把自己事件池中的evenfn移除了就行了
   function off(curEle, evenType, evenFn){
+
+    // if ('removeEventListener' in document) {
+    //   curEle.removeEventListener(evenType, evenFn, false);
+    //   return;
+    // }
+   
     var ary = curEle['myEvent' + evenType];
+
     for(var i=0;i<ary.length;i++){
       var cur = ary[i];
       if(cur === evenFn){

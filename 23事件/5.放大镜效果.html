@@ -129,7 +129,7 @@
         // 设置mark 盒子信息
         function setPosition(e){
          
-          var top = e.clientY -box.offsetTop - (mark.offsetHeight/2),
+          var top = e.clientY -box.offsetTop - (mark.offsetHeight/2), //pageX 带滚条距离
           left =  e.clientX -box.offsetLeft - (mark.offsetWidth/2);
 
          // 边界判断
