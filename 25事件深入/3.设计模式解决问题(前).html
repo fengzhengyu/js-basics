@@ -40,7 +40,7 @@
     function on (ele,type,fn) {
       
       if(ele.addEventListener){
-        console.log(2)
+      
         ele.addEventListener(type,fn,false);
       }else{
         if(!ele['aEvent'+type]){

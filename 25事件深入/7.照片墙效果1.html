@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>理解设计模式</title>
+  <style>
+    *{margin: 0;padding: 0;}
+    #photoList{
+      list-style: none;
+      width: 480px;
+      height: 650px;
+      margin: 50px auto;
+     
+      background: lightskyblue;
+      overflow: hidden;
+      padding-right: 10px;
+    }
+    #photoList li{
+      width: 150px;
+      height: 150px;
+      float: left;
+      overflow: hidden;
+      margin-left: 10px;
+      margin-top: 10px;
+      background: lightpink;
+    }
+    #photoList li img{
+      border: none;
+      /* opacity: 0.6; */
+    }
+  </style>
+</head>
+<body>
+ <ul id="photoList">
+   <ul>
+     <li><img src="img/1.png" width="150" height="150"></li>
+     <li><img src="img/2.png" width="150" height="150"></li>
+     <li><img src="img/3.png" width="150" height="150"></li>
+     <li><img src="img/4.png" width="150" height="150"></li>
+     <li><img src="img/5.png" width="150" height="150"></li>
+     <li><img src="img/6.png" width="150" height="150"></li>
+     <li><img src="img/7.png" width="150" height="150"></li>
+     <li><img src="img/8.png" width="150" height="150"></li>
+     <li><img src="img/9.png" width="150" height="150"></li>
+     <li><img src="img/10.png" width="150" height="150"></li>
+     <li><img src="img/11.png" width="150" height="150"></li>
+     <li><img src="img/12.png" width="150" height="150"></li>
+     <!-- <li><img src="img/13.png" width="150" height="150"></li>
+     <li><img src="img/14.png" width="150" height="150"></li>
+     <li><img src="img/15.png" width="150" height="150"></li> -->
+
+   </ul>
+
+ </ul>
+
+
+  <script src="../js/utils.js"></script>
+  <script src="js/event.js"></script>
+  <script src="js/drag.js"></script>
+  <script src="js/tween.js"></script>
+  <script>
+    var box =document.getElementById('box');
+    var oLis = document.getElementsByTagName('li');
+    for(var i=oLis.length-1;i>=0;i--){
+      var oLi = oLis[i]
+      oLi.l = oLi.offsetLeft;
+      oLi.t = oLi.offsetTop;
+     
+      oLi.style.top = oLi.t+ 'px';
+      oLi.style.left = oLi.l+ 'px';
+      oLi.style.margin = 0;
+      oLi.style.position= 'absolute';
+      on(oLi,'mousedown',down);
+      on(oLi,'selfDragStart',increaseIndex);
+      on(oLi,'selfDragging',  getHitedEle);
+      on(oLi,'selfDragEnd', recover);
+      // on(oLi,'selfDragEnd',function(){ //松手 回到原点
+      //   jsAnimate(this,{left:this.l,top:this.t},600,4);
+     
+      // });
+      on(oLi,'selfDragEnd',changePosition);//交换位置
+     
+
+    }
+    var zIndex = 1;
+
+    function increaseIndex(){
+      this.style.zIndex = ++zIndex;
+      
+    }
+    //恢复
+    function recover(){
+      this.style.background = '';
+    }
+    // 碰撞检测 r 是当前移动的对象，b是检测的对象,返回boolean
+    function isHited(r,b){
+      if(r.offsetLeft+r.offsetWidth < b.offsetLeft || r.offsetTop + r.offsetHeight <b.offsetTop || 
+        r.offsetLeft > b.offsetLeft + b.offsetWidth ||r.offsetTop > b.offsetTop+ b.offsetHeight ){
+        // 
+          return false;
+      }else{
+        return true;
+      }
+
+    }
+    // 得到被撞上的对象
+
+    function getHitedEle(){
+      // this是当前拖拽的元素
+      this['aHitedEle'] = []; // 存放碰撞后的 元素
+      this.style.background = 'green';
+      for(var i= 0; i<oLis.length;i++){
+      
+        var cur = oLis[i];
+        if(this == cur)continue;
+        cur.style.background= '';;
+        if(isHited(this,cur)){
+          cur.style.background = 'orange';
+          this['aHitedEle'].push(cur);
+        }
+      } 
+    } 
+    // 碰撞后，占领占得最多的元素进行交换位置
+    function changePosition(){
+      var a = this['aHitedEle'];
+     
+      if(a && a.length>0){
+        var oMin = {}
+        for(var i=0;i<a.length;i++){
+          var cur = a[i];
+          // 让当前拖拽 元素与碰撞的元素 分别计算 斜边
+          // 假设法 
+          if(!oMin.ele){ //如果对象不存在，假设当前对参考，
+            oMin.min = Math.sqrt(Math.pow( this.offsetLeft - cur.offsetLeft,2) + Math.pow(this.offsetTop - cur.offsetTop,2));
+            oMin.ele = cur;
+          }else{ //继续获取 斜边
+            var distance = Math.sqrt(Math.pow( this.offsetLeft - cur.offsetLeft,2) + Math.pow(this.offsetTop - cur.offsetTop,2));
+            if(oMin.min >distance){  //找到斜边最小的 元素
+              oMin.min = distance;
+              oMin.ele = cur;
+            }
+          }
+        }
+        
+        // 交换位置
+        // oMin.ele.style.left = this.l+ 'px';
+        // oMin.ele.style.top = this.t+ 'px';
+        // this.style.left=  oMin.ele.l + 'px';
+        // this.style.top=  oMin.ele.t + 'px';
+        // 以上这么写，拖拽同一个元素会把下其他覆盖吃掉，原因是因为 始终是一个this.l/this.t,
+        // 解决： 找一个第三方媒介
+        // console.log(oMin.ele)
+        // console.log(this)
+        jsAnimate(oMin.ele,{left:this.l,top:this.t},600,4);
+
+        //
+         jsAnimate(this,{left:oMin.ele.l,top:oMin.ele.t},600,4);
+
+
+        var tempObj = {l:this.l,t:this.t};
+        this.l = oMin.ele.l;
+        this.t =  oMin.ele.t;
+        oMin.ele.l = tempObj.l;
+        oMin.ele.t = tempObj.t;
+      
+        this['aHitedEle'] = null;
+        tempObj = null;
+        oMin = null;
+      }else{
+        jsAnimate(this,{left:this.l,top:this.t},600,4);
+      }
+    }
+    
+    
+
+  </script>
+</body>
+</html>

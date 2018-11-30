@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>理解设计模式</title>
+  <style>
+    *{margin: 0;padding: 0;}
+    #box{
+      width: 100px;
+      height: 100px;
+      background: lightcoral;
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+  <div id="box"></div>
+
+
+  <script src="../js/utils.js"></script>
+  <script src="js/event.js"></script>
+  <script src="js/tween.js"></script>
+  <script>
+    var box =document.getElementById('box');
+
+    on(box,'click',function(){
+    
+      jsAnimate(this,{
+        left: 1000,
+        top: 500,
+      },500,on(this,'selfMoveEnd',fn1), on(this,'selfMoveEnd',fn6) //运动结束后支持多个方法 //selfMoveEnd为暴露接口
+       
+      )
+    })
+
+    // var n =0 ;
+    function fn1(){
+      utils.css(this,'background','yellow')
+    }
+    // function fn2(){
+      
+    //   console.log(2)
+
+    //   fire.call(this,'selfStart')
+    // }
+    // function fn3(){
+    //  n++;
+
+    //   console.log(3)
+    //   if(n>=3){
+    //     off(box,'click',fn1)
+    //     off(box,'click',fn2)
+    //     off(box,'click',fn3)
+    //   }
+
+    // }
+    // function fn4(){
+      
+    //   console.log(4)
+    // }
+    // function fn5(){
+      
+    //   console.log(5)
+    // }
+    function fn6(){
+     
+      utils.css(this,'left',300)
+    }
+    // on(box,'click',fn1)
+    // on(box,'mouseover',fn2)
+    // on(box,'selfStart',fn6)
+    
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>闭包</title>
+  <style>
+    *{margin: 0;padding: 0;}
+    div{
+     
+      width: 100px;
+      height: 100px;
+      background: lightseagreen;
+      position: absolute;
+      cursor: move;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      font-size: 14px;
+    }
+    
+  </style>
+</head>
+<body>
+ 
+    <div id="box"></div>
+    <div></div>
+    <div></div>
+    <script src="js/event.js"></script>
+    <script>
+    
+      var box =document.getElementById('box');
+      var oDivs = document.getElementsByTagName('div');
+      on(box,'click',function(){
+        this.style.color = 'red';
+      })
+     
+
+      var Drag = (function(){
+        var x = null,y = null,mx =null, my=null;
+        var MOVE = null,UP=null,count = 0;
+
+        // module model适合三种情况：
+        // 变量需要保护
+        // 里面的一些函数或属性还要复用
+        // 变量共享
+        function down(e){
+          x = this.offsetLeft;
+          y = this.offsetTop;
+          mx = e.pageX;
+          my = e.pageY; 
+        
+
+          if(this.setCapture){
+            this.setCapture();
+            on(this,'mousemove',move);
+            on(this,'mouseup',up)
+          }else{
+
+            MOVE = processThis(this,move);
+            UP = processThis(this,up)
+            on(document,'mousemove',MOVE);
+            on(document,'mouseup',UP );
+          }
+          count++;
+          this.innerHTML = '共被拖拽的次数为：'+count+'次';
+        }
+        function move(e){
+          this.style.left = x+(e.pageX -mx)+ 'px';
+          this.style.top = y +(e.pageY -my)+ 'px';
+
+          
+        }
+
+        function up(){
+          if(this.releaseCapture){
+            this.releaseCapture();
+            off(this,'mousemove',move);
+            off(this,'mouseup',up)
+          }else{
+            off(document,'mousemove',MOVE);
+            off(document,'mouseup',UP);
+          }
+
+        }
+        
+        return {down: down,move:move,up:up}
+
+        // 自运行函数 有返回值 不能用 -~等
+      })();
+      for(var i=0;i<oDivs.length;i++){
+        on(oDivs[i],'mousedown',Drag.down)
+      }
+     
+
+    </script>
+</body>
+</html>
+
+
+
