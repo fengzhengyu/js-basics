@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>常用的DOS命令</title>
+</head>
+<body>
+  <p>
+    自己做网站
+  </p>
+  <p>
+    1. 买云服务器，会存一个外网IP地址，自己的项目需要通过ftp上传服务器
+  </p>
+  <p>
+    2.买一个域名
+  </p>
+
+  <p>
+    3.进行DNS解析<br>
+    DNS是一个网络服务器，域名解析就是在DNs上记录一条信息记录<br>
+    -> wwww.fengzheng1778.cn  11.11.11.11(服务器外网IP地址) 80（服务器默认端口）
+  </p>
+  <p>
+      服务器de端口:（0 ~65535） 
+      一个服务器上可以放很多项目，服务器使用端口号来区分具体是哪一个项目，一般我们项目发布到 80或者443 端口下
+  </p>
+  <p>
+   打开一个网站到底发生了什么？
+  </p>
+  <p>
+    浏览器输入网址第一步：去DNS服务器找域名对应的外网IP和端口；
+    第二步： DNS服务器通过对应的外网IP和端口，找到外网对应的服务器，通过端口号找到对应的资源所在位置
+    第三步： 服务器接收到请求，找到对应的index.html的源代码  返回给客户端
+
+    返回源代码后，浏览器根据W3C规范，开始解析
+
+  </p>
+  <p>
+    客户端（浏览器）----------------- DNS服务器                                     ---------- 服务器
+    www.fengzheng1778.cn/            www.fengzheng1778.cn  (外网IP和端口号)               80：存放自己项目资源文件
+
+
+  </p>
+  <div>
+    引擎： 
+    谷歌 webkit  火狐 Gecko(盖抠) ie Trident（踹等特）
+    
+  </div>
+</body>
+</html>

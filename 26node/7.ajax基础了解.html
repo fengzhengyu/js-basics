@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+
+<script>
+  /* 
+    ajax  asyncjavascript and xml   
+      
+     -> 客户端js中的方法，用来向服务端发送请求/还可以传递数据给服务端（ajax一般运行在客户端的浏览器中的）
+
+    ajax四部曲(核心是三 ))：
+    // 1.创建ajax对象
+    var xhr = new XMLHttpRequest();
+    // 2.发送前的基本配置：
+    //  请求方式（GET POST PUT DELETE HEAD）
+    //  配置像服务器的那个地址发送请求
+    //  同步还是异步，默认是true（true是异步，false同步）
+    // [username],[userpass] 像服务器请求的用户名密码，一般不写，只有服务器做了特别限制，才传递过去
+    xhr.open('get','a.txt',false，[username],[userpass]);
+
+    // 3.onreadystatechange 监听状态的改变（只要状态改变，就会触发方法执行）
+    xhr.onreadystatechange = function(){
+      // xhr.readystate:请求状态码，可以代表当前ajax的请求进度
+      //  0： unset 当前请求还没发送
+      //  1： opened url地址已经打开（发送前的参数配置成功）
+      //  2： headers_received  响应头信息已经接受
+      //  3： loading 请求内容正在服务器端准备进行处理
+      //  4： done  请求内容已经成功返回到客户端
+      
+      xhr.status: HTTP网络状态码，描述了服务器响应内容的状态
+      200 2 or 以2开头的 ->都代表响应主体的内容已经成功返回了
+
+      301  -> 永久重定向/永久转移
+      302  -> 临时重定向/临时转移（服务器负载均衡）
+      304  -> 本次获取的内容是读取缓存中的数据 （弊端：不能及时拿到最新信息）
+      
+      400  -> 客户端传递给服务器的参数出现错误
+      401  -> 无权限访问
+      404  -> 客户端访问的地址不存在
+
+      500  -> 未知的服务器错误
+      503  -> 服务器已经超负载
+     
+
+
+
+
+      if(xhr.readyState === 4&& /^2\d{2}/.test(xhr.status) ){
+        var val = xhr.responseTexy;
+
+      }
+    }
+    // 发送请求： 参数是请求主体中传递给服务端的内容
+    xhr.send(null)
+
+
+    xml: 可扩展的标记语言，
+    xml利用自己扩展的标记来存储相关的数据
+
+  */
+
+
+  
+ 
+  
+  
+</script>
+
+</body>
+</html>
