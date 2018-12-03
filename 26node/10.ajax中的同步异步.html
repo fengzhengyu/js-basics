@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+
+<script src="js/ajax.js"></script>
+<script>
+   
+    /* 
+      同步（sync) 异步（async)编程
+
+      // js属于单线程编程的
+      // 异步： 定时器，事件绑定，回调函数也可以理解为异步，在ajax中可以使用异步
+
+    
+
+
+
+
+    */
+    // var xhr = createXHR();  //0
+    // xhr.open('get','1.txt',true); //1
+    // xhr.onreadystatechange = function(){ 
+    //   console.log(xhr.readyState)// 绑定在open钱输出1234 绑定方后，234
+    // }
+    // xhr.send(null);
+  
+
+
+    // var xhr = createXHR();  //0
+    // xhr.open('get','1.txt',false); //1
+    // xhr.onreadystatechange = function(){ 
+    //   console.log(xhr.readyState) //4
+    // }
+    // xhr.send(null);
+
+    // var xhr = createXHR();  //0
+    // xhr.open('get','1.txt',true); //1
+    // xhr.send(null);
+    // xhr.onreadystatechange = function(){ 
+    //   console.log(xhr.readyState) //234
+    // }
+
+    // var xhr = createXHR();  //0
+    // xhr.open('get','1.txt',false); //1
+    // xhr.send(null);
+    // xhr.onreadystatechange = function(){ 
+    //   console.log(xhr.readyState) // send前已经是4，send后不可能是5，所以不执行
+    // }
+
+
+    // 获取服务器时间 倒计时减少时间差
+    var xhr = createXHR();  //0
+    console.dir( xhr)
+    xhr.open('head','1.txt',true); //异步编程才能获取到2
+    // xhr.setRequestHeader();//设置请求头信息，不能是汉字
+    xhr.setRequestHeader("fengzheng","1778");
+    xhr.onreadystatechange = function(){ 
+      if(xhr.readyState === 2) {
+        // 获取响应头信息
+          var time = xhr.getResponseHeader('Date');
+          console.log(time) //格林尼治事件
+          console.log(new Date(time)) //北京时间
+      }
+    }
+    
+    xhr.send(null);
+   
+
+</script>
+
+</body>
+</html>

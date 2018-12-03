@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="box"></div>
+
+<script src="js/ajax.js"></script>
+<script>
+   var box = document.getElementById('box');
+   ajax({
+      url: '1.txt',
+      type: 'get',
+      dataType: 'html',
+      async: false,
+      getHead: function(){
+        // this -> xhr当前ajax对象
+      },
+      success: function(data){
+        // this -> xhr当前ajax对象
+        // data -> 从服务器获取的主体
+       console.log(data);
+       box.innerHTML = data; 
+      }
+    })
+  // CRM 客户管理系统
+  // CMS 内容发布管理系统
+  // REP 企业战略信息管理系统
+  // OA 企业办公室管理系统
+  // 
+
+</script>
+
+</body>
+</html>

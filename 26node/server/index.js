@@ -22,7 +22,7 @@ var server = http.createServer(function(req,res){
         suffixMIME = 'text/css';
         break;
       case 'JS':
-        suffixMIME = 'text/javascrip';
+        suffixMIME = 'text/javascript';
         break;
      
       case 'JSON':
