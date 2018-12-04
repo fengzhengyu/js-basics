@@ -150,7 +150,8 @@ var server = http.createServer(function(req,res){
         }));
         return
       }
-      var data = json.parse(str);
+  
+      var data = JSON.parse(str);
       // 在现有的data中增加一个id
       if(con.length === 0){
         data['id'] = 1;
@@ -186,7 +187,7 @@ var server = http.createServer(function(req,res){
         }));
         return
       }
-      var data = json.parse(str);
+      var data = JSON.parse(str);
       var flag = false;
       for(var i=0;i<con.length;i++ ){
         if(con[i].id == data.id){

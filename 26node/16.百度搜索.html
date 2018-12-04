@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      font-size: 14px;
+      color: #000;
+      font-family: Arial, Helvetica, sans-serif;
+
+    }
+    input{
+      outline: none;
+      display: block;
+    }
+    ul,li{
+      list-style: none;
+    }
+    .box{
+      width: 300px;
+      margin: 20px auto;
+    }
+    .box input{
+      border: 1px solid green;
+      height: 30px;
+      padding: 0 10px;
+      width: 278px;
+    }
+    .box ul{
+      border: 1px solid green;
+      border-top: none;
+      display: none;
+      
+    }
+    .box ul li{
+      height: 30px;
+      line-height: 30px;
+      padding: 0 10px;
+      cursor: pointer;
+    }
+    .box ul li:hover{
+      background: lightcyan;
+    }
+
+  
+  </style>
+</head>
+<body>
+  <div id="box" class="box">
+    <input type="text" id="searchInp">
+    <ul id="searchBox">
+      <!-- <li>
+        风筝
+      </li>
+      <li>
+        风筝178
+      </li>
+      <li>
+        风筝1778
+      </li> -->
+    </ul>
+  </div>
+
+  
+
+<script src="js/jquery.js"></script>
+<script>
+    var searchModule = (function(){
+      var $searchInp = $('#searchInp'),
+      $searchBox = $('#searchBox ');
+      
+      // 发jsonp请求，绑定数据
+      // https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=%E7%8E%8B%E8%80%85&cb=jQuery110202322933195253587_1543900628644&_=1543900628648
+      function bindHTML(){
+        var search = $searchInp.val();
+
+        function callback(res){
+          res = res['s'];
+          var str = '';
+          $.each(res,function(i,item){
+            if(i<=3){
+              str += '<li>'+item+'</li>'
+            }
+          });
+          $searchBox.html(str).show();
+        }
+
+        $.ajax({
+          url: 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd='+search,
+          dataType: 'jsonp',
+          jsonp: 'cb',
+          success:callback
+        })
+
+        
+      }
+      
+      function init(){
+        $searchInp.on('focus keyup keydown',function(){
+          var val = $(this).val();
+          if(val.length>0){
+            bindHTML();
+          }else{
+            $searchBox.hide();
+          } 
+         
+        })
+        // .on('blur',function(){
+        //   // 先点击事件触发
+        //   // setTimeout(function(){
+        //   //   $searchBox.hide();
+        //   // },200)
+        //   $searchBox.hide();
+        // })
+        
+        // 事件委托 处理
+        $(document).on('click',function(e){
+          var tar =e.target,
+          tarTag = tar.tagName.toUpperCase(),
+          $tar= $(tar);
+          if(tarTag === 'LI' && tar.parentNode.id == 'searchBox'){
+            $searchInp.val($tar.html());
+            $searchBox.hide();
+            return;
+          }
+          if(tar.id == 'searchInp'){
+           
+            return;
+          }
+          $searchBox.hide();
+
+        })
+
+       
+      }
+      return {init:init}
+
+    })();
+    searchModule.init();
+ 
+    
+  
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="box"></div>
+
+  
+<script>
+  
+  /* 
+    JSONP 原理：(一定要对方服务器做支持才可以)
+      在 script 的世界中，没有同源跨域一说，只要你给我src 属性中的地址是一个合法的的地址，script都跨域把对应的内容请求回来
+
+      jsonp就是利用这个script 的原理
+       1） 首先把需要请求数据的那个跨域的api地址赋值给script 的src
+       2） 把当前页面中的某一个函数名当做参数值传递给需要跨域请求的数据的服务器（url？传参）
+       3） 域请求的数据的服务器接受到你的请求后，进行特殊处理： 把你传递进来的函数名和他给你的数据拼接成一个字符串，例如： 传递进去函数名是fn,它准备好的数据格式是“fn([{name: 'fengzheng}])”
+       4） 域请求的数据的服务器通过http协议返回给客户端，客户端发现就是让我们的fn执行，，而且还给传递一堆数据，那些数据就是我们想要的 
+
+
+   
+  */
+  function fn(data){
+    console.log(data)
+  }
+  
+
+</script>
+<script src="http://matchweb.sports.qq.com/kbs/calendar?columnId=100000&callback=fn"></script>
+
+
+</body>
+</html>

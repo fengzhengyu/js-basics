@@ -18,8 +18,8 @@
         <span class="w200">地址</span>
         <span class="w150">操作</span>
       </h2>
-      <ul>
-        <li>
+      <ul >
+        <!-- <li>
           <span class="w50">1</span>
           <span class="w150">xxx</span>
           <span class="w50">20</span>
@@ -40,8 +40,78 @@
             <a href="">修改</a>
             <a href="">删除</a>
           </span>
-        </li>
+        </li> -->
       </ul>
     </div>
+
+    <script src="js/ajax.js"></script>
+    <script>
+      var  oUl = document.getElementsByTagName('ul')[0];
+      var customModule = (function(){
+        // 删除客户
+        function removeCustom(){
+          oUl.onclick = function(e){
+            e = e ||window.event;
+            var tar = e.target || e.srcElement,
+            tarTag = tar.tagName.toUpperCase();
+            console.log(tarTag )
+            if( tarTag === 'A' && tar.innerHTML =="删除"){
+              var id = tar.getAttribute('customId');
+            
+             var flag =  window.confirm("确认删除编号为["+id+"]的客户吗？");
+             if(flag){
+              ajax({
+                url: '/removeInfo?id='+id,
+                type: 'get',
+                success:function(res){
+                  if(res && res.code == 0){
+                   
+                    oUl.removeChild(tar.parentNode.parentNode);
+                    alert(res.msg);
+                  }
+                  
+
+                }
+              })
+             }
+            }
+
+          }
+        }
+        // 绑定数据
+        function bindHtml(data){
+          var str = '';
+          for(var i=0;i<data.length;i++){
+            var curData = data[i];
+            str += '<li><span class="w50">'+curData.id+'</span><span class="w150">'+curData.name+'</span><span class="w50">'+curData.age+'</span>'+
+          '<span class="w200">'+curData.phone+'</span><span class="w200">'+curData.address+'</span>'
+          +'<span class="w150"><a href="add.html?id='+curData.id+'">修改</a><a href="javascript:;" customId = "'+curData.id+'">删除</a></span></li>';
+          
+          }
+          oUl.innerHTML = str;
+        }
+        
+
+        // 入口
+        function init(){
+          ajax({
+            url: '/getList',
+            type: 'get',
+            success:function(res){
+             if(res && res.code == 0){
+               bindHtml(res['data']);
+               removeCustom();
+             }
+              
+
+            }
+          })
+        }
+        return {init:init}
+      })();
+      customModule.init()
+      
+    
+    </script>
 </body>
 </html>
