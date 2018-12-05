@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+  <script>
+    
+    /* 
+    
+     预解释
+      在当前作用域中，js代码执行之前，浏览器会默认把所有带var 和function的进行提前的声明或者定义
+      1）理解声明预定义：
+        例如：var num=12
+        声明：declare   var num ->告诉浏览器所在的全局作用域中有个num的变量了,默认值是undefined
+        定义: defined   num =12 ->给变量进行赋值
+      2）对于var和function在预解释的时候操作还是不一样的  
+        var ->在预解释的时候，只是提前声明
+        function -> function在预解释的时候，声明+定义都完成了
+      3) 预解释只发生在当前作用域下，例如：开始只在window下的进行预解释，只有执行函数的时候才会对函数进行预解释
+
+
+    js的内存分类：
+      栈内存： 用来提供一个供js代码执行的环境 -》作用域（全局作用域、私有作用域） 
+      堆内存： 用来存储引用数据类型的值，-》对象储存是属性与值，函数存储的是代码字符串 ；图2预解释解析图.png中 xxxfff000就是堆内存 地址为16进制
+    */
+
+
+    var num=12;
+    var obj= {name:'fengzheng',age:28};
+    function fn(){
+        console.log('dd')
+    }
+    console.log(fn) //输出函数本身
+    console.log(fn()) // 执行函数dd 返回值 undefined  输出当前函数返回值，默认undefined 有return，就是return后面的 
+
+    //  看img/1全局作用域解析图.png; 理解预解释
+
+
+    var num=12;
+    var obj= {name:'fengzheng',age:28};
+    function fn(num1,num2){
+        var total = num1+num2;
+        console.log(total)
+    }
+    // 看img/2预解释解析图.png; 理解预解释
+    
+
+    // fn() //->2
+    // function fn(){console.log(1)}
+    // fn()//->2
+    // var fn =10;
+    // fn()//->fn is not a function 报错
+    // function fn(){console.log(2)}
+    // fn()
+    /*
+  
+     第一步：声明+定义 fn = xxxfff111;第二步：声明 var fn; (不需要重新声明);第三步 声明(不重复进行)+定义 fn=xxxfff222;
+    相同的变量名只申明一次，可以定义多次,所以上述结果
+      预解释时，fn  = xxxfff222，已经覆盖了胸xxfff111:  var fn =  "console.log(2)";
+      越解释完毕，代码从上到下执行：
+        fn() //2
+        fn() //2
+        fn = 10 //重新赋值给fn
+        fn() //控制台报错 fn is not a function ，后面代码不执行
+        
+    */ 
+    
+    
+    </script>
+</body>
+</html>

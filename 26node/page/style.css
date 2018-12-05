@@ -14,6 +14,7 @@ html,body{
   font-size: 14px;
   font-family: Arial, Helvetica, sans-serif;
   color: #000;
+  -webkit-user-select: none;
 }
 .box{
   width: 800px;
@@ -48,11 +49,12 @@ html,body{
 }
 .page{
   display: inline-block;
-  height: 22px;
-  line-height: 22px;
+  /* height: 22px;
+  line-height: 22px; */
   margin-top: 15px;
+  overflow: hidden;
 }
-.page span,.page ul,.page ul li,.page input{
+.page span,.page ul li,.page input{
   float: left;
   height: 20px;
   line-height: 20px;
@@ -71,8 +73,38 @@ html,body{
 .page ul li{
  width: 20px;
 }
-.page input{
- 
+.page ul li.bg{
+  background: orange;
+  color: #fff;
 }
-
+.page input{
+ width: 45px;
+}
+.box2{
+  width: 200px;
+  height: 200px;
+  border: 2px solid greenyellow;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -100px;
+  margin-top: -100px;
+}
+.box2 li{
+  height: 50px;
+  line-height: 50px;
+}
+.box2 li:nth-child(even){
+  background: #ddd;
+}
+.box2 li span{
+  float: left;
+}
+.box2 li span:nth-child(1){
+  width: 50px;
+  text-align: center;
+}
+.box2 li span:nth-child(2){
+  width: 150px;
+}
 

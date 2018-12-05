@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+  <script>
+    /* 
+      js 内存释放：
+
+      // 堆内存：
+          对象类型和函数类型在定义的时候首先会开辟堆内存，堆内存有一个引用地址，如果有一个变量引用了这个地址，我们就说这个内存被占用了，就不能销毁；
+
+          想要堆内存释放。销毁，只要把引用它的变量赋值为null即可0,当堆内存的引用地址没有被占用，浏览器会在空闲的时候把它销毁
+      
+      // 栈内存：
+        全局作用域：
+          只有页面关闭的时候，全局作用域才会销毁
+        私有作用域： （只有函数执行的时候会产生私有作用域）
+          一般情况，函数执行会形成一个新的私有作用域，当私有作用中的代码执行完成后，我们当前私有作用域会主动释放、销毁；
+          特殊情况，当前私有作用域的部分内容被作用域以外的东西占用，那么当前这个作用域就不会销毁；
+            1、函数执行返回了一个引用类型数据的值（引用数据类型，会开辟堆内存，堆内存被占用；基本数据类型不会被占用，还是会销毁），并且被函数外面的一起其他变量给接受了，这种情况下一般形成的私有作用域不会被销毁
+              例如： function fn(){var num =10; return function(){}}; var f =fn(); //fn执行形成的私有作用域就不能销毁了
+            2、在一个私有作用域中给DOM元素的事件绑定方法，一般情况我们的私有作用不会销毁；看下面自执行函数；
+            3、不立即销毁： 返回的内存地址没有被其他的东西占用，但还需要执行一次，所以暂时不销毁，返回值执行完毕后，浏览器会在空闲把它销毁了；看下面函数
+
+    */
+   var obj = {name:'fengzheng'};
+   var obj2 = obj;
+   obj2.name = '冯六';
+   console.log(obj2)
+   obj = null; //消除obj对xxxfff000的引用
+   obj2 = null;//消除obj2对xxxfff000的引用
+   
+   /* 
+    // window预解释
+        //var obj； var obj2
+        //开辟堆内存放   name : '张三'  地址为xxxfff000
+        //代码从上到下执行
+        // obj = xxxfff000(obj引用了这个地址)
+        //obj2 = obj =  xxxfff000(obj2也引用了这个地址，两个都引用同一个堆内存)
+        //obj2.name = '李四'   xxxfff000中的name 改变
+   
+   */
+  //  var oDiv = document.getElementById('box');
+  //  (function(){
+  //       // 自执行函数执行形成的作用域也不销毁
+  //       oDiv.onclick = function(){
+
+  //       }
+
+  //  })()
+
+
+   function fn(){
+     var num =100;
+     return function(){
+       num++;
+       console.log(num);
+     }
+   }
+   fn()() //首先fn执行fn,返回一个小函数对应的内存地址，然后紧接着让返回的的小函数再执行。不立即销毁:
+          // 返回的内存地址没有被其他的东西占用，但还需要执行一次，所以暂时不销毁，返回值执行完毕后，浏览器会在空闲把它销毁了；
+   fn()()
+    
+  </script>
+</body>
+</html>

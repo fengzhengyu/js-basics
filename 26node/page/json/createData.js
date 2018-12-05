@@ -8,7 +8,7 @@ var str2 = '一二三四五六七八九壹拾叁肆舞陆柒捌玖'; //0~17
 
 
 var ary =[];
-for(var i=1;i<99;i++){
+for(var i=1;i<1000;i++){
   var obj = {};
   obj['id']= i;
   obj['name' ]= str1[getRandom(0,31)]+ str2[getRandom(0,17)]+str2[getRandom(0,17)];
@@ -17,4 +17,7 @@ for(var i=1;i<99;i++){
 
   ary.push(obj);
 }
-console.log(JSON.stringify(ary))
+
+var  fs = require('fs');
+fs.writeFileSync('./student.json',JSON.stringify(ary),'utf-8');
+// node 当前文件名，直接写入json

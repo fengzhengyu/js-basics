@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style.css">
+  <title>Document</title>
+</head>
+<body>
+    <ul class="box2" id="detailCon">
+     
+    </ul>
+    <script src="js/ajax.js"></script>
+    <script>
+      String.prototype.queryURLParameter = function(){
+        var obj = {},
+        reg = /([^?=&#]+)=([^?=&#]+)/g;
+        this.replace(reg,function(){
+          var key = arguments[1],
+          value = arguments[2];
+          obj[key] = value;
+        })
+        return obj;
+      }
+
+    
+     
+      
+      var detailModule = (function(){
+        var obj = location.href.queryURLParameter(); //得到问号后的id
+        var detailCon = document.getElementById('detailCon');
+
+        var data = null;
+
+
+        function init(){
+          sendAJAX();
+        
+        }
+        // 获取数据
+        function sendAJAX(){
+          ajax({
+            url: '/getInfo?id='+obj['id'],
+            success:function(res){
+           
+              if(res && res.code == 0){
+                data = res.data;
+                bindHTML();
+              }
+            }
+          })
+        };
+        function bindHTML(){
+          var str = '';
+          str += ' <li><span>编号:</span><span>'+data.id+'</span> </li>';
+          str += ' <li><span>姓名:</span><span>'+data.name+'</span> </li>';
+          str += ' <li><span>性别:</span><span>'+(data.sex ==1?'男':'女')+'</span> </li>';
+          str += ' <li><span>分数:</span><span>'+data.score+'</span> </li>';
+      
+          detailCon.innerHTML = str;
+        
+         
+
+        }
+        
+        
+        return {init:init}
+
+      })();
+      detailModule.init();
+    
+    </script>
+</body>
+</html>

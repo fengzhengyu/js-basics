@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+  <script>
+    
+    /* 
+    
+     预解释无节操：只要带var 都预解释，不论条件控制，所以说没有块级作用域，其他语言中{} 就是块级作用域
+    */
+   var obj = {
+     name: 'fengzheng'
+   }
+  //  console.log(num); // undefined,不报错
+  //   if(("name" in obj)){ //true
+  //     var num = 23;
+  //   }
+  //   console.log(num)  //23
+
+    console.log(num); // undefined,不报错
+    if(!("name" in obj)){ // !true
+      var num = 23;
+    }
+    console.log(num)  //undefined
+    // 以上例子说明只要带var 都预解释
+    
+    </script>
+</body>
+</html>

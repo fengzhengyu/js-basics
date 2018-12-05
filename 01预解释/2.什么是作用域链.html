@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+  <script>
+    
+    /* 
+    
+    如何区分全局变量与私有变量？
+      在全局作用域下声明（预解释的时候）的变量就是全局变量；
+      在“私有作用域中声明的变量”和“函数的形参”都是私有变量；
+      在私有作用域中，代码执行的时候遇见一个变量，首先确认它是否是私有变量，如果是，跟外面的没有任何关系，
+      如果不是私有，则在当前作用域的上级作用域进行查找，如果上级作用域也没，继续往上查找，直到找到window为止
+      ----这就是我们所有的作用域链
+    
+    
+    有var 与没var 的区别
+        var num=12；
+        console.log(num)   //->12  
+        num1 = 12
+        console.log(num1)   //->12 相当输出是 window.num1
+        区别：num1 ，相当于给window增加了一个叫num2的属性名，属性值是12；
+        num,首先相当于给全局作用域增加了一个全局变量num，但是不仅如此，还相当于给window增加了一个叫num2的属性名，属性值是12；
+
+
+    预解释与条件么有关系；函数表达式，预解释只解释 = 左边的的变量；自运行函数在全局作用域不进行预解释，当代码执行到这个地方的时候，定义和执行一起完成了
+
+
+    
+    */
+    console.log(total);
+    var total = 0;
+    //当函数执行时，让函数体内的代码执行，并形成新的私有作用域
+    function fn(num1,num2){
+        //1）有过有形参，先给形参传值，
+        //2）进行私有作用域预解释
+        //3) 私有作用域代码从上到下执行
+        //4) 
+        console.log(total);
+        var total = num1+ num2;
+        console.log(total);
+    }
+    fn(100,200) //当函数执行时，让函数体内的代码执行，并形成新的私有作用域
+    console.log(total); 
+    
+    //  看img/3作用域链解析图.png; 理解
+
+
+    </script>
+</body>
+</html>
