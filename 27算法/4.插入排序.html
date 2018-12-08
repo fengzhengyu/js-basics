@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=`, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        /* 
+           插入排序
+            原理： 
+                在牌面新抓一张牌A，我们用A与手机抓的排进行比较（从右向左比）
+                如果A比手里的牌小，继续向左比较，一直遇到比手里单前牌大，我们把A放到当前排的后面
+
+                如果新抓拍A比手里牌都小，我们把它放到最前面
+               
+        //  */
+        function insert(ary) {
+            
+            // 先抓一张牌（一般都是第一张）
+            var handAry = []; //存储的是手里已有的牌
+            handAry.push(ary[0]);
+      
+            // 循环依次取后面的牌
+           
+            for (var i = 1; i < ary.length; i++) {
+                var item = ary[i]; //本次新抓的牌
+             
+                // 拿新抓的与现有的进行比较(从右往左比 倒着比)
+                for(var j=handAry.length-1;j>=0;j--){
+                    // handAry[j] :当前手里的这张牌
+                    // 新抓的牌比当前的这张牌大，我们把新抓牌，放到当前牌的后面
+
+                   if(item>handAry[j]){
+                       handAry.splice(j+1, 0,item);
+                       break;
+                   } 
+                   if(j ===0){ //新抓的牌是最小，把新抓 放最开始
+                        handAry.unshift(item);
+                        break;
+
+                   }
+                }
+            }
+            return handAry;
+        }
+
+        var ary = [12, 13, 23, 14, 16, 11,1 ,2 ,3 ,2,55,88,66,7,5,6];
+        console.log(insert(ary))
+
+
+    </script>
+</body>
+
+</html>

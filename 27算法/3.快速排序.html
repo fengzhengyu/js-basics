@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=`, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        /* 
+            快速排序
+            原理： 
+                1 取中间项索引，把中间项的值获取到，在原数组中删除中间项
+                2用剩余的数组中的每一项与中间项进行比较，小的放左边，大的放右边（左右都是新数组）
+                3继续重复12步骤，直到只剩一项，连起来
+         */
+        function quick(ary) {
+            // 如果传递进来的数组只有一项或者是空的 我们则不再继续取中间项拆分
+            if(ary.length<=1){
+                return ary;
+            }
+
+            // 取中间项索引，把中间项的值获取到，在原数组中删除中间项
+            var centerIndex = Math.floor(ary.length/2),
+            centerValue = ary.splice(centerIndex,1)[0]; // splice返回的是数组
+
+            // 用剩余的数组中的每一项与中间项进行比较，小的放左边，大的放右边（左右都是新数组）
+
+            var aryLeft = [],
+            aryRight = [];
+
+            for (var i = 0; i < ary.length; i++) {
+                var cur = ary[i];
+                cur<centerValue? aryLeft.push(cur) : aryRight.push(cur);
+
+
+
+            }
+            return  quick(aryLeft).concat(centerValue,quick(aryRight));
+           
+          
+        }
+        var ary = [12, 13, 23, 14, 16, 11];
+        console.log(quick(ary))
+
+
+    </script>
+</body>
+
+</html>
