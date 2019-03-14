@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>引用类型的-其他对象</title>
+</head>
+<body>
+  
+
+  <script>
+    /**
+      * Global 全局的 终极的 兜底的对象（不存在的）
+      * encodeURI()、encodeURIComponent()、decodeURI()、decodeURIComponent()、、、
+      * eval(string)  无形解析器
+      * parseInt()
+      * parseFloat()
+      * escape() 汉字转吗
+      * unescape()解码
+      * isNaN()  如果不是number 返回true
+     **/ 
+
+    var  url = 'www.baidu.com :cn';
+  
+  console.log(encodeURI(url));    // :和//不转吗 
+  console.log(encodeURIComponent(url))// 不标准的 都编码
+  console.log(decodeURI('http://www.baidu.com%20:cn')); 
+  console.log(decodeURIComponent('http://www.baidu.com%20%3Acn'));
+
+    console.log(escape('冯振宇'));
+    console.log(unescape('%u51AF%u632F%u5B87'));
+  </script>
+</body>
+</html>

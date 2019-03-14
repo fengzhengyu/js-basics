@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>factory</title>
+</head>
+
+<body>
+ 
+  
+  <script src="js/Utils.js"></script>
+  <script>
+
+    // 搭建一个工厂模式  粗粒度实现
+
+    // 卖车的商店
+    function CarShop(){
+
+    }
+   CarShop.prototype = {
+      constructor:CarShop,
+      sellCart:function(type){
+        var car; //声明一个cart
+        switch(type){
+          case 'Benz': car = new Benz();break;
+          case 'Bmw': car = new Bmw();break;
+          case 'Audi': car = new Audi();break;
+          default:  'not but it!';
+        }
+        FZ.Interface.ensureImplements(car, CartInterface );
+        
+        return car;
+
+      }
+    }
+
+  // 接口对象的实例
+
+    var CartInterface = new FZ.Interface('CartInterface ',['start','run'])
+    
+  // superClass
+  function BaseCar(){}
+  BaseCar.prototype = {
+    constructor: BaseCar,
+    start: function(){
+      alert(this.constructor.name+' start');
+    },
+    run: function(){
+      alert(this.constructor.name +' run');
+    }
+  }
+
+
+
+    // calss  具体的车类
+    function Benz(){};
+    // 先继承父类
+    FZ.extend(Benz,BaseCar);
+    // 在扩展子类方法，要不 继承的代码会重写 子类.prototype
+    Benz.prototype.drive = function(){
+      alert('Benz .. drive');
+    }
+  
+    function Bmw(){}
+    FZ.extend(Bmw,BaseCar);
+    function Audi(){}
+    FZ.extend(Audi,BaseCar);
+
+    var shop = new CarShop();
+    var car = shop.sellCart('Benz');
+    car.start();
+    car.run();
+    car.drive();
+  console.dir(Benz)
+  </script>
+</body>
+
+</html>

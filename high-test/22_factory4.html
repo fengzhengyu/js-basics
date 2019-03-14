@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>factory</title>
+</head>
+
+<body>
+ 
+  
+  <script src="js/Utils.js"></script>
+  <script>
+
+    // 复杂工厂模式  抽象类  动态工厂模式
+    // 复杂工厂模式  抽象类  动态工厂模式
+    // 买什么车？ 去什么商店 -》皮牌商店-》买车-》生产车-》工厂生产车
+
+
+    // 买车的商店，有N个品牌，去哪个专卖店
+    // 提供一个 super Shop  只有卖车的方法
+
+    // abstract class   抽象类不能实例化，只能去继承
+
+    // this carshop is a abstract class
+    function CarShop(){}
+    CarShop.prototype = {
+      constructor:CarShop,
+      sellCart:function(type){
+
+        // 抽象类
+        this.abstractSellCar(type);
+      },
+      abstractSellCar: function(){
+        throw new Error('this method is a abstract...')
+      }
+    }
+
+
+    //benz 4s店
+    function BenzCarShop(){}
+    FZ.extend(BenzCarShop, CarShop);
+    BenzCarShop.prototype= {
+      constructor: BenzCarShop,
+      sellCart:function(type){
+        // var car = CarFactory.createCar(type);
+        // return car;
+        var car ; //买的车
+        var types = ['Benz']; //所有奔驰类型的汽车
+
+        for(var i in types){
+            if(type === types[i]){
+              car = CarFactory.createCar(type);
+            }else{
+              alert('没有你要的型号')
+            }
+        }
+        return car;
+
+
+      }
+    }
+    //bmw 4s店
+    function BmwCarShop(){}
+    FZ.extend(BmwCarShop, CarShop);
+    BmwCarShop.prototype= {
+      constructor: BmwCarShop,
+      sellCart:function(type){
+        var car ; //买的车
+        var types = ['Bmw']; //所有奔驰类型的汽车
+
+        for(var i in types){
+            if(type === types[i]){
+              car = CarFactory.createCar(type);
+            }else{
+              alert('没有你要的型号')
+            }
+        }
+        return car;
+      }
+    }
+    
+
+
+   
+
+
+
+
+
+    // 生产车的工厂 ，目的就是为了生产车 ----- 动态工厂模式
+    var CarFactory = {
+      createCar:function(type){
+        // 利用eval 动态创建想要类型的型号
+        var car=  eval('new '+type+'()');
+       
+        // 检验接口实现
+        FZ.Interface.ensureImplements(car, CartInterface );
+        
+        return car;
+      }
+    }
+
+  // 接口对象的实例
+    var CartInterface = new FZ.Interface('CartInterface ',['start','run']);
+
+    
+  // superClass 公共方法
+  function BaseCar(){}
+  BaseCar.prototype = {
+    constructor: BaseCar,
+    start: function(){
+      alert(this.constructor.name+' start');
+    },
+    run: function(){
+      alert(this.constructor.name +' run');
+    }
+  }
+
+
+
+    // calss  具体的车类
+    function Benz(){};
+    // 先继承 超类
+    FZ.extend(Benz,BaseCar);
+    // 在扩展子类方法，要不 继承的代码会重写 子类.prototype
+    Benz.prototype.drive = function(){
+      alert('Benz .. drive');
+    }
+  
+    function Bmw(){}
+    FZ.extend(Bmw,BaseCar);
+
+
+    function Audi(){}
+    FZ.extend(Audi,BaseCar);
+
+
+    var shop1 = new BenzCarShop();
+    var car1 = shop1.sellCart('Benz');
+    car1.start();
+    var shop2 = new BmwCarShop();
+    var car2 = shop2.sellCart('Bmw');
+    car2.start();
+
+   
+  </script>
+</body>
+
+</html>

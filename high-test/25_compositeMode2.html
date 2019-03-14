@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>factory</title>
+</head>
+
+<body>
+ 
+  <script src="js/Utils.js"></script>
+  <script>
+
+    // 组合模式： 可以用一条命令在多个对象上 激发复杂的或递归行为，可以把一堆对象组织成树形结构，并且使整棵树都可以被遍历
+
+    /**
+     * 组合模式应用的特点和使用场景：
+     *    场景： 
+     *      1.存在着一批组织成某种层次体系的对象
+     *      2. 希望这批对象或者其中的 一部分对象实施操作
+     *    应用特点：
+     *      1.组合模式中只有两种对象：组合对象和叶子对象
+     *      2.两种对象都实现同一批接口
+     *      3.一般我们会在组合对戏中调用其方法并隐式调用“下级对象”的方法（我们采用递归的形式去做） 
+     * 
+     * 
+     * 
+    // 场景模拟：
+     *  公司 
+     *      -》财务部门
+     *              -》张一
+     *              -》张二
+     *              -》张三
+     * 
+     *      -》人事部门
+     *              -》张四
+     *              -》张五
+     *  
+     *  实际任务得落实到人去实施，也就是只有人才有方法
+     * 
+     *  
+     *  */ 
+    
+      // 实现统一接口
+      var CompositeInterface = new FZ.Interface('CompositeInterface',['getChild','addChild']); //组合的借口实现 添加与得到
+      var LeafInterface = new FZ.Interface('LeafInterface',['hardWorking','sleeping']); //叶子接口实现，两功能
+
+      
+      var Composite = function(name){
+        this.name = name;
+        this.type = 'Composite'; //说明对象的类型
+        this.children = []; //承装孩子的容器
+
+
+      }
+      Composite.prototype= {
+        constructor: Composite,
+        addChild:function(child){
+          this.children.push(child);
+
+          return this;
+        },
+        getChild:function(name){
+          // 接受叶子对象的数组
+          var elements = [];
+
+          var pushLeaf = function(item){
+            if(item.type === 'Composite'){ //如果类型是组合对象说明里面有叶子对象
+              item.children.myEach(arguments.callee);  //arguments.callee就是函数自己 继续判断
+            }else if(item.type === 'Leaf'){ 
+              elements.push(item);
+            }
+          }
+        
+          // 根据name 让name下所有类型为Leaf的对象 执行操作
+          if(name && this.name !== name){
+
+           this.children.myEach(function(item){
+              console.log(item )
+              // 传递的name是二级节点
+              if(item.name === name && item.type === 'Composite'){
+
+                item.children.myEach(pushLeaf);
+
+              }
+
+              if(item.name !== name && item.type === 'Composite'){ //如果你传递是三级节点或者四级、五级
+              
+                item.children.myEach(arguments.callee);
+               
+              }
+              if(item.name == name && item.type === 'Leaf'){ //如果leaf节点
+              
+               elements.push(item);
+              }
+            })
+
+           
+
+
+          }else{
+             //不传 让整个公司 所有类型为Leaf的对象去执行
+           this.children.myEach(pushLeaf);
+         
+           
+          }
+          
+          return elements;
+        },
+        hardWorking:function(name){
+          // 得到所有的leaf类型的对象数组
+
+          var leafObject = this.getChild(name);
+          for(var i=0;i<leafObject.length;i++){
+            leafObject[i].hardWorking();
+          }
+        },
+        sleeping:function(name){
+          var leafObject = this.getChild(name);
+          for(var i=0;i<leafObject.length;i++){
+            leafObject[i].sleeping();
+          }
+        }
+
+      }
+
+      var Leaf = function(name){
+          this.name = name;
+          this.type = 'Leaf'; 
+      }
+
+      Leaf.prototype= {
+        constructor:Leaf,
+        addChild:function(children){
+          throw new Error('this method is disabled...')
+
+        },
+        getChild:function(name){
+
+          if(this.name = name){
+            return this;
+          }
+          return null;
+        },
+        hardWorking:function(name){
+          document.write(this.name +'....努力工作！<br>')
+        },
+        sleeping:function(name){
+          document.write(this.name +'....努力睡觉！')
+        }
+
+       }
+
+      // 测试数据
+      var p1 = new Leaf('张1');
+
+      var p2 = new Leaf('张2');
+      var p3 = new Leaf('张3');
+      var p4 = new Leaf('张4');
+      var p5 = new Leaf('张5');
+      var p6 = new Leaf('张6');
+      
+     
+      var dept1 = new Composite('开发部门');
+      dept1.addChild(p1).addChild(p2).addChild(p3);
+
+      var dept2 = new Composite('销售部门');
+      dept2.addChild(p4).addChild(p5).addChild(p6);
+      
+      var  org = new Composite('ddyk');
+      org.addChild(dept1).addChild(dept2);
+      // org.hardWorking('ddyk')
+      org.hardWorking('张1')
+
+
+    // 门面模式 就是把功能封装成函数，进行耦合 节约代码实现多个功能
+
+
+  </script>
+</body>
+
+</html>

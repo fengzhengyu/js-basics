@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>面向对象</title>
+</head>
+<body>
+  
+
+  <script>
+    /**
+      *js实现继承 
+      * 模拟 ext.js 底层代码
+
+    **/ 
+
+    function extend(sub,parent) {  
+      /*
+        目的： 实现只继承父类的原型对象
+      */ 
+      var F= new Function(); // 步骤1创建一个空函数  目的： 空函数进行中转
+
+      F.prototype = parent.prototype; //步骤2 实现空函数的原型与超类的原型对象转换
+
+      sub.prototype = new F(); // 步骤3 实现原型继承
+
+      sub.prototype.constructor = sub; // 步骤4  还原子类的构造器
+
+      // 保存父类的原型的对象 一方面方便解耦，另一方面获取父类的原型
+
+      sub.superName = parent.prototype; //自定义子类的静态属性，接受父类的原型对象
+
+      // 判断父类原型对象的构造器  加保险,比如忘了还原父类构造器
+
+      if(parent.prototype.constructor === Object.prototype.constructor){
+        parent.prototype.constructor = parent;
+      }
+
+
+      
+
+    }
+
+
+   
+    // 父类构造函数
+    function Parent(name,age){
+      this.name = name;
+      this.age = age;
+    }
+   
+    Parent.prototype = {
+      // constructor: Parent, 
+      sayHello: function(){
+        alert('hello world!');
+      }
+    }
+     // 子类构造函数
+     function Sub(name,age,sex){
+      this.sex = sex;
+
+      // Parent.call(this,name,age);
+      Sub.superName.constructor.call(this,name,age); //使用自定义属性，解耦代码，增强代码的健壮性，必须父类的构造器也得还原
+      // 
+      
+    }
+    // 原型继承 即继承了父类的模板（私有属性），也继承了父类的原型对象（公有属性），call 继承了私有属性，模板属性重复了2次
+    // Sub.prototype= new Parent();
+    
+    // 封装一个方法 扩展 继承
+    extend(Sub,Parent)
+
+    Sub.prototype.sayHello = function(){
+      alert('hello javascript')
+    }
+
+    var  p = new Sub('千年之狐',26,'男');
+    
+    // 利用自定义父类原型对象，重载 父类原型对象的方法
+    Sub.superName.sayHello.call(p);
+
+
+    console.dir(p); 
+    alert(p.name);
+    alert(p.age);
+    alert(p.sex);
+    p.sayHello();
+  //  console.log(Sub.superName.constructor); 
+
+    
+  </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>factory</title>
+</head>
+
+<body>
+ 
+  
+  <script src="js/Utils.js"></script>
+  <script>
+
+    // 搭建一个工厂模式
+
+    // 卖车的商店
+    function CarShop(){
+
+    }
+   CarShop.prototype = {
+      constructor:CarShop,
+      sellCart:function(type){
+        var car; //声明一个cart
+        switch(type){
+          case 'Benz': car = new Benz();break;
+          case 'Bmw': car = new Bmw();break;
+          case 'Audi': car = new Audi();break;
+          default:  'not but it!';
+        }
+        FZ.Interface.ensureImplements(car, CartInterface );
+        
+        return car;
+
+      }
+    }
+
+
+    var CartInterface = new FZ.Interface('CartInterface ',['start','run'])
+
+    // calss  具体的车类
+    function Benz(){}
+    Benz.prototype.start = function(){
+      alert('start')
+    }
+    Benz.prototype.run = function(){
+      alert('run')
+    }
+    function Bmw(){}
+    Bmw.prototype.start = function(){
+      alert('start')
+    }
+    Bmw.prototype.run = function(){
+      alert('run')
+    }
+    function Audi(){}
+    Audi.prototype.start = function(){
+      alert('start')
+    }
+    Audi.prototype.run = function(){
+      alert('run')
+    }
+
+    var shop = new CarShop();
+    var car = shop.sellCart('Bmw');
+    car.start();
+    car.run();
+
+  </script>
+</body>
+
+</html>

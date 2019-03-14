@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>面向对象</title>
+</head>
+<body>
+  
+
+  <script>
+    /**
+     * Object.defineProperty()
+     *   ECMA5  给原型对象重新设置构造器的方法
+     * 参数3个： 参数一 目标对象，参数2 设置的属性，参数3 options 配置项
+     **/ 
+    //  
+
+    function Person (){
+
+    }
+     
+    Person.prototype = {
+      name: 'z3',
+      age: 20,
+      job: '程序员',
+      say: function(){
+        alert('我是原型')
+      }
+    
+    }
+    Object.defineProperty(Person.prototype,'constructor',{
+      enumerable: false,  // 不可枚举的属性
+      value: Person
+    })
+   var p = new Person();
+   console.log(Person.prototype.constructor)
+   for( i in p){
+     console.log(i)
+   }
+  </script>
+</body>
+</html>

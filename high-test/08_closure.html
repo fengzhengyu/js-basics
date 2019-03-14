@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>闭包</title>
+</head>
+<body>
+  
+
+  <script>
+    /**
+     * 闭包： 子函数可以访问父函数的变量
+     *  封闭性：  起到保护变量的作用
+     **/ 
+
+    function f(x){
+      var temp = x;
+      return function(x){
+        temp += x;
+        alert(temp);
+      }
+    }
+    var  a = f(50);
+    a(5);
+    a(10);
+    a(20);
+    a=null;
+    // f(50)(5)
+    // f(50)(10)
+    // f(50)(20)
+  </script>
+</body>
+</html>

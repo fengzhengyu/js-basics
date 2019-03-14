@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>函数的学习</title>
+</head>
+<body>
+  
+
+  <script>
+    /**
+     *  每个函数都包含两个非继承来的方法： call() 、 apply() ；
+     *  在特定的作用域中调用函数，设置函数体内this对象的值。
+     *  
+     *  用途是传递参数,
+     *  最大的用途是扩充作用域
+     * 
+ 
+     **/ 
+
+    //  call
+
+    function sum(x,y){
+      return x+y;
+    }
+
+    function call1(num1,num2){
+     return  sum.call(this,num1,num2);
+    }
+    // alert(call1(10,20))
+
+    function apply1(num1,num2){
+      return  sum.apply(this,[num1,num2]);
+    }
+    // alert(apply1(20,20))
+    // 扩充作用域
+
+    var color= 'red';
+    var obj={
+      color: 'blue'
+    };
+    var obj2={}
+    function showColor() { 
+      alert(this.color)
+     }
+     showColor.call(window);
+     showColor.call(obj);
+     showColor.call(obj2);
+
+
+    //  call 方法的简单模拟与实现
+     
+     function test(a,b){
+       return a+b;
+     }
+    //  自定义对象
+     function Obj(x,y){
+       this.x=x;
+       this.y=y;
+      return x*y;
+     }
+     var o =new Obj(10,30);
+     alert(test.call(o,o.x,o.y))
+
+  </script>
+</body>
+</html>

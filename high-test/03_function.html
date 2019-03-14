@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>函数的学习</title>
+</head>
+<body>
+  
+
+  <script>
+   /**
+     *  函数声明 function fn(){console.log(1)}  
+     *  函数表达式 var fn = function(){console.log(1)}
+     *  创建函数对象 var fn = new Function('console.log(1)')
+     *  区别：
+     *    - 执行不同：
+     *        函数声明    预解释声明 优先解析
+     *        函数表达式  顺序解析
+     *        函数对象    顺序解析
+     *    - 作用域不同：
+     *        函数声明    具有函数作用域
+     *        函数表达式  具有函数作用域
+     *        函数对象    具有顶级作用域
+     **/ 
+
+    //  两种函数表达式，执行区别
+    /*
+    var d1 = new Date();
+    var t1= d1.getTime();
+    
+    for(var i=0;i< 100000;i++){
+      // function test(){}; //10ms
+      // var  test2 = new Function(); //3060ms
+    }
+    var d2 = new Date();
+    var t2= d2.getTime();
+    console.log(t2-t1)
+    */ 
+
+   var num =1;
+
+function fn(){
+  var num= 100;
+ 
+   // var test =  function (){return num;}  //100
+    var test =  new Function(' return num'); // 1    函数对象    具有顶级作用域
+  
+  alert(test());
+}
+fn()
+
+  
+  </script>
+</body>
+</html>

@@ -54,8 +54,8 @@
       //如果私有属性中没有，则通过__proto__找到所属类的原型（类的原型上定义的属性和方法都是当前实例的公有的属性和方法），原型上有的话，获取公有属性
       // 如果原型没有。继续向原型的__proto__继续向上找，一直找到Object.prototye为止，还没有 undefined
 
-      console.log(f1.getX ===f2.getX)//true //当前私有没有，通过__.proto__去找,
-      console.log(f1.__proto__.getX ===f2.getX)  //f1.__proto__ (忽略私有直接找公有)就是当前实例 Fn.prototype  -> true
+      console.log(f1.getX === f2.getX)//true //当前私有没有，通过__.proto__去找,
+      console.log(f1.__proto__.getX === f2.getX)  //f1.__proto__ (忽略私有直接找公有)就是当前实例 Fn.prototype  -> true
       console.log(f1.getX === Fn.prototype.getX)//true
 
       

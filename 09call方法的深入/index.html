@@ -20,7 +20,7 @@
     }
     // fn.call(obj) 
     // call  方法的作用：
-    //  ->首先让原型上的call方法执行，在执行call方法的时候，我们让fn方法中的this编程obj，然后把fn这个方法执行
+    //  ->首先让原型上的call方法执行，在执行call方法的时候，我们让fn方法中的this变成obj，然后把fn这个方法执行
     // 模拟call方法 深入探讨call方法
     Function.prototype.myCall = function(context){
       // myCall 方法中的this就是当前我要操作的和改变其this关键字的那个函数名
@@ -42,24 +42,35 @@
     console.log(2)
 
   }
-  fn1.call(fn2)  //1
+  // fn1.call(fn2)  //1
     /* 
       首先fn1通过原型链查找机制找到Function.prototype.call方法，并且让call方法执行:（call方法中的this就是fn1）
         在call 方法代码执行中，首先让fn1中的this 变为fn2,然后让fn1方法执行
     
      */
+    
 
 
-     fn1.call.call(fn2)//2
+    //  fn1.call.call(fn2)//2
 
      /* 
-        首先fn1通过原型链查找机制找到Function.prototype.call方法，然后让call方法通关原型链的call执行:（因为call本身也是函数，可以继续找原型链call方法，
+        fn1.call->首先fn1通过原型链查找机制找到Function.prototype.call方法，然后让call方法通关原型链的call执行:（因为call本身也是函数，可以继续找Function.prototype.call方法，
         在第二次找到call方法的时候执行，方法中的this是fn1.call ,先让这个方法中的this变为fn2然后让fn1.call执行，也就是fn2执行 ->2） 
-     
+        下面方法理解call.call
       */
+      function fengzheng(context){
+          // this是个函数 ->让this这个函数中"this关键字"变为context
+          // this()
+      }
+      Function.prototype.call = fengzheng;
+      fn1.call.call(fn2)//2
+      // -> fn1.call = fengzheng;
+      // -> fengzheng.call(fn2); call执行，call中的this是fengzheng,让fengzheng中的this 变为fn2,在让fengzheng执行 //2
+
       fn1.call.call.call.call(fn2)//2
-    Function.prototype.call(fn2) //什么都不输出  Function.prototype是个空函数 
-    Function.prototype.call.call(fn2) //2   Function.prototype.call 中有个this()
+    Function.prototype.call(fn2) //什么都不输出  Function.prototype是个空函数 :ƒ () { [native code] }
+    Function.prototype.call.call(fn2) //2   Function.prototype.call中有个this，还是fengzheng; this变为fn2,相当于fn2（）
+   
   </script>
   
 </body>

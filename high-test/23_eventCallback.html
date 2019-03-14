@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>factory</title>
+</head>
+
+<body>
+ 
+  <input type="text" id="inp" value="发送的 数据">
+  <script src="js/Utils.js"></script>
+  <script>
+
+    // 桥接模式 作用： 主要是吧抽象与现实分离开，使他们完全独立
+
+    // 应用常见： 事件监听，回调机制（ 用户点击一个按钮，向服务器发送信息）
+
+
+
+    // 第一段逻辑代码
+    var onp =document.getElementById('inp');
+      // 用事件注册的方式，给元素添加事件
+      FZ.EventUtil.addHandler(inp,'click',bridgeHandler);
+
+
+
+
+    // 桥接模式 分离代码
+    function bridgeHandler(){
+      var msg = this.value;
+      sendReq(msg)
+    }
+
+
+    // 第二段逻辑地阿妈
+      function sendReq(msg){
+
+        alert('这是发送给后天的额数据：'+msg)
+      }
+   
+  // 桥模式   特权函数
+
+    var PublicClass = function(){
+      var name = 'sfs';
+      this.getName = function(){
+        return name;
+      }
+    }
+    var p = new PublicClass();
+    alert(p.getName())
+  // 
+  var PublicClass2 = function(){
+        // 私有化变量
+        var privateMethod = function(){
+          alert('这是一个复杂的操作')
+        }
+
+        this.bridgeMethod = function(){
+          return privateMethod()
+        }
+    }
+    var p2 = new PublicClass2();
+   p2.bridgeMethod()
+
+  //  桥模式 把多个单体组织在一起
+
+  var  Class1 = function(a,b,c){
+    this.a =a;
+    this.b = b;
+    this.c = c;
+  }
+  var  Class2 = function(d,e){
+    this.d = d;
+    this.e = e;
+   
+  }
+  var bridgeClass = function(a,b,c,d,e){
+    this.Class1 = new Class1(a,b,c)
+    this.Class2 = new Class2(d,e)
+  }
+   
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>利用对象特性，数组去重</title>
+</head>
+<body>
+  
+
+  <script>
+    /**
+      * js中 对象的key 永远不重复
+      * 思路：
+      *  1.把数组转化成一个js对象
+      *  2.把数组的值变为对象的key
+      *  3.把对象还原成数组
+      * 
+      * 
+     **/ 
+
+
+    function toObject(arr){
+      var obj = {};
+
+      for(var i=0,len=arr.length;i<len;i++){
+       
+        obj[arr[i]] = true;
+       
+      }
+      return obj;
+    }
+
+    function keys(obj){
+      var arr = [];
+      console.log(obj)
+      for(var attr in obj){  //for in 会排序
+        if(obj.hasOwnProperty(attr)){ 
+          arr.push(attr);
+        }
+        
+      }
+
+      return arr;
+    }
+
+    function unip(newArr){
+
+      return keys(toObject(newArr));
+
+    }
+    var  arr= [1,2,12,2,2,23,5,4,3,12,4,5,6,23,4,5];
+  //  console.log(toObject(arr)) ;
+    
+console.log(Global)
+    
+    
+    
+    
+  </script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>模拟jq链式调用</title>
+</head>
+
+<body>
+  <input type="button" id="inp" value="点我啊 ">
+
+  <script>
+    /* 
+     模拟 jquery 底层代码
+
+    */
+
+    //  块级作用域
+    (function (window, undefined) {
+      // 特点一： 程序运行执行时，自动执行
+      // 特点二： 内部的成员变量  外部不能访问
+
+
+
+      // 大型程序开发 一般使用‘_’作为私有的对象
+
+      function _$(arguments) {
+
+        // 1. 得到参数  判断参数
+        // 正则表达式 匹配id选择器
+        var idSelecter = /^#\w+/;
+        this.dom ; //此属性接受dom元素
+        if(idSelecter.test(arguments[0])){
+          this.dom= document.getElementById(arguments[0].substring(1));
+        }else{
+          throw new Error('arguments is error!')
+        }
+
+      }
+      // 在function类上，扩展实现链式的方法
+      Function.prototype.method = function (methodName, fn) {
+        // this //谁调用我指谁 ，这里是—_$ , this.prototype =_$.prototype
+        this.prototype[methodName] = fn;
+
+        return this; //链式关键
+
+      }
+
+      // 在_$的原型对象加一些公共的方法
+
+      _$.prototype = {
+        constructor: _$,
+        addEvent: function (type,fn) {
+            // 判断浏览器
+            // 高级
+            if(window.addEventListener){
+
+              this.dom.addEventListener(type,fn,false);
+            }else{
+                this.attachEvent('on'+type,fn);
+            }
+            this.dom
+          return this; 
+        },
+        setStyle: function (attr,val) {
+          this.dom.style[attr] = val;
+
+          return this; 
+        }
+      }
+
+
+
+      window.$ = _$; //window挂在属性，外部也能使用
+
+      // 写一个准备的方法
+
+      _$.onReady = function (fn) {
+
+        // jquery 代码
+
+        // 1.实例化—_$对象，注册到window
+        window.$ = function () {
+
+          return new _$(arguments);
+        }
+
+        // 2. 执行传递进来的 fn()
+        fn();
+        // 3. 实现链式操作
+
+        _$.method('addEvent', function () {
+          // 什么都不做
+        }).method('setStyle', function () {
+
+        });
+
+      }
+
+
+
+
+    })(window);
+
+
+    $.onReady(function () {
+
+      // $('#inp').addEvent().setStyle()
+
+      var inp= $('#inp');
+      // console.dir(inp.dom.nodeType)
+      inp.addEvent('click',function(){
+        alert('我被点击了')
+      }).setStyle('backgroundColor','red');
+    })
+  </script>
+</body>
+
+</html>

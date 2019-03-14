@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>函数的学习</title>
+</head>
+<body>
+  
+
+  <script>
+    /**
+     *  this 用法
+     *  this对象 指在运行环境中基于执行环境绑定的 
+     *  this总是指向调用者
+    
+     * 
+ 
+     **/ 
+     // 在js中，主要研究的都是函数中的this
+    // js中的this 代表的是当前行为执行的主体 me.eat() this->me
+    // js中的执行上下文context代表当前行为执行的环境（区域 ） me 在饭店吃饭 this ->me context : 饭店；this与上下文没有必然的联系
+    // this 是谁 和函数在哪定义在哪执行的都没有关系；
+    // 如何区分this：
+    // 1. 函数执行，首先看函数名前是否有 . ,有的话， .前面是谁，this就是谁，没有，this就是window
+    // 2. 自执行函数里面的this 永远是window
+    // 3. 给元素的某一个事件绑定方法，该方法触发的时候，this就是元素
+    // 4. 在构造函数体的中this,就是当前类的实例
+    // 5. 可以用 call 、apply 、bind 改变this的指向，前四种遇见第五种全部让路
+    
+      
+     
+  </script>
+</body>
+</html>

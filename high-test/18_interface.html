@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>设计模式</title>
+</head>
+
+<body>
+ 
+
+  <script>
+      /**
+       * FZ 命名空间 namespace
+        */
+      var  FZ = {}; 
+      /**
+       * 一、interface Class  鸭式辩型法 核心：那接口的方法都实现（检测方法）
+       * 
+       * 接口需求需要两个参数
+       * 参数一： 接口的名字 （string）
+       * 参数二： 接受方法名称的集合 （array）
+       */  
+  
+      FZ.Interface = function(name,methods){
+        // 判断接口参数
+        if(arguments.length != 2){
+          throw new Error('this instance interface constructor arguments must be 2 length!')
+        }
+        
+        this.name = name;
+        // 
+        this.methods = []; //定义内置空数组 等待接受methods的名字
+
+        for(var i=0,len=methods.length;i<len;i++){
+         
+          //每个方法名字必须是字符串
+          if(typeof methods[i] !== 'string'){
+            new Error('The  interface method name is error!');
+          }
+          this.methods.push(methods[i]);
+
+        }
+      }  
+
+
+
+      //二、准备工作 
+        // 1)实例化interface对象
+      
+      var CompositeInterface = new FZ.Interface('CompositeInterface',['add','remove']);
+      var FormItemInterface = new FZ.Interface('FormItemInterface',['update','select']);
+
+      //  2)具体的实现类
+      var CompositeImplement = function(){
+
+      }
+      //  3)实现接口的方法Implement method
+      CompositeImplement.prototype.add = function(){
+        alert('add');
+      }
+      CompositeImplement.prototype.remove = function(){
+        alert('remove');
+      }
+      CompositeImplement.prototype.update = function(){
+        alert('update');
+      }
+      CompositeImplement.prototype.select = function(){
+        alert('select');
+      }
+     
+      // 三、 检验interface method
+      // 如果检验通过 不做任何操作 继续执行，不通过 抛出error
+      // 这个方法的目的就是检测方法的 
+      FZ.Interface.ensureImplements = function(object){
+        // 如果检测方法的参数小于2  
+        if(arguments.length<2){
+          throw new Error('FZ.Interface.ensureImplements methods constructor arguments must be >=2!');
+        }
+
+        // 获得接口实例对象
+        for(var i=1,len=arguments.length;i<len;i++){
+            var instanceInterface = arguments[i];
+            // 判断参数是否是接口类的类型
+            if(instanceInterface.constructor !== FZ.Interface ){
+              throw new Error('the arguments constructor not be Interface class !');
+            }
+            // 循环接口对象里的每一个方法
+            for(var j=0;j<instanceInterface.methods.length;j++){
+              var methodName = instanceInterface.methods[j];
+              // 如果方法名不存在 或者存在 不是函数
+              if(!object[methodName] || typeof object[methodName] !=='function'){
+                throw new Error('the method "'+methodName+'" is not found');
+              }
+            }
+        }    
+      }
+      
+
+      var  c1 =  new CompositeImplement();
+      FZ.Interface.ensureImplements(c1,CompositeInterface,FormItemInterface )
+      c1.add()
+  </script>
+</body>
+
+</html>

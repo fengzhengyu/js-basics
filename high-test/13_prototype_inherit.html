@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>面向对象</title>
+</head>
+<body>
+  
+
+  <script>
+    /**
+      *js实现继承 采用原型链方法
+
+      * 构造函数 原型对象 实例对象
+      
+      * 1. 构造函数.prototype = 原型对象
+      * 2. 原型对象.constructor= 构造函数（模板）
+      * 3. 原型对象.isPrototypeof(实例对象) ；判断实例对象的原型是不是当前对象的
+      * 4. 构造函数 实例对象 （类和实例）
+
+    **/ 
+    // 如果让原型对象等于另一个实例，会怎么样
+
+    // 父类构造函数
+    function Parent(name){
+      this.name = name;
+    }
+   
+    
+    Parent.prototype = {
+      constructor: Parent,
+      sayName: function(){
+        console.log(this.name)
+      }
+    }
+     // 子类构造函数
+     function Sub(age){
+      this.age = age;
+    }
+    Sub.prototype= new Parent('李白');
+
+    var  p = new Sub('千年之狐');
+    console.log(Sub.prototype.constructor);// Parent
+    console.dir(p)
+
+
+    // 混合继承
+    // 父类
+    function F(name,age){
+      this.name = name;
+      this.age = age;
+    }
+    F.prototype.id = 10;
+    F.prototype.sayName = function(){
+      alert(this.name);
+    }
+
+    // 子类
+    function Z(name,age,sex){
+
+      F.call(this,name,age); //借用构造器继承 继承父类的模板，也就是私有属性
+      this.sex = sex;
+    }
+
+    Z.prototype = new F(); //原型继承 继承F的实例和原型。 因为不穿参数，就剩下父类的原型属性，也就是父类的公有属性
+
+    var a = new Z('子类',28,'女');
+
+    console.log(a.name)
+    console.log(a.age)
+    console.log(a.sex)
+    a.sayName()
+    console.log(Z.prototype.constructor) // F() 
+    // 解决 
+    Z.prototype.constructor = Z;
+    console.log(Z.prototype.constructor) //Z() 
+    
+  </script>
+</body>
+</html>

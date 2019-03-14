@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>函数的学习</title>
+</head>
+<body>
+  
+
+  <script>
+    /**
+     *  函数 参数
+     * 函数内部有一个【数组接】收函数的实际参数 
+     * arguments对象,可以访问函数的实际参数
+     * arguments对象用的做多还是做递归操作
+     * 
+ 
+     **/ 
+
+     
+     function sum(a,b,c,d) {
+      //  alert(sum.length); //
+      //  函数内部有一个【数组接】收函数的实际参数 arguments对象,可以访问函数的实际参数
+      // if(sum.length == arguments.length){
+       
+      //    return a + b;
+      // }else{
+      //   alert('参数不对');
+      //   // 不写return   默认返回 undefined
+      // }
+      arguments.callee
+      // 递归操作常用
+      //  arguments.callee 就是函数本身  arguments.callee 就是 sum.length;
+     
+
+      if( arguments.callee.length == arguments.length){
+       
+         return a + b;
+      }else{
+        alert('参数不对');
+        // 不写return   默认返回 undefined
+      }
+     }
+    //  alert(sum()) //NaN
+
+    // alert(sum(10,3))//13
+
+    // 递归例子
+
+      function fact(num){
+        if(num<=1) {
+          return 1;
+        }
+        else {
+          return num*fact(num-1);
+        }
+      }
+      function fact1(num){
+        if(num<=1) {
+          return 1;
+        }
+        else {
+          return num*arguments.callee(num-1);  arguments.callee === fact1
+        }
+      }
+      var fn = fact;
+      fact= null;
+      // alert(fn(3)) //报错 Uncaught TypeError: fact is not a function
+      var fn2 = fact1;
+      fact1=null;
+
+        alert(fn2(3)) 
+      
+     
+  </script>
+</body>
+</html>

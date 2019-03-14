@@ -31,13 +31,13 @@
         这三者之间没有必然的联系
      */
      function Fn(name,age){
-       var num = 100;
+       var num = 100; //函数执行，私有作用域中的变量
        this.x = 100;
     }
     Fn.prototype.getX = function() {
       console.log(this.x)
     }
-    Fn.aaa =10000;
+    Fn.aaa =10000; //Fn当做一个对象，增加的属性
     var f = new Fn;
     f.num // undefined
     f.aaa// undefined

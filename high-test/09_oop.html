@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>面向对象</title>
+</head>
+<body>
+  
+
+  <script>
+    /**
+     * 类：通过类可以创建多个具有相同属性和方法的对象 
+     *  js 用工厂模式、构造函数模式 来模拟类的概念
+     **/ 
+
+    
+    function createPerson(name,age,sex){
+      var obj= new Object;
+      obj.name= name;
+      obj.age= age;
+      obj.sex= sex;
+
+      return obj;
+    }
+    var p1 = createPerson('z2',20,'男');
+    var p2 = createPerson('l4',18,'女');
+    console.log(p2.name)
+
+
+    // 原型 prototype
+    // 创建每一个函数都有一个prototype 属性 ，这个属性其实就是一个指针，而这个指针总指向一个对象
+  </script>
+</body>
+</html>
