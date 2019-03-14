@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=`, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        /* 
+           递归
+            原理： 函数自己调用自己
+                
+         */
+         
+        //  递归求和
+        // function fn(num) {
+          
+        //     if (num<=1){
+        //         return 1;
+        //     }
+        //     return num + fn(num-1)
+        // }
+        // 递归求阶乘
+        // function fn(num) {
+          
+        //   if (num<=1){
+        //       return 1;
+        //   }
+        //   return num * fn(num-1)
+        // }
+        // console.log(fn(10))  
+
+        // 面试题： 1~100之间，把所有能被3整除并且能被5整除的数获取到，饭后累加
+
+        // for循环做法
+        // var total = null;
+        // for(var i=1;i<=100;i++){
+        //     if(i%3 ==0 && i%5==0){
+        //         total += i;
+        //     }
+        // }
+        // console.log(total)
+
+        // 递归做法
+
+        // function fn(num){
+        //     if(num>100){
+        //         return 0;
+        //     }
+        //     if(num%15 == 0){
+        //         return num + fn(num+1)
+        //     }
+        //     return fn(num+1)
+        // }
+        // console.log(fn(1))
+        // 逻辑
+        // 1 ->  fn(2)
+        // 2 ->  fn(3)
+        // 3 ->  fn(4)
+        // ......
+        // 15 ->  15 + fn(16)
+        //        16 ->15 + fn(17)
+        //        17 ->15+ fn(18)  
+        //        ......  
+        //        29 ->15+ fn(30)  
+        //        30 -> 15 + 30+ fn(31)
+        //        31 -> 15 + 30+ fn(32)
+        //        ......  
+        //        99 -> 15 + 30+ ...+ 90 +fn(100)
+        //        100 -> 15 + 30+ 45+ 60+ 75+ 90 +0  //315
+
+    // 10以内所有偶数乘积
+
+    function fn(n){
+        if(n<=1){
+            return 1;
+        }
+        if(n%2 == 0){
+            return n * fn(n-1)
+        }
+        return fn(n-1)
+    }
+    console.log(fn(10))
+
+    </script>
+</body>
+
+</html>
