@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>factory</title>
+</head>
+
+<body>
+ 
+  <script src="js/Utils.js"></script>
+  <script>
+
+    // 享元模式： 优化的设计模式 【优化 时间  空间】
+    //   内在数据static（ 出厂商 型号 出厂日期） 外在数据 （ 拥有者 车牌号 汽车登记）
+    //  抽出静态数据与外在数据结合
+
+   // 出厂商 型号 出厂日期  拥有者 车牌号 汽车登记 
+   //  前三个 是固定的 不会去修改 后三个 可以修改
+   var Car = function(make,model,year,tag,renewDate) {
+     this.make = make;
+     this.model = model;
+     this.year = year;
+     this.tag = tag;
+     this.renewDate = renewDate;
+
+   }
+  Car.prototype = {
+    constructor: Car,
+    getMake: function(){
+      return this.make;
+    },
+    getModel: function(){
+      return this.model;
+    },
+    getYear: function(){
+      return this.year;
+    },
+    renewRegistration:function(){
+      this.renewDate = newRenewDate;
+    }
+  }
+
+  var  arr = [];
+  var startT = new Date().getTime();
+  for(var i=0;i<5000000;i++){
+    arr.push(new Car('上海大众','迈腾','2012-02-02','fengzheng','bj8888','2013-0-17'))
+  }
+  var endT = new Date().getTime();
+  alert(endT-startT) //1300
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>factory</title>
+</head>
+
+<body>
+ 
+  <script src="js/Utils.js"></script>
+  <script>
+
+    //代理模式：  代理也是对象，他的目的是为了节制（控制）对本体对象的 访问
+
+
+    var Book = function(id,title,author){
+      this.id =id;
+      this.title= title;
+      this.author= author;
+
+    }
+
+
+
+    var  LibraryInterface = new FZ.Interface('LibraryInterface',['addBook','findBook','checkoutBook','returnBook']);
+    var Library = function(books) {
+      this.books = books;
+
+
+    }
+    Library.prototype ={
+      constructor: Library,
+      addBook: function(Book){
+        this.books[book.id] = book;
+      },
+      findBook: function(id){
+        if(this.books[id]){
+          return this.books[id];
+        }
+        return null;
+
+      },
+      checkoutBook: function(id){
+        // 电脑等级  交压金
+
+        return   this.findBook(id)
+
+      },
+      returnBook: function(book){
+        // 计算费用 
+
+
+        this.books[book.id] = book;
+      }
+    }
+
+    // 图书馆代理对象   
+    var LibraryProxy =function (books){
+      this.books = books;
+
+      this.library = null;
+      alert('产生代理对象 并没有产生正真的对象')
+
+    }
+
+    LibraryProxy.prototype = {
+      constructor: LibraryProxy,
+      initializeLibrary: function(){
+        if(this.library == null){
+          alert('真正的 本体对象')
+          this.library = new Library(this.books);
+        }
+      },
+      addBook: function(book){
+        this.initializeLibrary();
+        
+        // 实际上 library 就是实例化的Libaray,所以他有 addBook方法
+        this.library.addBook(book)
+      },
+      findBook: function(id){
+        this.initializeLibrary();
+
+      return this.library.findBook(id);
+
+      },
+      checkoutBook: function(id){
+        this.initializeLibrary();
+
+        // 电脑等级  交压金
+
+        return   this.library.checkoutBook(id)
+
+      },
+      returnBook: function(book){
+        this.initializeLibrary();
+
+
+        // 计算费用 
+
+
+        this.books[book.id] = book;
+      }
+    }
+    
+   // 实例化代理对象： 推迟本体对象的实例化时间
+    var  proxy = new LibraryProxy({
+      '01': new Book('01','html','小明'),
+      '02': new Book('021','css','小红'),
+      '03': new Book('03','javascript','小亮')
+    });
+
+    alert( proxy.findBook('01').title)
+
+  </script>
+</body>
+
+</html>
