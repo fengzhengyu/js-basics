@@ -54,22 +54,23 @@
       //如果私有属性中没有，则通过__proto__找到所属类的原型（类的原型上定义的属性和方法都是当前实例的公有的属性和方法），原型上有的话，获取公有属性
       // 如果原型没有。继续向原型的__proto__继续向上找，一直找到Object.prototye为止，还没有 undefined
 
-      console.log(f1.getX === f2.getX)//true //当前私有没有，通过__.proto__去找,
+      console.log(f1.getX === f2.getX)//true //当前私有没有，通过.__proto__去找,
       console.log(f1.__proto__.getX === f2.getX)  //f1.__proto__ (忽略私有直接找公有)就是当前实例 Fn.prototype  -> true
-      console.log(f1.getX === Fn.prototype.getX)//true
+    
+      console.log(f1.getX === Fn.prototype.getX)//true 私有属性没有getX ，往原型找 有
 
       
       //f1.hasOwnProperty()->f1.__porto__.__porto__.hasOwnProperty()
       //在IE浏览器，原型模式也是同理，但IE怕你通过__proto__把公有属性修改，禁止我们使用__proto__
-      f1.sum=function(){
-        //修改私有属性
-      }
-      f1.__proto__.sum =function(){
-        //修改公有属性 但ie不支持
-      }
-      Fn.prototype.sum=function(){
-        //修改公有属性 兼容所有浏览器
-      }
+      // f1.sum=function(){
+      //   //修改私有属性
+      // }
+      // f1.__proto__.sum =function(){
+      //   //修改公有属性 但ie不支持
+      // }
+      // Fn.prototype.sum=function(){
+      //   //修改公有属性 兼容所有浏览器
+      // }
   </script>
   
 </body>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>factory</title>
+</head>
+
+<body>
+
+
+  
+  <script src="js/Utils.js"></script>
+  <script>
+
+    //责任链模式：responsibility
+    //  目的： 发送者和接受者之间的耦合
+    /**
+     * 发送者知道链中的第一个接受者，向这个接受者发出请求
+     * 每一个接受者都对请求进行分析，要么处理它，要么往下传递
+     * 每一个接受者知道的其他对象只有一个，即它的链上离开，不同的实现对此有不同的反应
+     * 
+     */
+
+
+    // 模拟做项目 -》项目经理：->task 告诉项目组[A,B,C,D]
+    // 以下非责任链模式
+    
+    // 任务类(发送者)
+    var Assign = function(task){
+      this.task = task;
+    };
+    // 接收任务的类
+    var  WorkFlow = function(assign){
+      this.assign = assign;
+    };
+    WorkFlow.prototype = {
+      constructor: WorkFlow,
+      // 分析方法，只接收一个接受者 一个接受者对象（链中的第一个）
+      filterHandler: function(executor){
+
+        // 如果当前合适，就去做
+        if(this.assign.task == executor.cando){
+          return executor.todo();
+        }else{
+          // 匹配不到
+          // arguments.callee(executor.successor);
+         arguments.callee.call(this,executor.successor);
+        }
+
+      }
+
+    }
+
+
+    // 处理者
+    var Executor = function(name,cando){
+      this.name = name; //接收者名字
+      this.cando = cando; //擅长做的事
+      this.successor = null; //保留当前接收者的下一个对象的引用
+
+    };
+    Executor.prototype = {
+      constructor: Executor,
+      todo: function(){
+        document.write(this.name+' 擅长：'+this.cando)
+      },
+    // 设置责任链的配置函数
+      setSuccessor: function(successor){
+        this.successor = successor;
+      }
+
+
+    };
+
+      // 实例化四个处理对象
+    var e1 = new Executor('小A','javascript');
+    var e2 = new Executor('小B','css');
+    var e3 = new Executor('小C','mysql');
+    var e4 = new Executor('小D','java');
+
+    // 设置责任链之间的关系
+    e1.setSuccessor(e2);
+    e2.setSuccessor(e3);
+    e3.setSuccessor(e4);
+    
+    // 实例化任务
+
+    var assign = new Assign('css');
+
+    // 实例化接受类 接受任务
+    var wf = new WorkFlow(assign) ;
+    wf.filterHandler(e1)
+
+
+
+
+  </script> 
+</body>
+
+</html>

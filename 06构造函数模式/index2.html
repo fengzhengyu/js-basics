@@ -47,7 +47,8 @@
     console.log(f1 instanceof Array) //false
     console.log(f1 instanceof Object) //true  每个对象数据类型都是Object这个内置类的实例
 
-    // 5 检测某一个属是否属于这个对象 attr in object(不管私有属性还是公有属性都可以))
+    // 5 检测某一个属是否属于这个对象 attr in object(不管私有属性还是公有属性都可以)) attr 需要加引号
+    console.log('x'  in f1);
 
     // 6 检测某一个属性是否属于这个对象私有属性 hasOwnProperty()
     console.log(f1.hasOwnProperty('getX'))

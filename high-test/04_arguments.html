@@ -14,7 +14,7 @@
      *  函数 参数
      * 函数内部有一个【数组接】收函数的实际参数 
      * arguments对象,可以访问函数的实际参数
-     * arguments对象用的做多还是做递归操作
+     * arguments对象用的最多还是做递归操作
      * 
  
      **/ 
@@ -30,7 +30,8 @@
       //   alert('参数不对');
       //   // 不写return   默认返回 undefined
       // }
-      arguments.callee
+
+      //# arguments.callee
       // 递归操作常用
       //  arguments.callee 就是函数本身  arguments.callee 就是 sum.length;
      
@@ -62,7 +63,7 @@
           return 1;
         }
         else {
-          return num*arguments.callee(num-1);  arguments.callee === fact1
+          return num*arguments.callee(num-1);  // arguments.callee === fact1函数本身
         }
       }
       var fn = fact;

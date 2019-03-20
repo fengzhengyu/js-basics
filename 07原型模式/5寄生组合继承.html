@@ -29,7 +29,7 @@
     B.prototype =  objectCreate(A.prototype); 
     B.prototype.constructor = B;
     var n = new B;
-    console.log(n)
+    console.dir(n)
     /* 
       在B的原型 上在加一层 A的原型 相当于多套了一层，
       A的原型修改 B也能跟着修改，
@@ -38,7 +38,7 @@
      */
 
     function objectCreate(obj){
-      function Fn(){}
+      function Fn(){};
       Fn.prototype= obj;
       return new Fn;
     }

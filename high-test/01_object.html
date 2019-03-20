@@ -35,7 +35,7 @@
     function keys(obj){
       var arr = [];
       console.log(obj)
-      for(var attr in obj){  //for in 会排序
+      for(var attr in obj){  //不同浏览器 for in 会排序
         if(obj.hasOwnProperty(attr)){ 
           arr.push(attr);
         }
@@ -51,9 +51,11 @@
 
     }
     var  arr= [1,2,12,2,2,23,5,4,3,12,4,5,6,23,4,5];
-  //  console.log(toObject(arr)) ;
-    
-console.log(Global)
+   console.log( unip(arr)) ; 
+
+  //  ie9以上: ["1", "2", "3", "4", "5", "6", "12", "23"]
+  // IE678及低版本Firefox/Safari [1,2,12,23,5,4,3,6]
+
     
     
     

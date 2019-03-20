@@ -331,3 +331,106 @@ var utils = {
 
 
 }
+
+// 数组去重方法
+Array.prototype.myUnique = function(){
+
+  var  obj = {};
+  for(var i=0;i<this.length;i++){
+    var  cur = this[i];
+    if(obj[cur] == cur){ //利用对象key 判断是否存在
+
+      this[i] = this[this.length-1]; //如果重复，当前项=最后一项
+      this.length--; //删除最后一项
+      i--; // i回退一下
+      continue; //跳出本次循环，继续继从当前i循环判断
+    }
+    obj[cur] = cur;
+  }
+
+  obj = null;  //手动释放内存
+  return this;
+}
+
+// 遍历多维数组
+
+Array.prototype.myEach = function(fn){
+
+  this.i || (this.i = 0);
+  while(this.i<this.length){
+    var  e = this[this.i];
+    if(e && e.constructor == Array){
+      e.myEach(fn);
+    }else{
+      fn.call(e,e);
+    }
+    
+
+    this.i++;
+  }
+  this.i = null;
+
+  return this;
+}
+// 模拟 call
+
+Function.prototype.myCall = function(context){
+// this 就是 fn.call() '.'前面的函数 
+// content:传进来的对象
+  var content = content || window;
+
+  // 1. 让函数this 成为 content对象的一个属性
+  content.fn = this;
+
+  // 获取参数
+  var ary = [];
+  for(var i=0;i<arguments.length;i++){
+    ary.push(this.arguments[i]);
+  }
+  // 2. 执行调用的函数
+
+  var result = eval('content.fn('+ary+')');
+  
+  // es6 写法 
+  // content.fn(...ary);
+
+  //  3. 删除这个属性
+  delete content.fn;
+
+  return result;
+
+}
+
+
+//模拟apply
+
+Function.prototype.myApply = function(context,arr){
+  
+  var content = content || window;
+  var result;
+  // 1. 让函数this 成为 content对象的一个属性
+  content.fn = this;
+
+  if(!arr){
+    result = content.fn();  
+  }else{
+    // es3写法
+    var ary = [];
+    for(var i=0;i<arguments.length;i++){
+      ary.push(this.arguments[i]);
+    }
+  
+    result = eval('content.fn('+ary+')');
+
+    //es6 
+    // result = content.fn(...arr)
+
+    
+  }
+
+  //  3. 删除这个属性
+  delete content.fn;
+
+  return result;
+
+}

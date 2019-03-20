@@ -16,9 +16,9 @@
      **/ 
     //  
      var arr = [1,2,3,[4,[5,[6]]]];
-     arr.forEach(function(item,index){ //只合适一维数组
-      // alert(item)
-     });
+    //  arr.forEach(function(item,index){ //只合适一维数组
+    //   // alert(item)
+    //  });
 
      Array.prototype.myEach = function(fn){
 
@@ -31,10 +31,10 @@
 
             // 循环遍历每一项
             while(this.i < this.length){ //范围控制
-
+            
             // 获取每一项 
               var  e = this[this.i];
-             
+              
               // 并且每一项是数组
               if(e && e.constructor == Array){
                 // 递归操作
@@ -44,6 +44,7 @@
                 // 执行回调函数，并且把参数传递给回调函数
                 // fn.apply(null,[e]);
                 // console.log(e)
+               
                 fn.call(e,e);
                
               }

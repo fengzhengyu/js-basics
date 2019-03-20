@@ -17,6 +17,7 @@
         this.num *= 3;  //这里this是window 20*3=60 
         num += 15;
         var num = 45;  
+        console.log(this.num)
         return function(){
           this.num *=4; 240
           num += 20;
@@ -26,9 +27,9 @@
     }
     var fn = obj.fn;
     fn()  //window.num = 60*4 ;conslog->65
-    obj.fn()//obj.num= 30*4 ;conslog->85
-    obj.fn()//obj.num= 120*4 ;conslog->105
-    console.log(num,obj.num) // 120 480
+     obj.fn()//obj.num= 30*4 ;conslog->85
+    // obj.fn()//obj.num= 120*4 ;conslog->105
+    // console.log(num,obj.num) // 240 480
     // 在全局下 ，自执行函数不进行预解释，执行该私有作用域，执行到该代码声明加定义进行该作用预解释 
   
   </script>

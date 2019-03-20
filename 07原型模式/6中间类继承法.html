@@ -29,14 +29,14 @@
     function avgFn() {
  
       arguments.__proto__ = Array.prototype; // 默认__proto__直接指向object,
-      console.log(arguments)
+      
       arguments.sort(function(a,b){
           return a-b;
       });
-      arguments.pop()
-      arguments.shift()
-    
-      return eval(arguments.join('+'))/arguments.length
+      arguments.pop();
+      arguments.shift();
+     
+      return eval(arguments.join('+'))/arguments.length;
 
      }
      console.log(avgFn(10,20,30,10,30,40,40))

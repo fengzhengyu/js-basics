@@ -26,30 +26,30 @@
      **/ 
 
     //  两种函数表达式，执行区别
-    /*
+   
     var d1 = new Date();
     var t1= d1.getTime();
     
     for(var i=0;i< 100000;i++){
-      // function test(){}; //10ms
+      var test = function (){}; //10ms
       // var  test2 = new Function(); //3060ms
     }
     var d2 = new Date();
     var t2= d2.getTime();
     console.log(t2-t1)
-    */ 
+    /* */ 
 
-   var num =1;
+//    var num =1;
 
-function fn(){
-  var num= 100;
+// function fn(){
+//   var num= 100;
  
-   // var test =  function (){return num;}  //100
-    var test =  new Function(' return num'); // 1    函数对象    具有顶级作用域
+//    // var test =  function (){return num;}  //100
+//     var test =  new Function(' return num'); // 1    函数对象    具有顶级作用域
   
-  alert(test());
-}
-fn()
+//   alert(test());
+// }
+// fn()
 
   
   </script>

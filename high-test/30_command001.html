@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>factory</title>
+</head>
+
+<body>
+
+  <input type="button" id="pub1" value="按钮"><input type="text" id="text1" value=""><br>
+  
+  <script src="js/Utils.js"></script>
+  <script>
+
+    //命令模式： 是一种封装方法调用的的模式
+    //  把调用命令的调用者 和 执行命令的接受者 进行隔离
+    // 要执行的时候 命令（1） 命令（2） 命令（3）
+    // 命令模式必须实现接口（execute）
+    //  分类： 简单的  复杂 闭包命令模式
+    var CommandInterface = new FZ.Interface('CommandInterface',['execute']);
+    
+    // 点击一个按钮，触发几个元素执行动画效果
+    // 2个命令 （1: start  2: stop）
+    
+   // 主要概念： 调用者只需要执行命令即可，不需要关心命令怎么执行的
+   //           执行者才真正的去处理这条命令的内部实现
+
+    /* 
+    var  StartCommand = function(obj){
+      this.ad = obj;
+    }
+    StartCommand.prototype.execute = function(){
+      this.ad.start();
+    }
+
+    var  StopCommand = function(obj){
+      this.ad = obj;
+      this.ad.stop();
+      
+    }
+    StopCommand.prototype.execute = function(){
+      
+    }
+    var  startCommand = new  StartCommand(obj);
+
+    startCommand.execute();
+    var  stopCommand = new  StartCommand(obj);
+
+    stopCommand.execute();
+  */
+
+   //
+     
+
+   
+  
+   
+
+  </script> 
+</body>
+
+</html>

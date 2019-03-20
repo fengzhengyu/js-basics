@@ -23,6 +23,7 @@
         function B() {
           var temp = new A();
           for(var key in temp){
+           
             this[key] = temp[key]; //克隆父类属性，添加给子类
           }
           temp = null; //临时使用，用完销毁

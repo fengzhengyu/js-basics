@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>factory</title>
+</head>
+
+<body>
+
+
+  
+  <script src="js/Utils.js"></script>
+  <script>
+
+    //命令模式： 是一种封装方法调用的的模式
+    //  把调用命令的调用者 和 执行命令的接受者 进行隔离
+    // 要执行的时候 命令（1） 命令（2） 命令（3）
+    // 命令模式必须实现接口（execute）
+    //  分类： 简单的  复杂 闭包命令模式
+  
+    
+    // 用命令模式完成简单的小游戏
+
+    // 页面四个按钮 （up/down/left/right） 目标对象（div） 还有一个回退按钮
+
+    // 有一个元素，有四个命令，没执行一次 有个集合记录所有命令，响应的执行命名
+    
+    /* 
+
+    
+    */
+  //  一个命令接口，两个方法，一个是执行命令，一个是回退命令
+    var ReversibleInterface =  new FZ.Interface('ReversibleInterface',['execute','undo']);
+    
+    // 命令对象类 参数传递的是接收者（cursor）
+    var MoveUp = function(cursor){
+      this.cursor = cursor;
+
+    }
+    MoveUp.prototype = {
+      constructor: MoveUp,
+      execute: function(){
+        // 真正的接受者 调用自己的move方法
+        this.cursor.move(0,-10)
+      },
+      undo: function(){
+        this.cursor.move(0,10)
+      }
+    }
+
+    var MoveDown = function(cursor){
+      this.cursor = cursor;
+
+    }
+    MoveDown.prototype = {
+      constructor: MoveDown,
+      execute: function(){
+        // 真正的接受者 调用自己的move方法
+        this.cursor.move(0,10)
+      },
+      undo: function(){
+        this.cursor.move(0,-10)
+      }
+    }
+
+    var MoveLeft = function(cursor){
+      this.cursor = cursor;
+
+    }
+    MoveLeft.prototype = {
+      constructor: MoveLeft ,
+      execute: function(){
+        // 真正的接受者 调用自己的move方法
+        this.cursor.move(-10,0)
+      },
+      undo: function(){
+        this.cursor.move(10,0,)
+      }
+    }
+
+
+    var MoveRight = function(cursor){
+      this.cursor = cursor;
+
+    }
+    MoveRight.prototype = {
+      constructor: MoveRight,
+      execute: function(){
+        // 真正的接受者 调用自己的move方法
+        this.cursor.move(10,0)
+      },
+      undo: function(){
+        this.cursor.move(-10,0)
+      }
+    }
+
+
+    // 接受者(也就是具体方法 的对象）
+     
+    var Cursor = function(width,height,parent){
+      // 外层div 就是canvas
+      this.width = width; //宽高代表外层div 的宽高
+      this.height = height;
+      // 移动的元素的集体位置，
+      this.position = {
+        x: width/2,
+        y: height/2
+      }
+
+      this.canvas = document.createElement('canvas');
+      this.canvas.width = this.width;
+      this.canvas.height = this.height;
+      this.canvas.style.background= '#999';
+      parent.appendChild(this.canvas);
+
+      // 画布
+      this.ctx = this.canvas.getContext('2d');
+
+      this.ctx.fillStyle = 'red';
+
+      this.move(0,0); //初始化当前位置
+
+
+
+
+    }
+   
+    Cursor.prototype = {
+      constructor: Cursor,
+      move: function(x,y){
+        this.position.x += x;
+        this.position.y += y;
+        // 有一个重画的方法；
+        this.ctx.clearRect(0,0,this.width,this.height); //每次重画之前要清空画布
+        this.ctx.fillRect(this.position.x,this.position.y,20,20); //画出方块
+
+
+      }
+    }
+
+
+    // 应该有个命令集合，为了当执行每一个命令前，把命令加入到集合中（push  pop）
+    // 使用装饰者模式，装饰命令对象的实例(别装饰者，当前命令集合)
+
+    var UndoDecorator = function(command,undoStack){
+      this.command = command;
+      this.undoStack = undoStack;
+
+    }
+    UndoDecorator.prototype = {
+      constructor: UndoDecorator,
+      execute: function(){
+        this.undoStack.push(this.command)
+        this.command.execute()
+      },
+      undo: function(){
+        this.command.undo();
+    
+      }
+    }
+
+    // 晚上html 
+    // 命令按钮类
+    var CommandButton = function(label,command,parent){
+      // 检验接口
+      FZ.Interface.ensureImplements(command,ReversibleInterface);
+      
+      this.element = document.createElement('button');
+      this.element.innerHtml = label;
+      parent.appendChild(this.element);
+
+      // 添加时间
+      FZ.EventUtil.addHandler(this.element,'click',function(){
+        command.execute(); //执行响应的命令
+      })
+    };
+    
+    // 回退按钮类
+
+    var UndoButton = function(label,parent,undoStack){
+      this.element = document.createElement('button');
+      this.element.innerHTML = label;
+      parent.appendChild(this.element);
+      FZ.EventUtil.addHandler(this.element,'click',function(){
+        
+        if(undoStack.length === 0){
+          alert('这是最后一步');
+          return;
+        }else{
+          var lastCommand = undoStack.pop();
+          // 那最后一次命令 拿出来，执行回退
+          lastCommand.undo();
+        }
+      })
+
+    }
+
+
+    
+    
+    var body = document.body;
+    var cursor = new Cursor(400,400,body);
+    var undoStack = [];
+    
+   // 客户 创建名利
+    var upCommand = new UndoDecorator(new MoveUp(cursor),undoStack);
+    var downCommand = new UndoDecorator(new MoveDown(cursor),undoStack);
+    var leftCommand = new UndoDecorator(new MoveLeft(cursor),undoStack);
+    var rightCommand = new UndoDecorator(new MoveRight(cursor),undoStack);
+    
+    var upbtn= new CommandButton('up',upCommand ,body);
+    var downbtn= new CommandButton('down',downCommand ,body);
+    var leftbtn= new CommandButton('left',leftCommand ,body);
+    var rightbtn= new CommandButton('right',rightCommand ,body);
+
+
+    var undobtn= new UndoButton('undo',body,undoStack );
+    
+    
+  
+
+
+
+  </script> 
+</body>
+
+</html>

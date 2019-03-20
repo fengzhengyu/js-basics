@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>factory</title>
+</head>
+
+<body>
+
+  <input type="button" id="pub1" value="第一报社"><input type="text" id="text1" value=""><br>
+  <input type="button" id="pub2" value="第二报社"><input type="text" id="text2" value=""><br>
+  <input type="button" id="pub3" value="第三报社"><input type="text" id="text3" value=""><br>
+ <textarea name="" id="sub1" cols="30" rows="10"></textarea>
+ <textarea name="" id="sub2" cols="30" rows="10"></textarea>
+  <script src="js/Utils.js"></script>
+  <script>
+
+    //观察者模式： 对程序中的某一个对象，进行实时观察，当对象状态发生改变时，进行通知（也叫发布订阅模式）
+
+    //  观察者 、被观察者
+    
+    // 发布者（被观察者）
+    var Publish = function(name){ 
+      this.name = name;
+      this.subscribers = []; //所有的订阅者（每一个元素是函数类型）
+    }
+    // Plblish的实例对象 发布消息的方法
+    Publish.prototype.deliver = function(news){
+      var _this =this;
+      console.log( this.subscribers)
+      this.subscribers.forEach(function(fn){
+        fn(news,_this); //把新消息发给订阅者
+      })
+      return this;
+    }
+    // 具体一个订阅者去订阅报纸的方法
+
+    Function.prototype.subscribe = function(publish){
+      var  sub = this; //取得订阅人的具体信息
+      // [] 所有的订阅者
+      // some 有一个true 都返回true ，
+     
+      var alreadyExists = publish.subscribers.some(function(item){
+      
+        return item === sub ;
+      });
+      
+      // 如果当前出版时 不存在，让其加入其中
+      if(!alreadyExists){
+        publish.subscribers.push(this);
+        
+      }
+     
+      return this;
+    }
+    // 具体一个订阅者取消订阅报纸
+
+    Function.prototype.unsubscribe = function(publish){
+      var  sub = this; //取得订阅人的具体信息
+      // filter 如果不匹配，删除该元素,返回新数组
+      publish.subscribers = publish.subscribers.filter(function(item){
+        return item !== sub;
+      });
+      return this;
+    }
+    
+
+    // 实例化发布者对象 报社对象 被观察者
+
+    var pub1 = new Publish('第一报社');
+    var pub2 = new Publish('第二报社');
+    var pub3 = new Publish('第三报社');
+  
+
+    // 观察者 （订阅者）
+    var sub1 = function(news){
+      document.getElementById('sub1').innerHTML += arguments[1].name+ ':' + news+'\n';
+    };
+    var sub2 = function(news){
+      document.getElementById('sub2').innerHTML += arguments[1].name+ ':' + news+'\n';
+    };
+    
+    // 订阅报社报纸
+    sub1.subscribe(pub1).subscribe(pub2).subscribe(pub3);
+   
+    sub2.subscribe(pub1).subscribe(pub2);
+    // 事件绑定
+    
+    FZ.EventUtil.addHandler(document.getElementById('pub1'),'click',function(){
+      pub1.deliver(document.getElementById('text1').value)
+    })
+    FZ.EventUtil.addHandler(document.getElementById('pub2'),'click',function(){
+      pub2.deliver(document.getElementById('text2').value)
+    })
+    FZ.EventUtil.addHandler(document.getElementById('pub3'),'click',function(){
+      pub3.deliver(document.getElementById('text3').value)
+    })
+
+  //  取消订阅
+  sub1.unsubscribe(pub1); 
+
+  </script> 
+</body>
+
+</html>
