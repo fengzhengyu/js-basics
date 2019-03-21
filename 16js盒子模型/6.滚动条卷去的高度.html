@@ -48,10 +48,12 @@
     //  box.scrollTop最小值是0；
     //  box.scrollTop最大值是 = 真实高度 - 当前容器一屏的高度 （scrollTop = scrollHeight - clientHeight）
 
+    // 卷曲的 高度
     var  maxTop = box.scrollHeight - box.clientHeight;
     console.log(maxTop);
  
     window.onscroll = function() {
+      
       console.log(maxTop == box.scrollTop);
       if(maxTop == box.scrollTop){
         alert('到底了')

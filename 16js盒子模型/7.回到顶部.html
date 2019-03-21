@@ -92,7 +92,7 @@
          总时间（duration）： 500ms
          频率（interval）： 多长时间走一步 10ms
          总距离（target):当前的位置（scrollTop - 目标的位置）
-         步长（step）： 每一次走的距离 target / duration * interval  
+         步长（step）： 每一次走的距离   target / duration * interval  
       
        */
        back.onclick = function () {
@@ -105,7 +105,8 @@
           var curTop = document.documentElement.scrollTop ||document.body.scrollTop;
 
           if(curTop == 0){
-            clearInterval(timer)
+            clearInterval(timer);
+            return;
           }
           curTop -= step;
 

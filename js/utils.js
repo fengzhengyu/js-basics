@@ -325,6 +325,33 @@ var utils = {
       this.setGroupCss.apply(this,arguments);
     }
 
+  },
+  offset:function(curEle){
+    var left =null,top=null,parent = curEle.offsetParent;
+    
+    // 元素本身距父级的offset
+    left += curEle.offsetLeft;
+    top += curEle.offsetTop;
+
+    while(parent){
+
+      // ie8一下 已经计算边框了
+      if(navigator.useragent.indexOf('MSIE 8.0' === -1)){
+        left += parent.clientLeft;
+        top += parent.clientTop;
+
+      }
+
+      left += parent.offsetLeft;
+      top += parent.offsetTop;
+      // 继续找父级参照物，没有为null
+      parent = parent.offsetParent;
+    }
+
+    return {
+      left: left,
+      top: top
+    }
   }
 
 

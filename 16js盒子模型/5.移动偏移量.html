@@ -58,7 +58,7 @@
     // outer ->scrollParent body
     // inner ->parentNode outer
     // content  ->parentNode inner
-    // console.log( outer.offsetParent, inner.offsetParent,content.offsetParent )
+    //  console.log( outer.offsetParent, inner.offsetParent,content.offsetParent )
 
     // outer.offsetParent ->body
     // inner.offsetParent ->body
@@ -72,23 +72,23 @@
     // offset 等同于jquery 中的offset()方法
     function offset(curEle){
       var left =null,top = null,parent = curEle.offsetParent;
-
       left += curEle.offsetLeft;
       top += curEle.offsetTop;
-    
+
       // 只要没找到body ，我们把父级参照物的边框与偏移也累加
       while(parent){
+    
         // 累加父级参照物边框
         // ie8下 已经计算上边框了
+       
         if(navigator.userAgent.indexOf('MSIE 8.0') ===-1 ){//不是ie8我们才累加
           left += parent.clientLeft;
           top += parent.clientTop;
-
         }
-        
-
+  
         // 累加父级本身的偏移量
         left += parent.offsetLeft;
+      
         top += parent.offsetTop;
         
         // 继续找父级参照物 知道body 为null 停止循环
@@ -98,7 +98,8 @@
       return {left:left,top:top}
 
     }
-    console.log(offset(content).left   )
+    console.log(/MSIE (6|7|8)/i.test(navigator.userAgent)); //是否兼容ie678
+    // console.log(offset(content).left   )
     console.log( offset(inner).left  )
     // console.log(offset(inner))
   </script>

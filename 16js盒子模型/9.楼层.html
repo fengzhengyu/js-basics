@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      font-size: 14px;
+    }
+
+   
+
+
+    a {
+      position: fixed;
+      right: 50px;
+      bottom: 50px;
+      width: 100px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      background: #333;
+      color: #fff;
+      text-decoration: none;
+      display: none;
+
+    }
+
+    .wrap {
+      width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header,
+    .footer {
+      height: 100px;
+      line-height: 100px;
+      text-align: center;
+
+      font-size: 30px;
+    }
+
+    .header {
+      background: lightgoldenrodyellow;
+    }
+
+    .footer {
+      background: lightslategray;
+    }
+
+    .carousel {
+      height: 800px;
+      line-height: 800px;
+      background: #11c900;
+      font-size: 30px;
+      text-align: center;
+    }
+
+    .floor {
+      height: 600px;
+      line-height: 600px;
+      font-size: 30px;
+      text-align: center;
+    }
+    .floor1{
+      background: lightcoral;
+    }
+    .floor2{
+      background: lightgray;
+    }
+    .floor3{
+      background: lightseagreen;
+    }
+    .floor4{
+      background: yellowgreen;
+    }
+    .floor5{
+      background: blueviolet;
+    }
+    .floor6{
+      background: gold;
+    }
+    .floor7{
+      background: blueviolet;
+    }
+    .floor-nav{
+      position: fixed;
+      left: 50%;
+      top: 100px;
+      margin-left: -650px;
+
+    }
+    .floor-nav ul{
+      list-style: none;
+      width: 40px;
+      background: pink;
+    }
+    .floor-nav ul  li{
+      height: 40px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="header">
+      我是头
+    </div>
+    <div class="content">
+      <div class="carousel">我是轮播</div>
+      <div class="floor floor1">
+        我是1楼
+      </div>
+      <div class="floor floor2">
+        我是2楼
+      </div>
+      <div class="floor floor3">
+        我是3楼
+      </div>
+      <div class="floor floor4">
+        我是4楼
+      </div>
+      <div class="floor floor5">
+        我是5楼
+      </div>
+      <div class="floor floor6">
+        我是6楼
+      </div>
+      <div class="floor floor7">
+        我是7楼
+      </div>
+      <div class="floor floor8">
+        我是8楼
+      </div>
+    </div>
+    <div class="footer ">
+      我是尾
+    </div>
+    <div class="floor-nav">
+      <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>6</li>
+        <li>7</li>
+      </ul>
+    </div>
+  </div>
+
+
+
+  <!-- <a href="javascript:;" id="goBack">回到顶部</a> -->
+
+
+  <script>
+    var back = document.getElementById('goBack');
+
+    back.onclick = function () {
+
+      //  点击 直接让back消失还不行，往回走的时候执行触发 onscroll事件，让back又显示了 -》在点击的时候，把onscroll事件取消
+      this.style.display = 'none';
+      window.onscroll = null;
+      //  点击时候，先求每一步走的步长
+      var duration = 500,
+        interval = 10,
+        target = document.documentElement.scrollTop || document.body.scrollTop;
+      var step = (target / duration) * interval;
+      // 计算完步长后，让当前页面每个interval这么时间走一步： 在上一次scrollTop的基础 - 步长
+      var timer = setInterval(function () {
+        // 当前的scrolltop
+        var curTop = document.documentElement.scrollTop || document.body.scrollTop;
+
+        if (curTop == 0) {
+          clearInterval(timer);
+          window.onscroll = computedDisplay; //回调顶部 在开启onscroll事件
+        }
+        curTop -= step;
+
+
+        document.documentElement.scrollTop = curTop;
+        document.body.scrollTop = curTop;
+
+      }, interval)
+    }
+    window.onscroll = computedDisplay;
+
+    function computedDisplay() {
+      var curTop = document.documentElement.scrollTop || document.body.scrollTop;
+      var curHeight = document.documentElement.clientHeight || document.body.clientHeight;
+      back.style.display = curTop > curHeight ? 'block' : 'none';
+    }
+
+    /* 
+     楼层导航：
+       -> 仿京东左侧导航
+       -> 刚开始没有导航，只有当一楼出现视野的时候，出现导航
+       -> 随着页面滚动，每个楼层达到某个区域时，我们让楼层对应跟着选中
+       -> 当点击楼层导航中的某一项，可以实现一个简单的动画 定位到具体楼层
+    /* 
+        楼层导航：
+          -> 仿京东左侧导航
+          -> 刚开始没有导航，只有当一楼出现视野的时候，出现导航
+          -> 随着页面滚动，每个楼层达到某个区域时，我们让楼层对应跟着选中
+          -> 当点击楼层导航中的某一项，可以实现一个简单的动画 定位到具体楼层
+       
+       
+        */
+    /* 
+        楼层导航：
+          -> 仿京东左侧导航
+          -> 刚开始没有导航，只有当一楼出现视野的时候，出现导航
+          -> 随着页面滚动，每个楼层达到某个区域时，我们让楼层对应跟着选中
+          -> 当点击楼层导航中的某一项，可以实现一个简单的动画 定位到具体楼层
+       
+       
+        */
+    */
+  </script>
+
+</body>
+
+</html>
