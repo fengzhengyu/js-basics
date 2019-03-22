@@ -60,11 +60,13 @@
         //  点击时候，先求每一步走的步长
         var duration = 500, interval = 10, target = document.documentElement.scrollTop ||document.body.scrollTop;
         var step = (target / duration) *interval;
+        console.log(target)
         // 计算完步长后，让当前页面每个interval这么时间走一步： 在上一次scrollTop的基础 - 步长
         var timer = setInterval(function(){
           // 当前的scrolltop
           var curTop = document.documentElement.scrollTop ||document.body.scrollTop;
-
+          
+        
           if(curTop == 0){
             clearInterval(timer);
             window.onscroll = computedDisplay; //回调顶部 在开启onscroll事件

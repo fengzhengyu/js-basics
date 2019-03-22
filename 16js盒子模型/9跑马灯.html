@@ -71,12 +71,12 @@
           wrap.scrollLeft = 0
         }
       }
-      var timer = setInterval(move,10)
+      var timer = setInterval(move,30)
       box.onmousemove = function(){
         clearInterval(timer)
       }
       box.onmouseout = function(){
-        timer = setInterval(move,10)
+        timer = setInterval(move,30)
       }
     }()
     // var  box = document.getElementById('box');

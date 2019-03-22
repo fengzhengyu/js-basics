@@ -336,7 +336,7 @@ var utils = {
     while(parent){
 
       // ie8一下 已经计算边框了
-      if(navigator.useragent.indexOf('MSIE 8.0' === -1)){
+      if(navigator.userAgent.indexOf('MSIE 8.0' === -1)){
         left += parent.clientLeft;
         top += parent.clientTop;
 
