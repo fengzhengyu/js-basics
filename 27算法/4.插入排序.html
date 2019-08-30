@@ -35,7 +35,9 @@
                 for(var j=handAry.length-1;j>=0;j--){
                     // handAry[j] :当前手里的这张牌
                     // 新抓的牌比当前的这张牌大，我们把新抓牌，放到当前牌的后面
-
+                    console.log(handAry[j])
+                    console.log(j)
+                
                    if(item>handAry[j]){
                        handAry.splice(j+1, 0,item);
                        break;
@@ -45,12 +47,14 @@
                         break;
 
                    }
+                   console.log(handAry)
+                   console.log('=======================')
                 }
             }
             return handAry;
         }
 
-        var ary = [12, 13, 23, 14, 16, 11,1 ,2 ,3 ,2,55,88,66,7,5,6];
+        var ary = [12, 13, 23,5,6];
         console.log(insert(ary))
 
 

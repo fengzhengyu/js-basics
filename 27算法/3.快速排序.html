@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=`, initial-scale=1.0">
+    <meta name="viewport" content="width=1.0, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
@@ -35,11 +35,19 @@
 
             for (var i = 0; i < ary.length; i++) {
                 var cur = ary[i];
+                console.log(cur)
                 cur<centerValue? aryLeft.push(cur) : aryRight.push(cur);
 
 
 
             }
+            console.log( aryLeft )
+            console.log( aryRight)
+            console.log( ary)
+
+            
+
+          
             return  quick(aryLeft).concat(centerValue,quick(aryRight));
            
           
