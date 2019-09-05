@@ -1,0 +1,3 @@
+搜索引擎规范 给爬虫引擎看的
+User-agent: *
+Disallow: /admin/
