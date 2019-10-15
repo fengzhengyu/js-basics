@@ -67,19 +67,78 @@
       return this; //实现链式操作
 
     }
-    var arry = [2, 3, 3, 4,4,5,3,5,6,4,5,3]; //
+    var arry = [2, 3, 3, 4, 4, 5, 3, 5, 6, 4, 5, 3]; //
     arry.myUnique().sort(function (a, b) {
       return a - b;
     }) //this->array 去重后原数组改变
     console.log(arry)
     // Array.prototype.myUnique() // this->  Array.prototype
 
-    var ary = [1,2,3,4,[5,[6,'sfsd']]];
-    ary.myEach(function(item){
-      
-      console.log(item,this)
+    var ary = [1, 2, 3, 4, [5, [6, 'sfsd']]];
+    ary.myEach(function (item) {
+
+      console.log(item, this)
     });
-    
+
+
+    var newArr = [1,23,45,5,6,7]
+    // 模拟 slice 方法
+
+    Array.prototype.mySlice = function () {
+      var n = arguments[0],
+         m = arguments[1],
+         len = this.length,
+         size,
+         cloned = [];
+
+         
+        //  处理n 是负值
+         var start =  n || 0;
+       
+         start  = (start >= 0)? start : Math.max(0,len + start);
+        //  处理m 是赋值
+        var upTo = (typeof m == 'number') ? Math.min(m,len): len;
+        if(m < 0) {
+          upTo = len + m;
+
+        }
+        
+        // 截取实际大小
+        size = upTo - start ;
+        
+        console.log(start)
+        console.log(upTo)
+        console.log(size)
+     
+        if(size>0){
+
+          cloned = new Array(size);
+          // console.log(this.charAt)
+          for(var i =0 ;i < size ; i++){
+            cloned [i] = this[start+ i]
+          }
+          // console.log( cloned)
+        }
+        return cloned;
+    }
+    console.log( newArr.mySlice()) ;
+            
+// console.log(newArr.slice(2,-1))
+   
+    Array.prototype.mySlice1 = function mySlice() {
+      var n = arguments[0],
+        m = arguments[1],
+        newAry = [];
+      n = n === undefined ? 0 : (isNaN(n) ? 0 : (n >= 0 ? (n < this.length ? Math.floor(Number(n)) : this.length) : (
+        n < -this.length ? 0 : (n <= -1 ? this.length + Math.ceil(Number(n)) : 0))));
+      m = m === undefined ? this.length : (isNaN(m) ? 0 : (m >= 0 ? (m < this.length ? Math.floor(Number(m)) : this
+        .length) : (m < -this.length ? 0 : this.length + Math.ceil(Number(m)))));
+      while (n < m) {
+        newAry[newAry.length] = this[n];
+        n++;
+      }
+      return newAry;
+    };
   </script>
 
 </body>

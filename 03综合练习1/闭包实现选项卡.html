@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>选项卡-闭包实现现象卡</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      list-style: none;
+      flex: 1;
+      height: 30px;
+      line-height: 30px;
+    }
+
+    li.active {
+      background: pink;
+    }
+
+    #tabBox {
+      display: flex;
+      width: 300px;
+      background: #e9e9e9;
+      text-align: center;
+
+
+    }
+
+    #container div {
+      height: 300px;
+      line-height: 300px;
+      background: #e9e9e9;
+      display: none;
+
+    }
+
+    #container div.active {
+      background: pink;
+      display: block
+    }
+  </style>
+</head>
+
+<body>
+  <div style="margin:50px auto; width: 300px;">
+    <ul id="tabBox">
+      <li class="active">1111</li>
+      <li>2222</li>
+      <li>3333</li>
+    </ul>
+    <div id="container">
+      <div class="item active">1111</div>
+      <div class="item">2222</div>
+      <div class="item">3333</div>
+    </div>
+
+  </div>
+
+  <script>
+    var tabnBox = document.getElementById('tabBox'),
+      tabList = tabBox.getElementsByTagName('li'),
+      container = document.getElementById('container'),
+      divList = container.getElementsByTagName('div');
+
+    // 根据自定义属性 实现选项卡
+    // for (var i = 0; i < tabList.length; i++) {
+    //   tabList[i].index = i;
+    //   tabList[i].onclick = function(){
+    //     for(var i =0;i<tabList.length;i++){
+    //       tabList[i].className = '';
+    //       divList[i].className = '';
+    //     }
+
+    //   this.className = 'active';
+    //     divList[this.index].className = 'active';
+    //   };
+    // }
+    //  通过闭包 不销毁作用域 实现选下卡
+    for (var i = 0; i < tabList.length; i++) {
+      // (function(num){
+      //   tabList[i].onclick = function(){
+      //     console.log(num)
+      //     changeTab(num);
+      //   }
+      // })(i);
+
+
+      tabList[i].onclick =  (function(num){
+       
+          return function(){
+            changeTab(num)
+          };
+      })(i);
+    }
+    function changeTab(num){
+      for(var i =0;i<tabList.length;i++){
+        tabList[i].className = '';
+        divList[i].className = '';
+      }
+      tabList[num].className = 'active';
+      divList[num].className = 'active';
+    }
+  </script>
+</body>
+
+</html>

@@ -1,55 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>实战综合练习</title>
 </head>
+
 <body>
-    <div class="box">
-      <h2>问题： 认为自己很丑的 请狂点~~</h2>
-      <div id="btn">我非常同意以上的观点^-^
-        <span id="spanNum">0</span>
-      </div>
+  <div class="box">
+    <h2>问题： 认为自己很丑的 请狂点~~</h2>
+    <div id="btn">我非常同意以上的观点^-^
+      <span id="spanNum">0</span>
     </div>
+  </div>
   <script>
-      var oBtn = document.getElementById('btn');
-      var spanNum = document.getElementById('spanNum')
-      // oBtn.onclick =function () {
-      //   // 执行一个方法，每次都会形成一个私有作用域，因为外面没有引用该作用域变量，执行完，销毁。每点一次重复前面的 ，所以始终是1
-      //   var count = 0;
-      //   count++;
-      //   spanNum.innerHTML = count;
-      // }
-      // 第一种解决方法，利用全局作用域不销毁的方法，把累加的数字定义为全局变量，除非关闭页面
-      // var count = 0;
-      // oBtn.onclick =function () {
-      //   count++;
-      //   spanNum.innerHTML = count;
-      // }
-      // 为了防止全局变量相互冲突，项目中尽量不适用全局变量
+    var oBtn = document.getElementById('btn');
+    var spanNum = document.getElementById('spanNum');
+    // oBtn.onclick =function () {
+    //   // 执行一个方法，每次都会形成一个私有作用域，因为外面没有引用该作用域变量，执行完，销毁。每点一次重复前面的 ，所以始终是1
+    //   var count = 0;
+    //   count++;
+    //   spanNum.innerHTML = count;
+    // }
+    // 第一种解决方法，利用全局作用域不销毁的方法，把累加的数字定义为全局变量，除非关闭页面
+    // var count = 0;
+    // oBtn.onclick =function () {
+    //   count++;
+    //   spanNum.innerHTML = count;
+    // }
+    // 为了防止全局变量相互冲突，项目中尽量不适用全局变量
 
 
-      // 第二种方式，自己形成一个不销毁的私有作用域来保存我们的需要累加的数字
-      // ~function () {  
-      //   // 自运行函数形成私有作用域，
-      //   // oBtn.onclick 属于全局作用域下的，执行的方法被全局作用域引用，该作用域不销毁
-      //   var count = 0;
-      //   oBtn.onclick =function () {
-      //       count++;
-      //       spanNum.innerHTML = count;
-      //   }
-      // }() 
-      // 另一种写法
-      // oBtn.onclick = (function () {
-      //   var count = 0;
-      //   return function(){
-      //     count++;
-      //     spanNum.innerHTML = count;
-      //   }
-      // })()
-      // 弊端，始终有一个不销毁的内存空间，占一些内存
+    // 第二种方式，自己形成一个不销毁的私有作用域来保存我们的需要累加的数字
+    // ~function () {  
+    //   // 自运行函数形成私有作用域，
+    //   // oBtn.onclick 属于全局作用域下的，执行的方法被全局作用域引用，该作用域不销毁
+    //   var count = 0;
+    //   oBtn.onclick =function () {
+    //       count++;
+    //       spanNum.innerHTML = count;
+    //   }
+    // }() 
+    // 另一种写法
+    oBtn.onclick = (function () {
+      var count = 0;
+      return function () {
+        count++;
+        spanNum.innerHTML = count;
+      }
+    })();
+    // 弊端，始终有一个不销毁的内存空间，占一些内存
 
 
     //  第三种写法： 利用innerHTML方式处理
@@ -63,6 +65,8 @@
     //  oBtn.onclick = function(){
     //    spanNum.innerHTML = ++this.count;
     //  }
+   
   </script>
 </body>
+
 </html>

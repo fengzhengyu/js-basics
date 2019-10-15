@@ -37,6 +37,8 @@
 
     }
     myEventTarget.prototype = new myObject();
+    // myEventTarget.prototype.constructor=  myEventTarget;
+
     myEventTarget.prototype.addEventListener = function(){
 
     }
@@ -44,6 +46,7 @@
 
     }
     myNode.prototype= new myEventTarget();
+    myNode.prototype.constructor= myNode;
     myNode.prototype.createElement = function(){} 
 
     var n  =new myNode()

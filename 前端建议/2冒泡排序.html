@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+  <script>
+    var arr = [232, 3, 34, 5, 2, 45, 22];
+    var temp;
+
+    //    // 让第一与最后一个互换位置 第二与倒数第二互换，以此类推
+    // for(var i =0;i<arr.length/2;i++){
+    //   var temp = arr[i];
+    //   arr[i] = arr[arr.length-1-i];
+    //   arr[arr.length-1-i] =  temp;
+    // }
+
+
+
+    // 基础版
+    // for(var i=0;i<arr.length;i++){
+    //   for(var j=0;j<arr.length-1;j++){
+    //     if(arr[i]>arr[j]){
+    //       temp = arr[i];
+    //       arr[i] = arr[j];
+    //       arr[j] = temp;
+    //     }
+    //   }
+    // }
+
+
+    // 终结版
+    var n = 0,
+      m = 0;
+    for (var i = 0; i < arr.length - 1; i++) {
+      var flag = true;
+      for (var j = 0; j < arr.length - 1 - i; j++) {
+        if (arr[j] > arr[j + 1]) {
+          temp = arr[j];
+          arr[j] = arr[j + 1];
+          arr[j + 1] = temp;
+          flag = false;
+        }
+        m++;
+
+      }
+      n++;
+      if (flag) {
+        break;
+      }
+    }
+
+
+ 
+    console.log(arr)
+    console.log(n) //length-1次
+    console.log(m) //length-1-i  -0 -1 -2 -3
+
+    function fn(){
+      var aa =1;
+      return aa;
+    }
+    console.log(fn());
+      </script>
+
+</body>
+
+</html>
