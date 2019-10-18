@@ -42,6 +42,12 @@
     //  console.dir(f)
 
 
+  // for(var key in obj){
+  //   if(obj.hasOwnProperty(key)){
+
+  //   }
+  // }
+
     //  var obj ={getX:function(){}}
 
     //  var obj2 = Object.create(obj)
@@ -64,8 +70,9 @@
       function Fn(){
 
       }
-      Fn.prototype= o
-      return new Fn
+      Fn.prototype= o;
+      Fn.prototype.constructor= Fn;
+      return new Fn;
     }
     var obj =  {
       getX:function(){
@@ -74,7 +81,7 @@
     }
     var newObj = object(obj)
 
-    // console.dir(newObj)
+    console.dir(newObj)
   function Sum(){
 
   }

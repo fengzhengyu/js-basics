@@ -84,16 +84,14 @@
     var newArr = [1,23,45,5,6,7]
     // 模拟 slice 方法
 
-    Array.prototype.mySlice = function () {
-      var n = arguments[0],
-         m = arguments[1],
-         len = this.length,
+    Array.prototype.mySlice = function (n,m) {
+      var len = this.length,
          size,
          cloned = [];
 
          
         //  处理n 是负值
-         var start =  n || 0;
+         var start =  isNaN(n)?0:n || 0;
        
          start  = (start >= 0)? start : Math.max(0,len + start);
         //  处理m 是赋值
@@ -106,39 +104,50 @@
         // 截取实际大小
         size = upTo - start ;
         
-        console.log(start)
-        console.log(upTo)
-        console.log(size)
+        // console.log(start)
+        // console.log(upTo)
+        // console.log(size)
      
         if(size>0){
 
           cloned = new Array(size);
-          // console.log(this.charAt)
+        
           for(var i =0 ;i < size ; i++){
             cloned [i] = this[start+ i]
           }
-          // console.log( cloned)
+         
         }
         return cloned;
     }
-    console.log( newArr.mySlice()) ;
+    console.log( newArr.mySlice('ss','ddd')) ;
             
-// console.log(newArr.slice(2,-1))
+    console.log(newArr.slice('ss'))
    
-    Array.prototype.mySlice1 = function mySlice() {
-      var n = arguments[0],
-        m = arguments[1],
-        newAry = [];
-      n = n === undefined ? 0 : (isNaN(n) ? 0 : (n >= 0 ? (n < this.length ? Math.floor(Number(n)) : this.length) : (
-        n < -this.length ? 0 : (n <= -1 ? this.length + Math.ceil(Number(n)) : 0))));
-      m = m === undefined ? this.length : (isNaN(m) ? 0 : (m >= 0 ? (m < this.length ? Math.floor(Number(m)) : this
-        .length) : (m < -this.length ? 0 : this.length + Math.ceil(Number(m)))));
-      while (n < m) {
-        newAry[newAry.length] = this[n];
-        n++;
-      }
-      return newAry;
-    };
+    // Array.prototype.mySlice1 = function mySlice() {
+    //   var n = arguments[0],
+    //     m = arguments[1],
+    //     newAry = [];
+    //   n = n === undefined ? 0 : (isNaN(n) ? 0 : (n >= 0 ? (n < this.length ? Math.floor(Number(n)) : this.length) : (
+    //     n < -this.length ? 0 : (n <= -1 ? this.length + Math.ceil(Number(n)) : 0))));
+    //   m = m === undefined ? this.length : (isNaN(m) ? 0 : (m >= 0 ? (m < this.length ? Math.floor(Number(m)) : this
+    //     .length) : (m < -this.length ? 0 : this.length + Math.ceil(Number(m)))));
+    //   while (n < m) {
+    //     newAry[newAry.length] = this[n];
+    //     n++;
+    //   }
+    //   return newAry;
+    // };
+
+    Number.prototype.plus = function(num){
+
+      return this + num;
+    }
+    Number.prototype.minus = function(num){
+
+    return this - num;
+}
+
+   console.log((3).plus(6).minus(5)) 
   </script>
 
 </body>

@@ -29,6 +29,7 @@
     function avgFn() {
  
       arguments.__proto__ = Array.prototype; // 默认__proto__直接指向object,
+      console.dir( arguments)
       
       arguments.sort(function(a,b){
           return a-b;
