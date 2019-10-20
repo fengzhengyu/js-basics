@@ -1,0 +1,9 @@
+{
+    "presets": [
+        ["@babel/preset-env",{
+            "useBuiltIns":"usage" ,
+            "corejs":3  //相当于 babel/poliyfill
+        }]
+    ],
+    "plugins": []
+}

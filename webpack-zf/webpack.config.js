@@ -19,7 +19,7 @@ module.exports = {
     },
     devServer: {
         port: 9999,
-        open: true ,
+        open: false ,
         compress: true, //启动gzip压缩
         contentBase: 'aaa' //aaa目录下的资源文件可以访问
 
@@ -77,6 +77,32 @@ module.exports = {
             {
                 test: /\.less$/,
                 use: ["style-loader","css-loader","less-loader"]
+            },
+            {
+                test: /\.(png|jpe?g|gif)/,
+                use:{
+                    loader:'url-loader',
+                    options: {
+                        limit: 10*1024,
+                        outputPath:'img', //输出文件夹
+                        publicPath:'www.baidu.com/img'//图片前缀 
+                    }
+                }
+               
+            },
+            {
+                test: /\.(eot|svg|ttf|woff|woff2)/,
+                use: "file-loader"
+            },
+            {
+                test: /\.js/,
+                use: {
+                    loader:"babel-loader",
+                    // options: {
+                    //     presets: ["@babel/preset-env"], //映射
+                    //     plugins:[] 
+                    // }
+                }
             }
            
 
@@ -100,3 +126,10 @@ module.exports = {
 // npm i optimize-css-assets-webpack-plugin terser-webpack-plugin(压缩css 压缩js  压缩css  webpack自带的压缩js失效， 这是生产环境用的 )
 
 // npm install --save-dev clean-webpack-plugin  (清除 dist 内容插件，用法 结构))
+
+
+// babel 
+//  babel-loader  是 webpack与babel的桥梁
+// @babel/core  babel的核心模块
+// @babel/preset-env  主要是 es6转换es5 插件 的集合
+// npm install --save core-js@3
