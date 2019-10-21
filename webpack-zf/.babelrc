@@ -1,9 +1,13 @@
 {
-    "presets": [
+    "presets": [//从下往上加载
         ["@babel/preset-env",{
             "useBuiltIns":"usage" ,
             "corejs":3  //相当于 babel/poliyfill
         }]
     ],
-    "plugins": []
+    "plugins": [//从上往下加载
+        "@babel/plugin-transform-runtime",
+        ["@babel/plugin-proposal-decorators", { "legacy": true }], 
+        ["@babel/plugin-proposal-class-properties", { "loose": true }] 
+    ]
 }

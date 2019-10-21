@@ -21,7 +21,21 @@ module.exports = {
         port: 9999,
         open: false ,
         compress: true, //启动gzip压缩
-        contentBase: 'aaa' //aaa目录下的资源文件可以访问
+        contentBase: 'aaa', //aaa目录下的资源文件可以访问
+        // proxy: {
+        //     "/api":{
+        //         target: "http://localhost:6000", //设置服务器请求地址
+        //         // secure: false, 代理服务器是https
+        //         changeOrigin: true, //把请求头中的host地址改为服务器的地址
+           
+        //         pathRewrite:    {"/api": ''} // 后台没 api  重写路径  /api = ""
+        //     }
+        // },
+        before(app){ //after 已9999端口创建一个服务，这样没有跨域 ,模拟后台服务
+            app.get('/api/user',function(req,res){
+                console.log(res.json({name:'ff'}))
+            })
+        }
 
     },
     // 压缩js、css
@@ -131,5 +145,11 @@ module.exports = {
 // babel 
 //  babel-loader  是 webpack与babel的桥梁
 // @babel/core  babel的核心模块
-// @babel/preset-env  主要是 es6转换es5 插件 的集合
+// @babel/preset-env  主要是 es6转换es5 插件的集合
+// useBuiltIns 按需转换es6的 需要配合corejs一起使用
 // npm install --save core-js@3
+
+// 通过@babel/plugin-transform-runtime 自动调用@babel/runtime  (减少代码冗余量，提出公共部分)
+
+// 借助插件 打包草案语法 @babel/plugin-proposal-class-properties  loose": true宽松写法
+//  借助插 @fn // 装饰器的 草案写法  npm install --save-dev @babel/plugin-proposal-decorators
