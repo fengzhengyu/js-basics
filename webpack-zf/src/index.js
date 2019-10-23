@@ -1,48 +1,23 @@
+// 引jquery方法一： 在index.html 中script src 引
 
 
-// import sum from  './sum.js';
-// import './index.css';
-
-// import url from './timer.jpg';
-// let img = new Image();
-// img.src= url;
-
-// document.body.appendChild(img);
-// // import './a.less'
-// console.log(sum(3,8))
-
-// class Son{
-//     constructor(){
-//         this.a = 1
-//     }
-// }
-// let s = new Son();
-// console.log(s.a)
-
-// let  p = new Promise((resolve,reject)=>{
-//     console.log(1)
-// })
 
 
-// 草案语法（有些人这么写） 上面的写法 不支持 
-// @fn // 装饰器的 草案写法
-// class Son{
-//   a =1
-// }
+// 引jquery方法二： 这么引用多少次 打包多少次
+// import $ from 'jquery'
 
-// function fn(target) {  
-//   // console.log(target)
-//   target.b = 4; //这是Son 的静态属性
 
-// }
-// let s = new Son();
+//引jquery方法三  webpack.ProvidePlugin  //变量变成每个模块都能使用的，但是不是放在window上需要配合cdn
 
-// 跨域配置
-var xhr = new XMLHttpRequest();
-xhr.open('get','/api/user',true);
-xhr.onreadystatechange = function(){
-  console.log(xhr.response)
-}
-xhr.send();
+// 引jquery方法四 expose-loader   需要在最开始引一次jquery
+
+// import $ from 'jquery'
+// import './a.js'
+// console.log($)
+
+import './index.css'
+
+import test from './test.js'
+console.log('index')
 
 

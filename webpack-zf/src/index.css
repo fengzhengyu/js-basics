@@ -1,6 +1,6 @@
 @import './a.less';
 
 div{
-    background: red;
+    background: green;
     transform: rotate(45deg);
 }

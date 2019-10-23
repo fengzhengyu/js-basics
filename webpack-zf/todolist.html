@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>todolist</title>
+  <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+    .student{
+      padding: 15px 0;
+      font-size: 14px
+    }
+    .title-warp {
+
+      margin-top: 50px;
+      padding: 30px 15px 15px;
+    }
+
+    .list-wrap {
+      padding: 15px;
+    }
+
+    .list-wrap li {
+      cursor: pointer;
+    }
+
+    .checkState {
+      color: #dedede;
+    }
+
+    .text-middle {
+      vertical-align: top;
+    }
+
+    .nav-wrap {
+      background: #dedede;
+      padding: 15px;
+    }
+
+    .error {
+      padding: 15px;
+      margin: 15px 0;
+      color: red;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container" id="app" v-cloak>
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+          <div class="student">学员-冯振宇的作业</div>
+        <div class="title-warp bg-warning">
+          
+          <h4 class="text-danger"> 亲 ~ ^_^您有 {{ finishCount }} 件事要完成</h4>
+          <input type="text" class="form-control" v-model="todoText" @keyup.enter="addTodo">
+        </div>
+        <div class="list-wrap">
+          <ul class="list-group">
+            <li class="list-group-item" v-for="(item,index) in newItems" :key="index">
+              <input type="checkbox" class="text-middle" v-model="item.finishState" @change="saveState(item)">
+              <span :class="{'checkState':item.finishState}"
+                @dblclick="editText(item,index,$event)">{{ item.text }}</span>
+              <button type="button" class="btn btn-danger btn-xs pull-right" @click="removeTodo(index)"><span
+                  aria-hidden="true">&times;</span></button>
+            </li>
+            <li v-show="newItems.length<=0 " class="">暂无任务项</li>
+          </ul>
+        </div>
+        <div class="nav-wrap">
+          <ul class="nav nav-pills ">
+
+            <li role="presentation" :class="{'active':taskIndex == index}" v-for="(task,index) in taskList" :key="index"
+              @click="tabTask(index)"><a href="#">{{ task }}</a></li>
+          </ul>
+        </div>
+
+        <p class="bg-danger error" v-show="isEmpty">任务名字不能为空^_^哦！</p>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    let vm = new Vue({
+      el: '#app',
+      data: {
+        todoText: '', //输入值
+        isEmpty: false, //输入状态
+        items: [ //任务列表
+          {
+            text: '吃饭',
+            finishState: true
+          },
+          {
+            text: '睡觉',
+            finishState: false
+          },
+          {
+            text: '打豆豆',
+            finishState: false
+          }
+        ],
+        editState: false,
+        taskList: ['全部任务', '已完成', '未完成'], //完成状态列表
+        taskIndex: 0 //完成状态对应索引
+      },
+      created() {
+        let data = JSON.parse(sessionStorage.getItem('dataList'));
+        data ? this.items = data : this.items
+      },
+      watch: {
+        todoText: function () {
+          if (this.todoText.length > 0) {
+            this.isEmpty = false;
+          }
+        }
+      },
+      computed: {
+        // 计算完成数量
+        finishCount() {
+          let res = this.items.filter((item) => {
+            return item.finishState == false;
+          });
+          return res.length;
+         
+        },
+        // 过滤后的新数据
+        newItems() {
+
+          let newItems = null;
+          switch (this.taskIndex) {
+            case 0:
+              newItems = this.items;
+              break;
+            case 1:
+              newItems = this.items.filter((item) => {
+                return item.finishState == true;
+              });
+              break;
+            case 2:
+              newItems = this.items.filter((item) => {
+                return item.finishState == false;
+              });
+              break;
+          }
+          return newItems;
+
+        }
+
+      },
+      methods: {
+        // 本地保存
+        setSession() {
+          sessionStorage.setItem('dataList', JSON.stringify(this.items));
+        },
+        // 添加任务名称
+        addTodo() {
+
+          if (this.todoText != '') {
+            this.items.push({
+              text: this.todoText,
+              finishState: false
+            });
+            this.setSession();
+            this.todoText = '';
+            this.isEmpty = false;
+          } else {
+            this.isEmpty = true;
+          }
+
+        },
+        // 删除任务项
+        removeTodo(index) {
+          this.items.splice(index, 1);
+          this.setSession();
+        },
+        // 单个保存状态
+        saveState() {
+          this.setSession();
+        },
+        // 双击编辑文本
+        editText(item, index, e) {
+          if (!item.finishState) {
+            let oldVal = item.text,
+              _this = this,
+              oInput = document.createElement('input');
+            oInput.value = oldVal;
+
+
+            e.target.innerHTML = '';
+            e.target.appendChild(oInput);
+            oInput.focus();
+            // 失去焦点保存数据并且修改 items 中的数据
+            oInput.onblur = function () {
+              e.target.innerHTML = this.value;
+              _this.items.forEach((item, i) => {
+                if (i == index) {
+                  item.text = oInput.value;
+                }
+              })
+              _this.setSession();
+            }
+          }
+
+        },
+        // 任务切换
+        tabTask(index) {
+          this.taskIndex = index;
+        }
+      },
+    });
+  </script>
+</body>
+
+</html>
