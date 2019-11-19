@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>06_数据劫持-数据绑定</title>
+  <!--
+    1. 数据绑定
+      * 初始化显示: 页面(表达式/指令)能从data读取数据显示 (编译/解析)
+      * 更新显示: 更新data中的属性数据==>页面更新
+  -->
+</head>
+<body>
+
+<div id="test">
+  <p>{{name}}</p>
+  <p v-text="name"></p>
+  <p v-text="wife.name"></p>
+  <button v-on:click="update">更新</button>
+</div>
+
+<!--
+dep
+  它的实例在什么时候创建呢？   初始化时 给data的属性进行数据劫持事创建
+  与data中的属性一一对应  (4)
+  dep的结构： id: 标识，subs:[]   n个相关的watcher的容器
+
+watcher
+  它的实例在什么时候创建呢？   初始化时 解析大括号表达式/一般指令时创建
+  与模板中一般指令/大括号表达式一一对应 (3)
+  watcher的结构： 
+      this.cb = cb;  // 跟新页面 的回调
+      this.vm = vm;
+      this.exp = exp; // 对应的表达式
+      this.depIds = {};  // 相关的n个dep的容器 {0: d0, 1: d1, 2: d2}
+      this.value = this.get();  //当前表达式对应表达式的value
+
+1. 什么时候一个dep中关联多个watcher?
+  多个指令或表达式用到了当前同一个属性  {{name}} {{name}}
+2. 什么时候一个watcher中关联多个dep?
+  多层表达式的watcher对应多个dep    {{a.b.c}}
+
+Dep 与 watcher 之间的关系
+  什么关系？  （1:1,1:多,多：1,多对多的关系）
+    -多对多的关系 :
+      一个data.key 对应一个dep   一个dep对应多个watcher （属性在模板中多次被使用:{{a}}/ v-text='a'）
+      表达式对应一个watcher   一个watcher对应多个dep （多层表达式:  a.b.c）
+  如何建立的？  
+    - 
+-->
+
+
+<script type="text/javascript" src="js/mvvm/compile.js"></script>
+<script type="text/javascript" src="js/mvvm/mvvm.js"></script>
+<script type="text/javascript" src="js/mvvm/observer.js"></script>
+<script type="text/javascript" src="js/mvvm/watcher.js"></script>
+<script type="text/javascript">
+  new MVVM({
+    el: '#test',
+    data: {
+      name: 'sadamu',  // dep0
+      wife: { // dep1
+        name: 'binbin', // dep2
+        age: 18 // dep3
+      }
+    },
+    methods: {
+      update () {
+        this.name = 'avatar'
+      }
+    }
+  })
+</script>
+</body>
+
+</html>

@@ -215,6 +215,65 @@
         }
       },
     });
+
+    // 
+
+    // var  obj ={name:'ff'};
+    // console.log(obj.name);
+    // obj.name='lucy';
+    // console.log(obj.name);
+    // let obj = {};
+    // let tempObj = {name: 'ff'};
+
+
+    // Object.defineProperty(obj,"name",{
+    //   get(){
+    //     return tempObj.name;
+    //   },
+    //   set(val){
+    //     tempObj.name = val;
+    //   }
+    // })
+    // console.log(obj);
+    // function observe(obj){ //观察是否是对象
+    //     if(typeof obj == 'object'){
+    //       for(let key in obj){
+    //         defineReactive(obj,key,obj[key])
+    //       }
+    //     }
+
+    // }
+    // function  defineReactive(data,key,value){ //获取赋值
+    //   ovserve(value); //递归劫持 
+    //   Object.defineProperty(data,key,{
+    //   get(){
+    //     return value;
+    //   },
+    //   set(val){
+    //     ovserve(value)
+    //     if(val!=value){
+    //       value = val;
+    //     }
+    //   }
+    //   })
+    // }
+    
+
+    // function $set(data,key,value){
+    //  if(Array.isArray(data)){
+    //    data.splice(key,1,value);
+    //  }else{
+    //    defineReactive(data,key,value);
+    //  }
+    // } 
+    // let obj ={};
+    // $set(obj,'name','lucy');
+    // obj.name = 'ff';
+    // ovj.age = {
+    //   age:18
+    // }
+    // console.log(obj)
+
   </script>
 </body>
 

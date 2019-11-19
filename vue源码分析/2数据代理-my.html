@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    {{ name }}
+  </div>
+
+  <script src="./js/mvvm//mvvm.js"></script>
+  <script>
+    // 数据代理：  通过一个对象代理里一个对象中的属性的操作（读/写）
+    // vue 数据代理：  通过vm 对象代理data 对象中所有属性的操作
+    // 好处 ： 更方便的操作data中的数据
+    // 基本实现：
+    //   a 通过Object.defineProperty() 给vm 添加与data对象的属性对应属性描述符
+    //   b 所有添加的属性都包括 getter /setter  
+    //   c getter/ setter 去操作data中的 对应的属性数据 
+    function  MVMM(options){
+      this.$options = options;
+      var data = this._data = this.$options.data;
+      var me =this;
+      Object.keys(data).forEach(function(key){
+        me._proxy(key)
+      })
+     
+    }
+
+
+    
+    MVMM.prototype={
+      _proxy: function(key){
+        var me = this;
+        Object.defineProperty(me,key,{
+          configurable: false, //不可修改的
+          enumerable: true, //可以枚举
+          get: function proxyGetter(){
+            return me._data[key];
+          },
+          set: function proxySetter(newVal){
+            return me._data[key] = newVal;
+          }
+        })
+      }
+    }
+    let vm = new MVVM({
+        el: '#app',
+        data: {
+          name: 'adsf'
+        }
+      })
+       //  vm 不存name的值  vm._data.name才是存值的
+     console.log( vm.name , vm) // vm 代理data数据的读操作
+     vm.name = 'a' // vm 代理data数据的写操作
+     console.log( vm.name , vm)  //a
+  
+  </script>
+
+</body>
+
+</html>

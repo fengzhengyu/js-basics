@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>todolist</title>
+  <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+    ul{
+      padding: 0;
+      margin: 0;
+    }
+    li{
+      list-style: none;
+      display: flex;
+      align-items: center
+    }
+    li img{
+      width: 150px;
+      height: 80px;
+    }
+    span{
+      width: 150px;
+      height: 80px;
+      position: absolute;
+      display: block;
+      transition: all 2s linear;
+    }
+    .cart{
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      background: pink;
+   
+      width: 150px;
+      height: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app" v-cloak>
+    <ul>
+      <li v-for="(list,index) in lists" :key="index" ref="listArr">
+        <img :src="list.cover" alt="">
+        <button @click="addCart(index)">加入购物车</button>
+      </li>
+    </ul>
+    <transition @enter="enter" @after-enter="after">
+      <span v-if="isShow"></span>
+    </transition>
+    <div class="cart" ref="cart">购物车</div>
+  </div>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    let vm = new Vue({
+      el: '#app',
+      data: {
+        currentIndex: -1,
+        isShow: false,
+        lists: [{
+            cover: 'http://www.javascriptpeixun.cn/files/course/2019/08-02/203853de0f7a753037.png',
+            id: 1,
+          },
+          {
+            cover: 'http://www.javascriptpeixun.cn/files/course/2019/07-30/202711f70eea987000.jpg',
+            id: 2,
+          },
+          {
+            cover: 'http://www.javascriptpeixun.cn/files/course/2019/09-04/211735f96b30549920.jpg',
+            id: 3,
+          }
+        ],
+        
+      },
+     
+     
+      methods: {
+        addCart(index){
+          this.isShow = true;
+          this.currentIndex = index; 
+        },
+        enter(el,done){ //el d当前操作的元素   done 动画完后执行完的函数
+          // 1。确定点击元素的位置
+          let li = this.$refs.listArr[this.currentIndex];
+          let {x,y} = li.getBoundingClientRect();
+
+          // 2。span的位置与当前元素li的位置一样
+
+          el.style.left = x +'px';
+          el.style.top = y +'px';
+     
+          el.style.background= `url(${this.lists[this.currentIndex].cover}) no-repeat`;
+          el.style.backgroundSize = '100% 100%';
+
+          // 3。购物车的 位置
+         let {x:a,y:b} =  this.$refs.cart.getBoundingClientRect(); // 上面用了xy 所以重命名
+
+          // 4。当前图片到购物车移动距离
+          el.style.transform = `translate3d(${a-x}px,${b-y}px,0) scale(0)`;
+
+          el.addEventListener('transitionend',done,false); //transition 结束后 执行done()
+      
+        },
+        after(){
+          this.isShow = false;
+
+        }
+
+      }
+    });
+
+    // 
+
+    // var  obj ={name:'ff'};
+    // console.log(obj.name);
+    // obj.name='lucy';
+    // console.log(obj.name);
+    // let obj = {};
+    // let tempObj = {name: 'ff'};
+
+
+    // Object.defineProperty(obj,"name",{
+    //   get(){
+    //     return tempObj.name;
+    //   },
+    //   set(val){
+    //     tempObj.name = val;
+    //   }
+    // })
+    // console.log(obj);
+    // function observe(obj) { //观察是否是对象
+    //   if (typeof obj == 'object') {
+    //     for (let key in obj) {
+    //       defineReactive(obj, key, obj[key])
+    //     }
+    //   }
+
+    // }
+
+    // function defineReactive(data, key, value) { //获取赋值
+    //   ovserve(value); //递归劫持 
+    //   Object.defineProperty(data, key, {
+    //     get() {
+    //       return value;
+    //     },
+    //     set(val) {
+    //       ovserve(value)
+    //       if (val != value) {
+    //         value = val;
+    //       }
+    //     }
+    //   })
+    // }
+
+
+    // function $set(data, key, value) {
+    //   if (Array.isArray(data)) {
+    //     data.splice(key, 1, value);
+    //   } else {
+    //     defineReactive(data, key, value);
+    //   }
+    // }
+    // let obj = {};
+    // $set(obj, 'name', 'lucy');
+    // obj.name = 'ff';
+    // ovj.age = {
+    //   age: 18
+    // }
+    // console.log(obj)
+  </script>
+</body>
+
+</html>

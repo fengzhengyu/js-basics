@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <div id="app">
+
+
+    <ul id="ul">
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+    </ul>
+  </div>
+
+
+
+
+  <script>
+    // 1--- [].slice.call(ls)不如 Array.prototype.slice.call() 
+      // slice(start ,end )不包含end
+
+
+    // 2--- node.nodeType  几点类型  1是元素 2是属性名(Dom4已不支持) 3 是文本 8 是备注 9 根节点 10 是文档头类型 11 documentFragment节点
+
+
+    // Object.defineProperty(obj,prop,descriptor) 在一个obj对象上定义一个新属性,或修改现有对象的属性
+        // 属性描述符分为：数据描述符和存取描述符
+        // 数据描述符： configurable enumerable value writable 
+        // 存取描述符: get set   
+        // value  和 get 不能混用 
+
+    // Object.keys(obj)  返回一个给定对象 可枚举的自身属性的数组
+
+
+     //4--- DocumentFragment
+      let ul = document.getElementById('ul');
+      // 1 创建文档碎片 
+      let fragment = document.createDocumentFragment();
+
+      // 2 取出ul中的子节点  保存到 fragment
+        let child;
+        while(child = ul.firstChild ){  //一个节点只能有一个父亲 
+        // console.log(child.nodeType)
+          fragment.appendChild(child); // 先将ul中的li移除，添加为fragment 的子节点
+          // 这个有点小问题 待研究
+        }
+ 
+      // 3 更新 fragment 的所有li 
+     
+        Array.prototype.slice.call(fragment.childNodes).forEach(node=>{
+          if(node.nodeType == 1){
+            node.textContent = 'aaa';
+          }
+        })
+
+      // 4 将fragment 插入到 ul
+        ul.appendChild(fragment)
+
+  </script>
+  
+</body>
+</html>

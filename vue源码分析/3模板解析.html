@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+
+    <p>{{ name }}</p>
+  </div>
+  
+    
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    // 模板解析  
+    // 1） 将el的所有子节点取出，添加到一个新建的 documentFragment对象中
+    // 2） 对fragment 中所有层次子节点递归进行编译
+    //    a. 对表达式文本节点进行解析
+    //    b. 对元素节点的指令属性进行解析
+    //    c. 对 事件指令进行解析
+    
+    let vm = new Vue({
+        el: '#app',
+        data: {
+          name: 'adsf'
+        }
+      })
+    
+    
+    
+    
+  </script>
+</body>
+</html>

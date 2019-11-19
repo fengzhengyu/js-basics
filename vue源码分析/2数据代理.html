@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    {{ name }}
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    // 数据代理：  通过一个对象代理里一个对象中的属性的操作（读/写）
+    // vue 数据代理：  通过vm 对象代理data 对象中所有属性的操作
+    let vm = new Vue({
+        el: '#app',
+        data: {
+          name: 'adsf'
+        }
+      })
+       //  vm 不存name的值  vm._data.name才是存值的
+     console.log( vm.name , vm) // vm 代理data数据的读操作
+     vm.name = 'a' // vm 代理data数据的写操作
+     console.log( vm.name , vm)  //a
+  
+  </script>
+
+</body>
+
+</html>
