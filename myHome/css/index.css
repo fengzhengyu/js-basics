@@ -1,0 +1,296 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+li{
+  list-style: none;
+}
+.title{
+  height: 50px;
+  line-height: 50px;
+  font-size: 18px;
+  color: #000;
+  text-align: center;
+  font-weight: 900;
+}
+.home{
+  width: 825px;
+  height: 655px;
+  border: 10px solid #000;
+  margin: 0 auto;
+  display: flex;
+  text-align: center;
+
+
+}
+.left{
+  width: 195px;
+  border-right: 10px solid #000;
+  flex: 0 0 195px;
+  display: flex;
+  flex-direction: column;
+}
+
+.middle{
+  flex: 1;
+  border-right: 10px solid #000;
+  position: relative;
+  background: #f1e3b2;
+}
+.door{
+  position: absolute;
+  top: -10px;
+  left: 15px;
+  width: 90px;
+  height: 10px;
+  background: #fff;
+}
+.right{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.elevator{
+  height: 220px;
+  border-bottom: 10px solid #000;
+  background: #585149;
+  color: red;
+  line-height: 220px;
+}
+.kitchen{
+  flex: 1;
+  position: relative;
+  background: #f1edea;
+}
+.kitchen-door{
+  position: absolute;
+  top: 15px;
+  right: -10px;
+  width: 10px;
+  height: 80px;
+  background: #fff;
+
+}
+.toilet{
+  height: 220px;
+  border-bottom: 10px solid #000;
+  position: relative;
+  background: #efe7e5;
+}
+.toilet-door{
+  position: absolute;
+  top: 135px;
+  left: -10px;
+  width: 10px;
+  height: 80px;
+  background: #fff;
+
+}
+.toilet-door2{
+  position: absolute;
+  bottom: -10px;
+  left: 15px;
+  width: 80px;
+  height: 10px;
+  background: #fff;
+
+}
+.room{
+  flex: 1;
+  position: relative;
+  background: #ddb770;
+}
+.room-door{
+  position: absolute;
+  top: 15px;
+  left: -10px;
+  width: 10px;
+  height: 80px;
+  background: #fff;
+
+}
+.bg{
+  width: 110px;
+  height: 110px;
+  background: #f1e3b2;
+  border-right: 10px solid #000;
+  border-bottom: 10px solid #000;
+}
+.room-door2{
+  position: absolute;
+  top: 110px;
+  left: 15px;
+  width: 80px;
+  height: 10px;
+  background: #fff;
+
+}
+.room2{
+  width: 180px;
+  height: 220px;
+  border-left: 10px solid #000;
+  border-bottom: 10px solid #000;
+  margin-left: 120px;
+  position: relative;
+  background: #ddb770;
+}
+.room2-door{
+  position: absolute;
+  bottom: -10px;
+  left: 15px;
+  width: 80px;
+  height: 10px;
+  background: #fff;
+}
+.room3{
+  position: absolute;
+  width: 305px;
+  height: 305px;
+  border-top: 10px solid #000;
+  bottom: 0;
+  background: #ddb770;
+  left: 0;
+}
+.room3-door{
+  position: absolute;
+  top: -10px;
+  left: 15px;
+  width: 80px;
+  height: 10px;
+  background: #fff;
+ 
+ 
+}
+.room1-bed{
+  position: absolute;
+  bottom: 50px;
+  right: 0;
+  width: 220px;
+  height :200px;
+  background: pink;
+}
+.room3-bed{
+  position: absolute;
+  bottom:70px;
+  right: 0;
+  width: 200px;
+  height :150px;
+  background: pink;
+}
+.room1-chest{
+  width: 60px;
+  height: 200px;
+  background: gold;
+  left: 0;
+  bottom:0px;
+  position: absolute;
+}
+.room3-chest{
+  width: 60px;
+  height: 220px;
+  background: gold;
+  left: 0;
+  bottom:0px;
+  position: absolute;
+}
+.room1-chest.room4{
+  width: 180px;
+  height: 60px;
+  left: 120px;
+ 
+  top: 0;
+}
+.room3-chest.room4{
+  width: 200px;
+  height: 60px;
+  top: 0;
+  left: 105px;
+
+}
+.room3-bed.room4{
+  bottom:50px;
+}
+.room1-desk{
+  width: 50px;
+  height: 110px;
+  background: #ccc;
+  position: absolute;
+  top:60px;
+  right: 0;
+}
+.room3-desk{
+  width: 50px;
+  height: 110px;
+  background: #ccc;
+  position: absolute;
+  left: 0;
+  bottom: 50px;
+}
+.door-desk{
+  width: 200px;
+  height: 35px;
+  background: greenyellow;
+  position: absolute;
+  top: 0;
+  right: 0;
+
+}
+.door-tv{
+  width: 35px;
+  height: 160px;
+  background: blueviolet;
+  position: absolute;
+  top: 50px;
+  left: 0;
+}
+.door-sofa{
+  width: 80px;
+  height: 200px;
+  background: skyblue;
+  position: absolute;
+  top: 35px;
+  right: 0;
+}
+.door-table{
+  width: 55px;
+  height: 110px;
+  background: whitesmoke;
+  position: absolute;
+  top: 80px;
+  right: 120px;
+}
+.wrap{
+  width: 845px;
+  margin: 0 auto;
+  text-align: center;
+}
+.balcony{
+  width: 305px;
+  height: 130px;
+  border: 10px solid #000;
+  border-top: none;
+  margin-left: 205px;
+  position: relative;
+  background: #ffffed;
+}
+.balcony-line{
+  position: absolute;
+  top: -10px;
+  left: 70px;
+  height: 10px;
+  background: #fff;
+  width: 165px;;
+}
+.btn-wrap{
+  padding-top: 20px;
+}
+.btn{
+  width: 100px;
+  height: 30px;
+  line-height: 30px;
+  background: cyan;
+  display: inline-block;
+  text-decoration: none;
+  color: #fff;
+
+}
